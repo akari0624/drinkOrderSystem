@@ -3,6 +3,9 @@ bundle.js
 npm-debug.log
 .DS_Store
 
+# dist folder
+/dist
+
 # IntelliJ
 *.iml
 /.idea
