@@ -70,6 +70,9 @@ chrome 60(  2017/08 released )  以後
 
 - 重點是要練習寫rest式的後端   跟  使用noSQL式的DB
 
+#### 前端的react+redux 與webpack的配置
+是使用Stephen Grider的 [ReduxSimpleStarter](https://github.com/StephenGrider/ReduxSimpleStarter) , 感謝Stephen老師  [他在udemy上的react+redux課程](https://www.udemy.com/react-redux/learn/v4/overview)真的很棒！！
+
 ##
 DEMO網址：
 
