@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import {Container, Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import {connect} from 'react-redux';
-import {setImgSrcAndFile_ObjToReducer,deleteOneImgSrcAndOneImgFile} from '../action/index';
+import {setImgSrcAndFile_ObjToReducer,deleteOneImgSrcAndOneImgFile,doRevokeObjectURL} from '../action/index';
 import {bindActionCreators} from 'redux';
 
 import FileUploadModule from "../../util_func/FileUploadModule";
@@ -27,7 +27,7 @@ currEnlargeImageIndex:888
     e.preventDefault();
   };
   onFileReallyDrop = e => {
-    e.stopPropagation();
+    e.stopPropagation();   // 停止事件繼續往上冒泡
     e.preventDefault();
 
     const  twoTypeObj = FileUploadModule.onFileDrop(e.dataTransfer.files);
@@ -52,10 +52,7 @@ currEnlargeImageIndex:888
 
   }
 
-   deleteBrowserObjectURLCached = (theUrl) =>{
-
-    FileUploadModule.removeOneFromBrowserObjectURLCached(theUrl);
-   }
+  
  
 
   renderPreviewImage = (imgSrcArr)=>{
@@ -114,13 +111,11 @@ console.log('必須實作 用 FileUploadModule  做上傳');
 
     if(srcToDelete.length > 0){
 
-        srcToDelete.forEach((cDeleteSrc)=>{
+            this.props.doRevokeObjectURL(srcToDelete);
 
-            this.deleteBrowserObjectURLCached(cDeleteSrc);
+        };
 
-        });
-
-    }
+    
 
     return (
 
@@ -195,7 +190,7 @@ function mapStateToProps(state){
 function mapDispatchToProps(dispatch){
 
     return   bindActionCreators({setImgSrcAndFile_ObjToReducer,
-        deleteOneImgSrcAndOneImgFile}, dispatch);
+        deleteOneImgSrcAndOneImgFile,doRevokeObjectURL}, dispatch);
 
 }
 
