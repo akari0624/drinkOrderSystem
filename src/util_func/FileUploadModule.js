@@ -2,6 +2,7 @@
 // react SPA用
 
 export const MAXUploadPicQuantityOfThisApp = 3;
+export const MAXUploadPicByte = 819200;  // 800 KB
 
 const FileUploadModule = (function() {
   var _config = {
@@ -10,10 +11,6 @@ const FileUploadModule = (function() {
     serverURL: "/uploadImg"
   };
 
-  var dataStorage = {
-    fileArr: [],
-    imgPreviewSrcArr: []
-  };
 
   var privateUtilFunc = {
     createImgPreviewURL: function(imgFileList) {
@@ -30,11 +27,21 @@ const fileArr = [];
       }
 
       for (var i = 0; i < imgFileList.length; i += 1) {
+        const currImgFile = imgFileList[i];
+
+        console.log('size',currImgFile.size);
+        if(currImgFile.size > MAXUploadPicByte){
+
+          const fileTooBigString = `${currImgFile.name} 超過可上傳的檔案大小(${MAXUploadPicByte/1024}KB)`;
+          alert(fileTooBigString);
+          continue;
+        }
+
         imgPreviewSrcArr.push(
-          window.URL.createObjectURL(imgFileList[i])
+          window.URL.createObjectURL(currImgFile)
         );
 
-        fileArr.push(imgFileList[i]);
+        fileArr.push(currImgFile);
       }
 
       objHasBlobSrcAndFileBlob['imgPreviewSrcArr'] = imgPreviewSrcArr;
