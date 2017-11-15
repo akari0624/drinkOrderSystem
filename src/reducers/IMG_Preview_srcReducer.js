@@ -2,7 +2,7 @@ import {cloneDeep} from 'lodash';
 
 import {SET_IMG_SRC_AND_FILE_OBJ_TO_REDUCER,
     DELETE_ONE_ImgSrc_AND_ONE_ImgFile
-} from '../vendor/action/type';
+} from '../_vendor/action/type';
 
 import {MAXUploadPicQuantityOfThisApp} from '../util_func/FileUploadModule';
 

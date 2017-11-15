@@ -5,13 +5,6 @@ import FileUploadModule from "../../util_func/FileUploadModule";
 export default class PicEnlargeWindow extends Component {
 
 
-
-    deleteThisUpload = () =>{
-
-
-        console.log('delete clicked');
-    }
-
     renderEnlargeImage = (imgSrc)=>{
 
      
