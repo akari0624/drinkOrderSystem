@@ -1,7 +1,8 @@
 import {cloneDeep} from 'lodash';
 
 import {SET_IMG_SRC_AND_FILE_OBJ_TO_REDUCER,
-    DELETE_ONE_ImgSrc_AND_ONE_ImgFile
+    DELETE_ONE_ImgSrc_AND_ONE_ImgFile,
+    REMOVE_ThoseFileArrAndObjectURLArr_but_also_returnObjectUrlArr_to_RevokeObjectURL
 } from '../_vendor/action/type';
 
 import {MAXUploadPicQuantityOfThisApp} from '../util_func/FileUploadModule';
@@ -64,6 +65,18 @@ export default function(state={imgPreviewSrcArr:[],fileArr:[], srcToDelete:[]},a
             imgPreviewSrcArr:copiedImgSrcArr,        
             fileArr:copiedImgFileArr,
             srcToDelete:theOneDeletedImgSrc}
+
+    case REMOVE_ThoseFileArrAndObjectURLArr_but_also_returnObjectUrlArr_to_RevokeObjectURL:
+    
+        const objectURL_ImgArr_toRevoke = [...state.imgPreviewSrcArr];
+
+        const newState ={imgPreviewSrcArr:[],fileArr:[],srcToDelete:objectURL_ImgArr_toRevoke};
+
+        
+        state.imgPreviewSrcArr = [];
+        state.fileArr = [];   
+
+        return newState
 
       default:
       return state;

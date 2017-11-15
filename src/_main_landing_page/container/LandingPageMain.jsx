@@ -1,7 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import {bindActionCreators} from 'redux';
 import {Container, Alert} from 'reactstrap';
 
+
+import {removeThoseFileArrAndObjectURLArr_but_also_returnObjectUrlArr_to_RevokeObjectURL, doRevokeObjectURL} from '../../_vendor/action';
 
 
 class LandingPageMain extends Component {
@@ -18,6 +21,7 @@ this.state = {
     );
 
     this.closeAlertCB = this.closeAlertCB.bind(this);
+
   }
   
 
@@ -26,7 +30,10 @@ this.state = {
     this.setState({shouldAlertOpen:false});
   }
 
+
+
   componentWillMount(){
+
 
     const result = this.props.globalAppMessage;
     // 在第一次 mount render前 改變 state
@@ -35,6 +42,7 @@ this.state = {
       shouldAlertOpen:true
     });
       }
+
   }
 
   shouldShowGlobalAppMessage() {
@@ -55,6 +63,9 @@ this.state = {
     }
   }
 
+
+  
+
   render() {
      
 
@@ -66,10 +77,42 @@ this.state = {
       </Container>
     );
   }
+
+
+
+  componentDidMount(){
+    console.log('componentDidMount...');
+    this.props.removeThoseFileArrAndObjectURLArr_but_also_returnObjectUrlArr_to_RevokeObjectURL();
+
+  }
+
+
+  componentWillReceiveProps(nextProps){
+
+
+    if(this.props !== nextProps){
+      
+      if(nextProps.shopImg_relatedData.srcToDelete.length>0){
+       
+    nextProps.doRevokeObjectURL(nextProps.shopImg_relatedData.srcToDelete);
+
+      }
+    }
+  }
+
 }
 
 function mapStateToProps(state) {
-  return { globalAppMessage: state.mealListInsertResult };
+  return { globalAppMessage: state.mealListInsertResult,
+           shopImg_relatedData: state.imgPreviewSrcAndImgFile
+  };
 }
 
-export default connect(mapStateToProps, null)(LandingPageMain);
+
+function mapDispatchToProps(dispatch){
+
+return bindActionCreators({removeThoseFileArrAndObjectURLArr_but_also_returnObjectUrlArr_to_RevokeObjectURL,doRevokeObjectURL},dispatch);
+
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LandingPageMain);

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import {Container, Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import {connect} from 'react-redux';
-import {setImgSrcAndFile_ObjToReducer,deleteOneImgSrcAndOneImgFile,doRevokeObjectURL} from '../action/index';
+import {setImgSrcAndFile_ObjToReducer, deleteOneImgSrcAndOneImgFile, doRevokeObjectURL} from '../action/index';
 import {bindActionCreators} from 'redux';
 
 import FileUploadModule from "../../util_func/FileUploadModule";
@@ -170,8 +170,8 @@ console.log('必須實作 用 FileUploadModule  做上傳');
   componentWillUnmount(){
 
     // 清空redux裡的 fileSrcArr 跟 FileArr
-    console.log('必須實作 清空redux裡的 fileSrcArr 跟 FileArr 還必須window.URL.revokeObjectURL 所有的fileSrcArr');
-    
+    console.log('routing去 mainLandingPage後  在那邊會 清空redux裡的 fileSrcArr 跟 FileArr 還會window.URL.revokeObjectURL 所有的fileSrcArr');
+  
 }
 
 }
@@ -189,8 +189,11 @@ function mapStateToProps(state){
 
 function mapDispatchToProps(dispatch){
 
-    return   bindActionCreators({setImgSrcAndFile_ObjToReducer,
-        deleteOneImgSrcAndOneImgFile,doRevokeObjectURL}, dispatch);
+    return   bindActionCreators(
+       {setImgSrcAndFile_ObjToReducer,
+        deleteOneImgSrcAndOneImgFile,
+        doRevokeObjectURL
+      }, dispatch);
 
 }
 

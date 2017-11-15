@@ -1,7 +1,8 @@
 import { SET_IMG_SRC_AND_FILE_OBJ_TO_REDUCER,
     DELETE_ONE_ImgSrc_AND_ONE_ImgFile,
     REVOKE_OBJECT_URL_IN_ACTION_CREATOR_TO_MAKE_COMPONENT_PURE,
-    WHEN_SHOP_INIT_MEAL_LIST_INSERT_DONE
+    WHEN_SHOP_INIT_MEAL_LIST_INSERT_DONE,
+    REMOVE_ThoseFileArrAndObjectURLArr_but_also_returnObjectUrlArr_to_RevokeObjectURL
 } from "./type";
 
 import axios from 'axios';
@@ -32,6 +33,7 @@ export const doRevokeObjectURL = urlArr =>{
   
     urlArr.forEach(url =>{
   
+      console.log('revoke this objectURL:',url);
       FileUploadModule.removeOneFromBrowserObjectURLCached(url);
       
     });
@@ -59,5 +61,16 @@ console.log(mealArr);
       payload:response
     }
 
+
+  }
+
+  export const removeThoseFileArrAndObjectURLArr_but_also_returnObjectUrlArr_to_RevokeObjectURL = ()=>{
+
+
+   return {
+type:REMOVE_ThoseFileArrAndObjectURLArr_but_also_returnObjectUrlArr_to_RevokeObjectURL,
+payload:''
+
+   }
 
   }
