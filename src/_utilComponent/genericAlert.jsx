@@ -34,20 +34,17 @@ onDismiss(){
 componentWillReceiveProps(nextProps){
 // nextProps 是 在這次快要做的render 的新props , this.props 在這裡是上一次render時 收到的舊props
 
-console.log('componentWillReceiveProps');
 
- // if(this.props !== nextProps){
-// console.log('not the same props');
+  if(this.props !== nextProps){
+
     this.setState({visible:nextProps.visible});
-//  }
+  }
 
 }
 
 
 
 render(){
-console.log('componentRender',this.props);
-
 
      return(
 

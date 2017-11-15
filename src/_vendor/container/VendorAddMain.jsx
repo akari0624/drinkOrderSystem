@@ -173,16 +173,22 @@ this.setState({
          
            if(nextProps.mealListInsertResult.errorMsg){
            
-            console.log('going to set shouldAlertOpen to TRUE')
             this.setState({shouldAlertOpen:true}); 
     
            
+        }else if(nextProps.mealListInsertResult.successMsg){
+
+     // 成功的話  導回首頁,並在那邊show 成功insert幾筆的 alert 
+     //  導回去之前,清掉一些之前存在 browserObjectURL裡的那些東西   很重要
+         this.props.history.push('/');
+         // 這裡跳轉去landingPage的話  這次的render自然就不會觸發
         }
        }
     
       }
 
-      closeAlertCB = ()=>{
+
+ closeAlertCB = ()=>{
  
          this.setState({shouldAlertOpen:false});
 
@@ -191,7 +197,7 @@ this.setState({
 
   checkMealListInsertResult = ()=>{
 
-    console.log('checkMealListInsertResult');
+  
   const result = this.props.mealListInsertResult;
 
 // 失敗的話  就繼續停留在 新增店家的視窗
@@ -282,19 +288,19 @@ return <GenericAlert visible={this.state.shouldAlertOpen} color='danger' message
 
 
 // component lifeCycle
-  componentDidUpdate(){
+//   componentDidUpdate(){
 
-  const result = this.props.mealListInsertResult;
-  console.log('will update',result);
-  // 成功的話  導回首頁,並在那邊show 成功insert幾筆的 alert 
-//  導回去之前,清掉一些之前存在 browserObjectURL裡的那些東西   很重要
-  if(result.successMsg){
+//   const result = this.props.mealListInsertResult;
+//   console.log('will update',result);
+//   // 成功的話  導回首頁,並在那邊show 成功insert幾筆的 alert 
+// //  導回去之前,清掉一些之前存在 browserObjectURL裡的那些東西   很重要
+//   if(result.successMsg){
 
-       this.props.history.push('/');
+//        this.props.history.push('/');
 
-  }
+//   }
 
-}
+// }
 
 
 }
