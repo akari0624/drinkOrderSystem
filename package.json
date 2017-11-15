@@ -9,7 +9,7 @@
     "dist": "npm run clean && webpack --progress --bail --env dist -p",
     "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js --recursive ./test",
     "test:watch": "npm run test -- --watch",
-    "deploy":"npm run dist && gh-pages -d dist"
+    "deploy": "npm run dist && gh-pages -d dist"
   },
   "author": "",
   "license": "ISC",
@@ -29,8 +29,10 @@
     "webpack-dev-server": "^1.14.0"
   },
   "dependencies": {
+    "axios": "^0.17.1",
     "babel-preset-stage-1": "^6.1.18",
     "bootstrap": "^4.0.0-alpha.6",
+    "gh-pages": "^1.0.0",
     "install": "^0.10.1",
     "lodash": "^3.10.1",
     "npm": "^5.3.0",
@@ -46,6 +48,6 @@
     "react-router-dom": "^4.0.0",
     "reactstrap": "^4.8.0",
     "redux": "^3.0.4",
-    "gh-pages": "^1.0.0"
+    "redux-promise": "^0.5.3"
   }
 }

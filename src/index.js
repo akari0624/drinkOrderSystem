@@ -4,12 +4,14 @@ import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import reducers from "./reducers";
-import VendorMain from './vendor/container/VendorAddMain';
+import VendorMain from './_vendor/container/VendorAddMain';
+import MainLandingPage from './_main_landing_page/container/LandingPageMain';
 import ActionLoggerMiddleware from './middleware/ActionLogger';
+import promise from 'redux-promise';
 
 const LOCAL_STORAGE_KEY = "customerServiceList";
 
-const createStoreWithMiddleware = applyMiddleware(ActionLoggerMiddleware)(createStore);
+const createStoreWithMiddleware = applyMiddleware(ActionLoggerMiddleware,promise)(createStore);
 
 
 
@@ -23,8 +25,10 @@ ReactDOM.render(
       <div>
 
         <Switch>
-          <Route path="/" component={VendorMain} />
+          <Route path="/vendor" component={VendorMain} />
+          <Route path="/" component={MainLandingPage} />
         </Switch>
+
       </div>
     </BrowserRouter>
   </Provider>,
