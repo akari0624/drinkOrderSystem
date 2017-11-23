@@ -159,7 +159,7 @@ this.setState({
 
   uploadDataToServer = () =>{
 
-   this.props.uploadDataToServer(this.state.addingMeals);    
+   this.props.uploadDataToServer(this.state.addingMeals, this.props.fileArr);    
 
   }
 
@@ -310,7 +310,9 @@ return <GenericAlert visible={this.state.shouldAlertOpen} color='danger' message
 
 function mapStateToProps(state){
 
-    return {mealListInsertResult:state.mealListInsertResult};
+    return {mealListInsertResult:state.mealListInsertResult,
+      fileArr:state.imgPreviewSrcAndImgFile.fileArr
+    };
 
 }
 
