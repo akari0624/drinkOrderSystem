@@ -15,7 +15,7 @@ const createStoreWithMiddleware = applyMiddleware(ActionLoggerMiddleware,promise
 
 
 
-const appStore = createStoreWithMiddleware(reducers);
+const appStore = createStoreWithMiddleware(reducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
 
 
