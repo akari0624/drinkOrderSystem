@@ -6,6 +6,10 @@ npm-debug.log
 # dist folder
 /dist
 
+# personal setting
+.vscode/*
+backup/*
+
 # IntelliJ
 *.iml
 /.idea
