@@ -58,6 +58,6 @@
     "react-router-dom": "^4.0.0",
     "reactstrap": "^4.8.0",
     "redux": "^3.0.4",
-    "redux-promise": "^0.5.3"
+    "redux-thunk": "^2.2.0"
   }
 }

@@ -7,11 +7,11 @@ import reducers from "./reducers";
 import VendorMain from './_vendor/container/VendorAddMain';
 import MainLandingPage from './_main_landing_page/container/LandingPageMain';
 import ActionLoggerMiddleware from './middleware/ActionLogger';
-import promise from 'redux-promise';
+import reduxThunk from 'redux-thunk';
 
 const LOCAL_STORAGE_KEY = "customerServiceList";
 
-const createStoreWithMiddleware = applyMiddleware(ActionLoggerMiddleware,promise)(createStore);
+const createStoreWithMiddleware = applyMiddleware(ActionLoggerMiddleware,reduxThunk)(createStore);
 
 
 
