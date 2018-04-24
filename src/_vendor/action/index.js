@@ -68,12 +68,24 @@ console.log(mealArr);
     let config = {headers:{'Content-Type':'multipart/form-data'}};
 
   // const response =  axios.post(UPLOAD_SHOP_INIT_MEAL_LIST_URL,{mealArr:mealArr});
-  const response =  axios.post(UPLOAD_SHOP_INIT_MEAL_LIST_URL, formDataObj, config);
   
 
-    return {
-      type:WHEN_SHOP_INIT_MEAL_LIST_INSERT_DONE,
-      payload:response
+    return (dispatch) => {
+
+      const promise =  axios.post(UPLOAD_SHOP_INIT_MEAL_LIST_URL, formDataObj, config);
+  
+      promise.then(d => {
+        dispatch({
+          type:WHEN_SHOP_INIT_MEAL_LIST_INSERT_DONE,
+          payload:d.data
+        });
+      }).catch(e => {
+        dispatch({
+          type:WHEN_SHOP_INIT_MEAL_LIST_INSERT_DONE,
+          payload:{errorMsg:'目前網路連線問有問題，請稍後再試'}
+        });
+      })
+
     }
 
 

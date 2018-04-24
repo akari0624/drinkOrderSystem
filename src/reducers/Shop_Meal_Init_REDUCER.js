@@ -11,7 +11,7 @@ export default  (state={},action={type:'',payload:{}}) => {
      case WHEN_SHOP_INIT_MEAL_LIST_INSERT_DONE:     
 
      
-     return {...state, ...action.payload.data}
+     return {...state, ...action.payload};
 
      break; 
  

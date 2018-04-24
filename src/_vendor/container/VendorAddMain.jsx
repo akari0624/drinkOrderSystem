@@ -1,13 +1,13 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {connect} from 'react-redux';
 
 import {bindActionCreators} from 'redux';
-import {Container, InputGroup, InputGroupAddon, Input, Button } from "reactstrap";
-import MealAdd from "../container/MealAdd";
+import {Container, InputGroup, InputGroupAddon, Input, Button } from 'reactstrap';
+import MealAdd from '../container/MealAdd';
 import  cloneDeep  from 'lodash.clonedeep';
 
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import MealList from "../component/MealList";
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import MealList from '../component/MealList';
 import MealEditingWindow from '../component/MealEditingWindow';
 import PicUploadDropZoneWindow from '../component/PicUploadDropZoneWindow';
 import GenericAlert from '../../_utilComponent/genericAlert';
@@ -16,18 +16,18 @@ import {uploadDataToServer} from '../action/index';
 
 
 const getListStyle = (isDraggingOver) => ({
-  background: isDraggingOver ? 'lightblue' : 'lightgrey',
-  padding: 8,
-  width: '100%'
+    background: isDraggingOver ? 'lightblue' : 'lightgrey',
+    padding: 8,
+    width: '100%'
 });
 
 // a little function to help us with reordering the result
 const reorder =  (list, startIndex, endIndex) => {
-  const result = Array.from(list);
-  const [removed] = result.splice(startIndex, 1);
-  result.splice(endIndex, 0, removed);
+    const result = Array.from(list);
+    const [removed] = result.splice(startIndex, 1);
+    result.splice(endIndex, 0, removed);
 
-  return result;
+    return result;
 };
 
 
@@ -35,21 +35,21 @@ class VendorAddMain extends Component {
 
    
   state = {
-    addingMeals: [{mealName:'綠茶',unitPrice:'25'},{mealName:'烏龍茶',unitPrice:'30'},{mealName:'紅茶',unitPrice:'35'}], 
-    modal:false,
-    editingMeal:{},
-    editingItemIndex:null,
-    fileUploadDropZoneModal:false,
-    shouldAlertOpen:false
+      addingMeals: [{mealName:'綠茶',unitPrice:'25'},{mealName:'烏龍茶',unitPrice:'30'},{mealName:'紅茶',unitPrice:'35'}], 
+      modal:false,
+      editingMeal:{},
+      editingItemIndex:null,
+      fileUploadDropZoneModal:false,
+      shouldAlertOpen:false
   };
 
   onEditingMealNameChange = (newName)=>{
 
-     const copiedMeal = Object.assign({},this.state.editingMeal);
-     copiedMeal.mealName = newName;
-     this.setState({
-        editingMeal:copiedMeal
-     });
+      const copiedMeal = Object.assign({},this.state.editingMeal);
+      copiedMeal.mealName = newName;
+      this.setState({
+          editingMeal:copiedMeal
+      });
 
 
   }
@@ -57,109 +57,106 @@ class VendorAddMain extends Component {
 
   onEditingMealUnitPriceChange = (newPrice)=>{
 
-     const copiedMeal = Object.assign({},this.state.editingMeal);
-     copiedMeal.unitPrice = newPrice;
-     this.setState({
-        editingMeal:copiedMeal
-     });
+      const copiedMeal = Object.assign({},this.state.editingMeal);
+      copiedMeal.unitPrice = newPrice;
+      this.setState({
+          editingMeal:copiedMeal
+      });
 
 
   }
 
   addMeals = mealObj => {
-    const copied = cloneDeep(this.state.addingMeals);
-    copied.push(mealObj);
-    this.setState({ addingMeals: copied });
+      const copied = cloneDeep(this.state.addingMeals);
+      copied.push(mealObj);
+      this.setState({ addingMeals: copied });
   };
 
   onDeleteClickCallback = index => {
-    const copied = cloneDeep(this.state.addingMeals);
-    copied.splice(index, 1);
-    this.setState({ addingMeals: copied });
+      const copied = cloneDeep(this.state.addingMeals);
+      copied.splice(index, 1);
+      this.setState({ addingMeals: copied });
   };
 
 
 
   onDragEnd = (result) =>{
-    // dropped outside the list
-    if(!result.destination) {
-       return; 
-    }
+      // dropped outside the list
+      if(!result.destination) {
+          return; 
+      }
     
-    const reorderMeals = reorder(
-      this.state.addingMeals, 
-      result.source.index, 
-      result.destination.index
-    );
+      const reorderMeals = reorder(
+          this.state.addingMeals, 
+          result.source.index, 
+          result.destination.index
+      );
     
-    this.setState({
-        addingMeals:reorderMeals
-    });
+      this.setState({
+          addingMeals:reorderMeals
+      });
   }
 
 
 
   toggleMealEditingWindow = ()=>{
 
-    this.setState({
+      this.setState({
 
-        modal:!this.state.modal
-    });
+          modal:!this.state.modal
+      });
   }
 
   togglePicUploadWindow =()=>{
 
-    this.setState({
+      this.setState({
 
-        fileUploadDropZoneModal:!this.state.fileUploadDropZoneModal
-    });
-
+          fileUploadDropZoneModal:!this.state.fileUploadDropZoneModal
+      });
 
   }
 
   toggleAlertOpen = () =>{
 
-this.setState({
-  alertOpen:!this.state.alertOpen
+      this.setState({
+          alertOpen:!this.state.alertOpen
    
-})
+      })
 
   }
   
-  openMealEditingWindowWhenBTMealEditClick = (itemIndex, editingMealObj)=>{
-   console.log('log in openMealEditingWindow callback',itemIndex,editingMealObj);
-   this.setState({
-
-    modal:true,
-    editingItemIndex:itemIndex,
-    editingMeal:editingMealObj
-   
-
-   });
-
-  }
+   openMealEditingWindowWhenBTMealEditClick = (itemIndex, editingMealObj)=>{
+       console.log('log in openMealEditingWindow callback',itemIndex,editingMealObj);
+       this.setState({
+ 
+           modal:true,
+           editingItemIndex:itemIndex,
+           editingMeal:editingMealObj
+    
+ 
+       });
+   }
 
 
   onEditingMealConfirmClick = () =>{
-    const copiedMealArr = cloneDeep(this.state.addingMeals);
-    const copiedEditingMeal = cloneDeep(this.state.editingMeal);
-    copiedMealArr[this.state.editingItemIndex] = copiedEditingMeal;
-    this.setState({ addingMeals: copiedMealArr });
-  
+
+      const copiedMealArr = cloneDeep(this.state.addingMeals);
+      const copiedEditingMeal = cloneDeep(this.state.editingMeal);
+      copiedMealArr[this.state.editingItemIndex] = copiedEditingMeal;
+      this.setState({ addingMeals: copiedMealArr });
 
   }
 
   openPicDropUploadCallback = () =>{
 
-    this.setState({
-
-        fileUploadDropZoneModal:true
-    });
+      this.setState({
+          fileUploadDropZoneModal:true
+      });
   }
 
   uploadDataToServer = () =>{
 
-   this.props.uploadDataToServer(this.state.addingMeals, this.props.fileArr);    
+      this.props.uploadDataToServer(this.state.addingMeals, this.props.fileArr);    
 
   }
 
@@ -168,7 +165,7 @@ this.setState({
   componentWillReceiveProps(nextProps){
     
     
-        if(this.props !== nextProps){   // 這邊可以做這樣的事，但是你用 connect 的話  就算 reducer裡 return default的state , 這個if每次一定都會是 true
+      if(this.props !== nextProps){   // 這邊可以做這樣的事，但是你用 connect 的話  就算 reducer裡 return default的state , 這個if每次一定都會是 true
                                           // 因為mapStateToProps每次都在造出一個新的物件
          
            if(nextProps.mealListInsertResult.errorMsg){
