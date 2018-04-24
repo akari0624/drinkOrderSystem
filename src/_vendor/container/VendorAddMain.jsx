@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {Container, InputGroup, InputGroupAddon, Input, Button } from "reactstrap";
 import MealAdd from "../container/MealAdd";
-import { cloneDeep } from "lodash";
+import  cloneDeep  from 'lodash.clonedeep';
 
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import MealList from "../component/MealList";
@@ -67,13 +67,13 @@ class VendorAddMain extends Component {
   }
 
   addMeals = mealObj => {
-    const copied = _.cloneDeep(this.state.addingMeals);
+    const copied = cloneDeep(this.state.addingMeals);
     copied.push(mealObj);
     this.setState({ addingMeals: copied });
   };
 
   onDeleteClickCallback = index => {
-    const copied = _.cloneDeep(this.state.addingMeals);
+    const copied = cloneDeep(this.state.addingMeals);
     copied.splice(index, 1);
     this.setState({ addingMeals: copied });
   };
@@ -141,8 +141,8 @@ this.setState({
 
 
   onEditingMealConfirmClick = () =>{
-    const copiedMealArr = _.cloneDeep(this.state.addingMeals);
-    const copiedEditingMeal = _.cloneDeep(this.state.editingMeal);
+    const copiedMealArr = cloneDeep(this.state.addingMeals);
+    const copiedEditingMeal = cloneDeep(this.state.editingMeal);
     copiedMealArr[this.state.editingItemIndex] = copiedEditingMeal;
     this.setState({ addingMeals: copiedMealArr });
   

@@ -1,4 +1,4 @@
-import {cloneDeep} from 'lodash';
+import cloneDeep from 'lodash.clonedeep';
 
 import {SET_IMG_SRC_AND_FILE_OBJ_TO_REDUCER,
     DELETE_ONE_ImgSrc_AND_ONE_ImgFile,
@@ -45,7 +45,7 @@ export default function(state={imgPreviewSrcArr:[],fileArr:[], srcToDelete:[]},a
 
     case SET_IMG_SRC_AND_FILE_OBJ_TO_REDUCER:
 
-      const copiedState = _.cloneDeep(state);
+      const copiedState = cloneDeep(state);
 
 
       return identifyPushPicInOrReplaceThem(action, copiedState);

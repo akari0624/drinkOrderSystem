@@ -1,4 +1,4 @@
-import {cloneDeep} from 'lodash'
+import cloneDeep from 'lodash.clonedeep';
 import {GETDATA, ADD_DATA, UPDATE_DATA, DELETE_ONE, SAVE_LIST} from '../actions/type';
 
 export default function(state={},action){
@@ -6,7 +6,7 @@ export default function(state={},action){
 
    switch(action.type){
    case ADD_DATA:
-       const newState1 = _.cloneDeep(state);
+       const newState1 = cloneDeep(state);
        return {...newState1,[action.payload.key]:action.payload};
 
     case GETDATA:
@@ -16,7 +16,7 @@ export default function(state={},action){
 
 
 case UPDATE_DATA:
-      const newState2 = _.cloneDeep(state);
+      const newState2 = cloneDeep(state);
 
        const editedObj = newState2[action.payload.id] 
        editedObj.pCustomerName = action.payload.data.pCustomerName;
