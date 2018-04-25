@@ -20,5 +20,5 @@ export const fetchVendor = param => {
             type: VENDOR_DATA_WHEN_MAKE_ORDER,
             payload: {errorMsg:'發生網路連線錯誤！請稍後再試', vendorData:[]}
         }));
-    }
+    };
 };

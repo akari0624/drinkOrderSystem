@@ -269,7 +269,7 @@ class VendorAddMain extends Component {
 }
 
 VendorAddMain.propTypes = {
-    fileArr: PropTypes.Array,
+    fileArr: PropTypes.array,
     mealListInsertResult: PropTypes.object,
     uploadDataToServer: PropTypes.func,
     history: PropTypes.object
