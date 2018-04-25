@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import reducers from "./reducers";
 import VendorMain from './_vendor/container/VendorAddMain';
 import MainLandingPage from './_main_landing_page/container/LandingPageMain';
+import MakeOrder from './_makeOrder/container/MakeOrderMain';
 import ActionLoggerMiddleware from './middleware/ActionLogger';
 import reduxThunk from 'redux-thunk';
 
@@ -26,6 +27,7 @@ ReactDOM.render(
 
         <Switch>
           <Route path="/vendor" component={VendorMain} />
+          <Route path="/make_order" component={MakeOrder} />
           <Route path="/" component={MainLandingPage} />
         </Switch>
 
