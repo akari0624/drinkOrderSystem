@@ -1,7 +1,5 @@
 module.exports = {
-    entry: [
-        './src/index.js'
-    ],
+    entry: ['./src/index.js'],
     output: {
         path: __dirname,
         publicPath: '/',
@@ -9,19 +7,21 @@ module.exports = {
     },
 
     module: {
-            rules:[{
-                use:'babel-loader',
-                test:/\.(js|jsx)$/,
+        rules: [
+            {
+                use: 'babel-loader',
+                test: /\.(js|jsx)$/,
                 exclude: /node_modules/
-            },{
-                use:['style-loader','css-loader'],
-                test:/\.css$/
+            },
+            {
+                use: ['style-loader', 'css-loader'],
+                test: /\.css$/
             }
-         ]
+        ]
     },
-    
+
     resolve: {
-        extensions: ['*','.js', '.jsx']
+        extensions: ['*', '.js', '.jsx']
     },
     devServer: {
         historyApiFallback: true,

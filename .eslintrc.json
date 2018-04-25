@@ -36,6 +36,6 @@
         "no-console": "off"
     },
     "globals": {
-     
+     "__dirname":false
     }
 }
