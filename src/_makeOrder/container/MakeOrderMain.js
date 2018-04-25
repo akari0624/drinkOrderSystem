@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Container, Alert } from 'reactstrap';
 import { bindActionCreators } from 'redux';
 import { fetchVendor } from '../action';
+import VendorCard from '../components/VendorCard';
 
 class MakeOrderMain extends Component {
     constructor(props) {
@@ -12,16 +13,19 @@ class MakeOrderMain extends Component {
         this.renderVendor = this.renderVendor.bind(this);
     }
 
-    renderVendor(vendorArr) {
-        return (
-            <div>
-                <div>1</div>
-                <div>2</div>
-                <div>3</div>
-                <div>4</div>
-                <div>5</div>
-            </div>
-        );
+    renderVendor(vendorArr){
+
+        console.log('func in!!!!!!');
+        return vendorArr.map(v => (
+            <VendorCard
+                key={v._id}
+                alt="pic"
+                imgSrc={'...'}
+                name={v.vendor_name}
+                substitle={v.vendor_addreass}
+                text={v.vendor_tel} 
+            />
+        ));
     }
 
     render() {
@@ -31,11 +35,10 @@ class MakeOrderMain extends Component {
                     <Alert isOpen={true} color={'danger'}>
                         {this.props.vendorDataWhenMakeOrder.errorMsg}
                     </Alert>
-                    <div>
-                        {
-                            '發生錯誤，無法取得店家資料，請檢查網路連線，或是重整網頁來重試看看'
-                        }
-                    </div>
+
+                    {
+                        '發生錯誤，無法取得店家資料，請檢查網路連線，或是重整網頁來重試看看'
+                    }
                 </Container>
             );
         }
@@ -49,7 +52,7 @@ class MakeOrderMain extends Component {
                 </Container>
             );
         }
-        
+
         // initial rendering occured in this place
         return (
             <Container>
