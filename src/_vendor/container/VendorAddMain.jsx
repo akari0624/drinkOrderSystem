@@ -9,10 +9,11 @@ import {
     Input,
     Button
 } from 'reactstrap';
-import MealAdd from '../container/MealAdd';
+import MealAdd from '../component/MealAdd';
 import cloneDeep from 'lodash.clonedeep';
 
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import PropTypes from 'prop-types';
 import MealList from '../component/MealList';
 import MealEditingWindow from '../component/MealEditingWindow';
 import PicUploadDropZoneWindow from '../component/PicUploadDropZoneWindow';
@@ -266,6 +267,14 @@ class VendorAddMain extends Component {
     }
 
 }
+
+VendorAddMain.propTypes = {
+    fileArr: PropTypes.Array,
+    mealListInsertResult: PropTypes.object,
+    uploadDataToServer: PropTypes.func,
+    history: PropTypes.object
+};
+
 
 function mapStateToProps(state) {
     return {
