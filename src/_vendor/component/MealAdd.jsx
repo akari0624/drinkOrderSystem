@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Label, Input, Button, Modal, ModalHeader, ModalBody, Container } from 'reactstrap';
-
+import PropTypes from 'prop-types';
 export default class MealAdd extends Component {
 
     constructor(props){
@@ -116,3 +116,8 @@ mealNameOnChange =(e)=>{
 
   
 }
+
+MealAdd.propTypes = {
+    openPicDropUploadCallback: PropTypes.func,
+    addCallBack: PropTypes.func
+};
