@@ -1,63 +1,49 @@
-import React, { Component } from "react";
-import { ListGroupItem, Button, Input } from "reactstrap";
+import React from 'react';
+import { ListGroupItem, Button } from 'reactstrap';
+import PropTypes from 'prop-types';
 
 //import MealItemInEditing from './MealItemInEditing';
 
-export default class MealItem extends Component {
-  state = {
-    itemIndex:this.props.itemIndex
-   // editing: false
-  };
+const MealItem = props => {
+    const {
+        itemIndex,
+        meal,
+        openMealEditingWindowWhenBTMealEditClick,
+        onDeleteClickCallback
+    } = props;
 
-  mealOnEditClick = () => {
-    const {itemIndex, meal} = this.props  
-    this.props.openMealEditingWindowWhenBTMealEditClick(itemIndex, meal);
-  };
+    const mealOnEditClick = () => {
+        openMealEditingWindowWhenBTMealEditClick(itemIndex, meal);
+    };
 
-  mealOnDeleteClick = () =>{
-   this.props.onDeleteClickCallback(this.state.itemIndex);
-   
+    const mealOnDeleteClick = () => {
+        onDeleteClickCallback(itemIndex);
+    };
 
-  }
-
-  render() {
-    const { itemIndex, meal } = this.props;
-
-  //  if (!this.state.editing) {
-      return (
-        <ListGroupItem  className="justify-content-between">
-          {meal.mealName} {meal.unitPrice}元
-          <div className="twoButtonArea">
-          <Button type="button" 
-          color="danger"
-          onClick={
-              this.mealOnDeleteClick
-          }
-          >
-            刪除
-          </Button>
-          <Button
-            type="button"
-            color="primary"
-            onClick={
-              this.mealOnEditClick
-            }
-          >
-            修改
-          </Button>
-          </div>
+    return (
+        <ListGroupItem className="justify-content-between">
+            {meal.mealName} {meal.unitPrice}元
+            <div className="twoButtonArea">
+                <Button
+                    type="button"
+                    color="danger"
+                    onClick={mealOnDeleteClick}
+                >
+                    刪除
+                </Button>
+                <Button type="button" color="primary" onClick={mealOnEditClick}>
+                    修改
+                </Button>
+            </div>
         </ListGroupItem>
-      );
-   // } 
-    
-    // else {
-    //  return (
-    //  <MealItemInEditing 
-    //  itemIndex={itemIndex} 
-    //  meal={meal} 
-    //  onEditingConfirm={this.props.onEditingConfirm}
-    //  onDeleteClickCallback={this.props.onDeleteClickCallback}
-    //  /> );
-    // }
-  }
-}
+    );
+};
+
+MealItem.propTypes = {
+    itemIndex: PropTypes.number,
+    meal: PropTypes.object,
+    openMealEditingWindowWhenBTMealEditClick: PropTypes.func,
+    onDeleteClickCallback: PropTypes.func
+};
+
+export default MealItem;

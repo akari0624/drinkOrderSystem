@@ -12,7 +12,7 @@ import {
 import MealAdd from '../component/MealAdd';
 import cloneDeep from 'lodash.clonedeep';
 
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { DragDropContext, Droppable} from 'react-beautiful-dnd';
 import PropTypes from 'prop-types';
 import MealList from '../component/MealList';
 import MealEditingWindow from '../component/MealEditingWindow';
@@ -73,9 +73,11 @@ class VendorAddMain extends Component {
     };
 
     onDeleteClickCallback = index => {
-        const copied = cloneDeep(this.state.addingMeals);
-        copied.splice(index, 1);
-        this.setState({ addingMeals: copied });
+        console.log('delete clicked!!');
+        const clonedMeals = cloneDeep(this.state.addingMeals);
+        clonedMeals.splice(index, 1);
+        console.log(clonedMeals);
+        this.setState({addingMeals:clonedMeals});
     };
 
     onDragEnd = result => {
@@ -192,6 +194,26 @@ class VendorAddMain extends Component {
         }
     };
 
+    droppableChildrenFunction_that_GenerateDragableMealListWrapper = (currMeal) => (provided, snapshot) => (
+        <div
+            ref={provided.innerRef}
+            style={getListStyle(
+                snapshot.isDraggingOver
+            )}
+        >
+            <MealList
+                mealListData={currMeal}
+                onDeleteClickCallback={
+                    this.onDeleteClickCallback
+                }
+                openMealEditingWindowWhenBTMealEditClick={
+                    this
+                        .openMealEditingWindowWhenBTMealEditClick
+                }
+            />
+        </div>
+    );
+
     render() {
         return (
             <Container>
@@ -212,13 +234,13 @@ class VendorAddMain extends Component {
                 />
 
                 <InputGroup>
-                    <InputGroupAddon>店名</InputGroupAddon>
+                    <InputGroupAddon addonType="prepend">店名</InputGroupAddon>
                     <Input placeholder="輸入店名" />
 
-                    <InputGroupAddon>地址</InputGroupAddon>
+                    <InputGroupAddon addonType="prepend">地址</InputGroupAddon>
                     <Input placeholder="輸入地址" />
 
-                    <InputGroupAddon>電話</InputGroupAddon>
+                    <InputGroupAddon addonType="prepend">電話</InputGroupAddon>
                     <Input placeholder="輸入電話" />
                 </InputGroup>
 
@@ -233,25 +255,9 @@ class VendorAddMain extends Component {
                 >
                     <DragDropContext onDragEnd={this.onDragEnd}>
                         <Droppable droppableId="mealListDropable">
-                            {(provided, snapshot) => (
-                                <div
-                                    ref={provided.innerRef}
-                                    style={getListStyle(
-                                        snapshot.isDraggingOver
-                                    )}
-                                >
-                                    <MealList
-                                        mealListData={this.state.addingMeals}
-                                        onDeleteClickCallback={
-                                            this.onDeleteClickCallback
-                                        }
-                                        openMealEditingWindowWhenBTMealEditClick={
-                                            this
-                                                .openMealEditingWindowWhenBTMealEditClick
-                                        }
-                                    />
-                                </div>
-                            )}
+
+                            {this.droppableChildrenFunction_that_GenerateDragableMealListWrapper(this.state.addingMeals)}
+
                         </Droppable>
                     </DragDropContext>
                     <Button

@@ -5,7 +5,7 @@
   "main": "index.js",
   "repository": "https://github.com/akari0624/drinkOrderSystem.git",
   "scripts": {
-    "start": "webpack-dev-server --config ./webpack.config.js --mode development",
+    "start": "webpack-dev-server --public-host --config ./webpack.config.js --mode development ",
     "clean": "rimraf dist/*",
     "dist": "npm run clean && webpack --progress --bail --env dist -p",
     "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js --recursive ./test",
@@ -47,7 +47,7 @@
     "lodash.clonedeep": "^4.5.0",
     "prop-types": "^15.6.1",
     "react": "^16.3.2",
-    "react-beautiful-dnd": "^2.6.1",
+    "react-beautiful-dnd": "^7.1.0",
     "react-dom": "^16.3.2",
     "react-redux": "5.0.7",
     "react-router": "^4.2.0",

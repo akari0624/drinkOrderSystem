@@ -1,59 +1,46 @@
-import React, { Component } from "react";
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import FileUploadModule from "../../util_func/FileUploadModule";
+import React from 'react';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import PropTypes from 'prop-types';
 
-export default class PicEnlargeWindow extends Component {
-
-
-    renderEnlargeImage = (imgSrc)=>{
-
-     
-        if(imgSrc !== ''){
-
-            return (
-                <img  
-         src={this.props.imageSrc} 
-         style={{width:'500px'}}
-         />
-            );
-        }else{
-
+const PicEnlargeWindow = props => {
+    
+    const renderEnlargeImage = imgSrc => {
+        if (imgSrc !== '') {
+            return <img src={imgSrc} style={{ width: '500px' }} />;
+        } else {
             return;
         }
+    };
 
-    }
+    const deleteThisUpload = () => {
+        props.deleteThisPicCallback(props.currEnlargeImageIndex);
+        props.toggle();
+    };
 
-
-    
-    
-    deleteThisUpload = ()=>{
-        
-        this.props.deleteThisPicCallback(this.props.currEnlargeImageIndex);
-        this.props.toggle();
-    }
-
-render(){
-
-    return(
-<Modal
-        isOpen={this.props.isOpen}
-        toggle={this.props.toggle}
-      >
-        <ModalHeader toggle={this.props.toggle}>
-        </ModalHeader>
-        <ModalBody>
-          
-          {this.renderEnlargeImage(this.props.imageSrc)}
-        
-        </ModalBody>
-        <ModalFooter>
-          <Button color="danger" onClick={this.deleteThisUpload}>
-            刪除
-          </Button>
-        </ModalFooter>
-      </Modal>
+    return (
+        <Modal isOpen={props.isOpen} toggle={props.toggle}>
+            <ModalHeader toggle={props.toggle} />
+            <ModalBody>
+                {renderEnlargeImage(props.imageSrc)}
+            </ModalBody>
+            <ModalFooter>
+                <Button color="danger" onClick={deleteThisUpload}>
+                    刪除
+                </Button>
+            </ModalFooter>
+        </Modal>
     );
-        }
+};
 
 
-    }
+
+
+PicEnlargeWindow.propTypes = {
+    deleteThisPicCallback: PropTypes.func,
+    currEnlargeImageIndex: PropTypes.number,
+    toggle: PropTypes.func,
+    imageSrc: PropTypes.string,
+    isOpen: PropTypes.bool
+};
+
+export default PicEnlargeWindow;
