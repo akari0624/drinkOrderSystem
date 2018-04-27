@@ -5,27 +5,49 @@ import { Container, Alert } from 'reactstrap';
 import { bindActionCreators } from 'redux';
 import { fetchVendor } from '../action';
 import VendorCard from '../components/VendorCard';
+import VendorMealMenuModal from '../components/VendorMealMenuModal';
 
 class MakeOrderMain extends Component {
     constructor(props) {
         super(props);
 
         this.renderVendor = this.renderVendor.bind(this);
+        this.toggleMenuModal = this.toggleMenuModal.bind(this);
+        this.onVendorGotChoosedInTheMenuModal = this.onVendorGotChoosedInTheMenuModal.bind(this);
+
+        this.state ={
+            isMenuModalOpen:false,
+            menuShowingVendorIndex:0
+        };
     }
 
     renderVendor(vendorArr){
 
         console.log('func in!!!!!!');
-        return vendorArr.map(v => (
+        return vendorArr.map((v,i) => (
             <VendorCard
                 key={v._id}
                 alt="pic"
-                imgSrc={'...'}
+                imgSrcArr={v.menuImageString}
                 name={v.vendor_name}
                 substitle={v.vendor_addreass}
-                text={v.vendor_tel} 
+                text={v.vendor_tel}
+                toggleMenu={this.toggleMenuModal} 
+                indexIntheVendorArray={i}
             />
         ));
+    }
+
+    toggleMenuModal(menuShowingVendorIndex){
+        const viceCondition = this.state.isMenuModalOpen ? false : true;
+        this.setState({
+            isMenuModalOpen:viceCondition,
+            menuShowingVendorIndex
+        });
+    }
+
+    onVendorGotChoosedInTheMenuModal() {
+        console.log('vendor choosed');
     }
 
     render() {
@@ -46,6 +68,13 @@ class MakeOrderMain extends Component {
         if (this.props.vendorDataWhenMakeOrder.vendorData.length > 0) {
             return (
                 <Container>
+                    <VendorMealMenuModal 
+                        isOpen={this.state.isMenuModalOpen} 
+                        toggleMenu={this.toggleMenuModal}
+                        onVendorChoosed={this.onVendorGotChoosedInTheMenuModal}
+                        mealData={this.props.vendorDataWhenMakeOrder.vendorData[this.state.menuShowingVendorIndex].meals}
+                        vendorIndex={this.state.menuShowingVendorIndex}
+                    />
                     {this.renderVendor(
                         this.props.vendorDataWhenMakeOrder.vendorData
                     )}

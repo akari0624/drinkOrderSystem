@@ -10,24 +10,42 @@ import {
 } from 'reactstrap';
 import PropTypes from 'prop-types';
 
-const VendorCard = props => (
-    <Card>
-        <CardImg top width="100%" alt={props.alt} src={props.imgSrc} />
-        <CardBody>
-            <CardTitle>{props.name}</CardTitle>
-            <CardSubtitle>{props.subtitle}</CardSubtitle>
-            <CardText>{props.text}</CardText>
-            <Button />
-        </CardBody>
-    </Card>
-);
+import { vendorImagePathOnNodeServer } from '../../static/url';
+
+const VendorCard = props => {
+
+
+    const seeMenu = () => {
+
+        props.toggleMenu(props.indexIntheVendorArray);
+    };
+
+    return (
+        <Card>
+            <CardImg
+                top={true}
+                width="100%"
+                alt={props.alt}
+                src={`${vendorImagePathOnNodeServer}/${props.imgSrcArr[0]}`}
+            />
+            <CardBody>
+                <CardTitle>{props.name}</CardTitle>
+                <CardSubtitle>{props.subtitle}</CardSubtitle>
+                <CardText>{props.text}</CardText>
+                <Button onClick={seeMenu}>看菜單</Button>
+            </CardBody>
+        </Card>
+    );
+};
 
 VendorCard.propTypes = {
     alt: PropTypes.string,
-    imgSrc: PropTypes.string,
+    imgSrcArr: PropTypes.array,
     name: PropTypes.string,
     subtitle: PropTypes.string,
-    text: PropTypes.string
+    text: PropTypes.string,
+    toggleMenu: PropTypes.func.isRequired,
+    indexIntheVendorArray:PropTypes.number.isRequired
 };
 
 export default VendorCard;
