@@ -5,7 +5,7 @@ import {setImgSrcAndFile_ObjToReducer, deleteOneImgSrcAndOneImgFile, doRevokeObj
 import {bindActionCreators} from 'redux';
 
 import FileUploadModule from "../../util_func/FileUploadModule";
-import PicEnlargeWindow from "./PicEnlargeWindow";
+import PicEnlargeWindow from "../../_utilComponent/PicEnlargeWindow";
 
 class PicUploadDropZoneWindow extends Component {
 

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Styled from 'styled-components';
 
 import { vendorImagePathOnNodeServer } from '../../static/url';
-import PicEnlargeWindow from '../../_vendor/component/PicEnlargeWindow';
+import PicEnlargeWindow from '../../_utilComponent/PicEnlargeWindow';
 
 const Img = Styled.img`
 width:40px;
