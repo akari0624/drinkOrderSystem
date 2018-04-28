@@ -3,7 +3,6 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import PropTypes from 'prop-types';
 
 const PicEnlargeWindow = props => {
-    
     const renderEnlargeImage = imgSrc => {
         if (imgSrc !== '') {
             return <img src={imgSrc} style={{ width: '500px' }} />;
@@ -17,12 +16,11 @@ const PicEnlargeWindow = props => {
         props.toggle();
     };
 
-    return (
+    const canBeDeleteSituation = (
         <Modal isOpen={props.isOpen} toggle={props.toggle}>
             <ModalHeader toggle={props.toggle} />
-            <ModalBody>
-                {renderEnlargeImage(props.imageSrc)}
-            </ModalBody>
+            <ModalBody>{renderEnlargeImage(props.imageSrc)}</ModalBody>
+
             <ModalFooter>
                 <Button color="danger" onClick={deleteThisUpload}>
                     刪除
@@ -30,17 +28,28 @@ const PicEnlargeWindow = props => {
             </ModalFooter>
         </Modal>
     );
+
+    const canNotDeleteSituation = (
+        <Modal isOpen={props.isOpen} toggle={props.toggle}>
+            <ModalHeader toggle={props.toggle} />
+            <ModalBody>{renderEnlargeImage(props.imageSrc)}</ModalBody>
+        </Modal>
+    );
+
+    return props.isForDelete ? canBeDeleteSituation : canNotDeleteSituation;
 };
-
-
-
 
 PicEnlargeWindow.propTypes = {
     deleteThisPicCallback: PropTypes.func,
     currEnlargeImageIndex: PropTypes.number,
     toggle: PropTypes.func,
     imageSrc: PropTypes.string,
-    isOpen: PropTypes.bool
+    isOpen: PropTypes.bool,
+    isForDelete: PropTypes.bool
+};
+
+PicEnlargeWindow.defaultProps = {
+    isForDelete: true
 };
 
 export default PicEnlargeWindow;

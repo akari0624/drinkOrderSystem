@@ -23,7 +23,6 @@ class MakeOrderMain extends Component {
 
     renderVendor(vendorArr){
 
-        console.log('func in!!!!!!');
         return vendorArr.map((v,i) => (
             <VendorCard
                 key={v._id}
@@ -66,18 +65,20 @@ class MakeOrderMain extends Component {
         }
 
         if (this.props.vendorDataWhenMakeOrder.vendorData.length > 0) {
+
+            const {vendorData} = this.props.vendorDataWhenMakeOrder;
+            const {menuShowingVendorIndex, isMenuModalOpen} = this.state;
             return (
                 <Container>
                     <VendorMealMenuModal 
-                        isOpen={this.state.isMenuModalOpen} 
+                        isOpen={isMenuModalOpen} 
                         toggleMenu={this.toggleMenuModal}
                         onVendorChoosed={this.onVendorGotChoosedInTheMenuModal}
-                        mealData={this.props.vendorDataWhenMakeOrder.vendorData[this.state.menuShowingVendorIndex].meals}
-                        vendorIndex={this.state.menuShowingVendorIndex}
+                        mealData={vendorData[menuShowingVendorIndex].meals}
+                        vendorImgSrcArr={vendorData[menuShowingVendorIndex].menuImageString}
+                        vendorIndex={menuShowingVendorIndex}
                     />
-                    {this.renderVendor(
-                        this.props.vendorDataWhenMakeOrder.vendorData
-                    )}
+                    {this.renderVendor(vendorData)}
                 </Container>
             );
         }
