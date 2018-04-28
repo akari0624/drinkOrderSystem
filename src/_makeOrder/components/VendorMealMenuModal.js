@@ -24,7 +24,11 @@ const VendorMealMenuModal = props => {
         props.toggleMenu(props.vendorIndex);
     };
 
-    const {mealData, onVendorChoosed, vendorImgSrcArr} = props;
+    const {mealData, vendorImgSrcArr} = props;
+
+    const onVendorChoosed = () => {
+        props.onVendorChoosed(props.vendorIndex);
+    };
 
     return (
         <Modal isOpen={props.isOpen} toggle={closeMenu}>

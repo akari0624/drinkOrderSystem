@@ -45,8 +45,12 @@ class MakeOrderMain extends Component {
         });
     }
 
-    onVendorGotChoosedInTheMenuModal() {
-        console.log('vendor choosed');
+    onVendorGotChoosedInTheMenuModal(choosedVendorIndex) {
+
+        
+        this.props.history.push(`/make_order_confirming/${choosedVendorIndex}`);
+  
+
     }
 
     render() {
@@ -98,7 +102,8 @@ class MakeOrderMain extends Component {
 
 MakeOrderMain.propTypes = {
     vendorDataWhenMakeOrder: PropTypes.object,
-    fetchVendor: PropTypes.func
+    fetchVendor: PropTypes.func,
+    history: PropTypes.object  // provided by react-router-dom
 };
 
 function mapStateToProps(state) {
