@@ -39,7 +39,7 @@ export const insertOrder = reqParams => {
         ).catch(e => dispatch({
             
             type: WHEN_INSERT_ORDER_COMPLETE,
-            payload: {errorMsg:'發生網路連線錯誤！請稍後再試', responseId:''}
+            payload: {errorMsg:'發生網路連線錯誤！請稍後再試', orderId:''}
         }));
     };
 };
