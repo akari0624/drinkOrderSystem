@@ -29,7 +29,7 @@
 1.```可以讓人update這家店的產品選項 (需再考慮權限問題)```
 
 三. 發起訂購頁面
-1.```可以從 (二.) 新增店家頁面   裡新增過的店家裡選擇店家。```
+1.~~可以從 (二.) 新增店家頁面   裡新增過的店家裡選擇店家。~~
 2.```可以設定基本限制 , 例如一人只能訂購幾個，並且在(ㄧ.)參與訂購頁面  會跟著套用這些限制```
 3.```設定好之後，在(零.)訂購列表區   就能看到這筆訂購項目```
      
@@ -71,8 +71,7 @@ chrome 60(  2017/08 released )  以後
 - 重點是要練習寫rest式的後端   跟  使用noSQL式的DB
 
 ## 前端的react+redux 與webpack的配置
-基底是使用Stephen Grider的 [ReduxSimpleStarter](https://github.com/StephenGrider/ReduxSimpleStarter) , 感謝Stephen老師  [他在udemy上的react+redux課程](https://www.udemy.com/react-redux/learn/v4/overview)真的很棒！！
+最一開始時的基底是使用Stephen Grider的 [ReduxSimpleStarter](https://github.com/StephenGrider/ReduxSimpleStarter) , 感謝Stephen老師  [他在udemy上的react+redux課程](https://www.udemy.com/react-redux/learn/v4/overview)真的很棒！！
 
-##
-DEMO網址：
+
 
