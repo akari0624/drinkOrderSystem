@@ -1,12 +1,16 @@
 import cloneDeep from 'lodash.clonedeep';
 import { VENDOR_DATA_WHEN_MAKE_ORDER } from '../_makeOrder/type';
 
-export default (state = { errorMsg: '', vendorData: [] }, action) => {
+const defaultData = { errorMsg: '', vendorData: [] };
+
+
+
+export default (state = defaultData, action) => {
     switch (action.type) {
 
     case VENDOR_DATA_WHEN_MAKE_ORDER:{
-        let vendorData = cloneDeep(state);
-        vendorData = action.payload;
+      //  let vendorData = cloneDeep(state);
+        const vendorData = action.payload;
         return vendorData;
     }
 

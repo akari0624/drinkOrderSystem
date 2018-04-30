@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import Styled from 'styled-components';
 
 import { JOIN_ORDER_BASE_URL } from '../../static/url';
+import {JOIN_ORDER_BASE_URL_RELATIVE} from '../../static/url';
 
 const DivErrorMsg = Styled.div`
 color:red;
@@ -25,14 +26,20 @@ const Making_Order_Result_Report_Page = props => {
             </Container>
         );
     } else if (props.insertOrderResult.orderId !== '') {
+
+        const join_order_page_absolute_url = `${JOIN_ORDER_BASE_URL}/${
+            props.insertOrderResult.orderId
+        }`;
+
+        const join_order_relative_url = `${JOIN_ORDER_BASE_URL_RELATIVE}/${
+            props.insertOrderResult.orderId
+        }`;
         return (
             <Container>
                 <div> this is report page</div>
                 <DivSuccessMsg>
                     {' '}
-                    登記成功！ 加入訂購的網址是：{`${JOIN_ORDER_BASE_URL}/${
-                        props.insertOrderResult.orderId
-                    }`}
+                    登記成功！ 加入訂購的網址是：<Link to={join_order_relative_url}>{join_order_page_absolute_url}</Link>
                 </DivSuccessMsg>
                 <Link to="make_order_confirming/0"> go back</Link>
             </Container>

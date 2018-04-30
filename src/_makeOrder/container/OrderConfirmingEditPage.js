@@ -77,7 +77,9 @@ class OrderConfirmingEditPage extends Component {
         };
 
         this.props.insertOrder(params);
-        this.prop.history.push('/making_order_result');
+        
+        this.props.history.push('/making_order_result');
+         
     }
 
     render() {
@@ -153,7 +155,8 @@ function mapDispatchToProps(dispatch){
 
 OrderConfirmingEditPage.propTypes = {
     vendorData: PropTypes.object,
-    insertOrder: PropTypes.func
+    insertOrder: PropTypes.func,
+    history: PropTypes.object
 };
 
 
