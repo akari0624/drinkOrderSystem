@@ -13,6 +13,7 @@ import MainLandingPage from './_main_landing_page/container/LandingPageMain';
 import MakeOrder from './_makeOrder/container/MakeOrderMain';
 import MakingOrderConfirming from './_makeOrder/container/MakingOrderConfirming';
 import Making_Order_Result_Report_Page from './_makeOrder/container/Making_Order_Result_Report_Page';
+import JoinOrderMain from './_joinOrder/container/JoinOrderMain';
 
 const LOCAL_STORAGE_KEY = 'customerServiceList';
 
@@ -35,6 +36,7 @@ ReactDOM.render(
                     <Route path="/make_order" component={MakeOrder} />
                     <Route path="/make_order_confirming/:index" component={MakingOrderConfirming} />
                     <Route path="/making_order_result/" component={Making_Order_Result_Report_Page} />
+                    <Route path="/order/join/:orderId" component={JoinOrderMain} />
                     <Route path="/" component={MainLandingPage} />
                 </Switch>
             </div>
