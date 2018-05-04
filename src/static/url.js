@@ -1,6 +1,16 @@
-const serverIp = 'http://localhost';
+const domainName = 'localhost';
+
+const protocol_http = 'http://';
+
+const protocol_web_socket = 'ws://';
+
+const serverIp = `${protocol_http}${domainName}`;
+
+const wsUrl = `${protocol_web_socket}${domainName}`;
 
 const serverPort = ':8089';
+
+const wesocketPort = ':8090';
 
 const webAppName = '';
 
@@ -25,3 +35,4 @@ export const JOIN_ORDER_BASE_URL_RELATIVE = '/order/join';
 
 export const getOrderInfoWhenJoinOrder_URL = `${backEndServerBaseURL}/order/join/get_order_info`;
 
+export const join_order_web_socket_url = `${wsUrl}${wesocketPort}`;
