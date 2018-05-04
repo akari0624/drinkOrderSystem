@@ -81,6 +81,7 @@ class MakeOrderMain extends Component {
                         mealData={vendorData[menuShowingVendorIndex].meals}
                         vendorImgSrcArr={vendorData[menuShowingVendorIndex].menuImageString}
                         vendorIndex={menuShowingVendorIndex}
+                        isShowChooseThisOneButton={true}
                     />
                     {this.renderVendor(vendorData)}
                 </Container>
