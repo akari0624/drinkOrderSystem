@@ -15,6 +15,8 @@ import Styled  from 'styled-components';
 
 import { getOrderInfoBy_parameterInUrl_andGetvVendorInfoTogether } from '../action';
 import { join_order_web_socket_url } from '../../static/url';
+import VendorCard from '../../_makeOrder/components/VendorCard';
+import VendorCardMealMenuModal from '../../_makeOrder/components/VendorMealMenuModal';
 
 
 const FixedHeightAndScrollableDiv = Styled.div`
@@ -30,7 +32,8 @@ class JoinOrderMain extends Component {
 
         this.state = {
             message:'',
-            chatRoomMessage:[]
+            chatRoomMessage:[],
+            isVendorDetailModalOpen:false,
         };
 
         this.conn = null;
@@ -50,6 +53,7 @@ class JoinOrderMain extends Component {
 
         this.onWebSocketMessage = this.onWebSocketMessage.bind(this);
 
+        this.toggleMenuModal = this.toggleMenuModal.bind(this);
     }
 
     get_orderId_from_url_params() {
@@ -87,6 +91,15 @@ class JoinOrderMain extends Component {
         );
     }
 
+    toggleMenuModal(){
+
+        const reverseCondirtion = this.state.isVendorDetailModalOpen === false ? true : false;
+        this.setState({
+
+            isVendorDetailModalOpen:reverseCondirtion
+        });
+    }
+
     render() {
         const data = this.props.joinOrderData;
 
@@ -101,7 +114,8 @@ class JoinOrderMain extends Component {
             Object.keys(data.joinOrderInfo).length === 0
         ) {
             return <div> 發生錯誤！！ {data.errorMsg}</div>;
-        } else {
+        } else { 
+
             return (
                 <Container>
                     <FixedHeightAndScrollableDiv>
@@ -113,6 +127,25 @@ class JoinOrderMain extends Component {
                             <Button onClick={this.onSendMessageButtonClick}>傳送訊息</Button>
                         </InputGroupAddon>
                     </InputGroup>
+                    <VendorCardMealMenuModal 
+                        isOpen={this.state.isVendorDetailModalOpen} 
+                        toggleMenu={this.toggleMenuModal}
+                        mealData={data.joinOrderInfo.vendorInfo.meals}
+                        vendorImgSrcArr={data.joinOrderInfo.vendorInfo.menuImageString}
+                        vendorIndex={0}
+                        isShowChooseThisOneButton={false}
+                    />
+                    <VendorCard 
+                        key={data.joinOrderInfo.vendorInfo._id}
+                        alt="pic"
+                        imgSrcArr={data.joinOrderInfo.vendorInfo.menuImageString}
+                        name={data.joinOrderInfo.vendorInfo.vendor_name}
+                        substitle={data.joinOrderInfo.vendorInfo.vendor_addreass}
+                        text={data.joinOrderInfo.vendorInfo.vendor_tel}
+                        toggleMenu={this.toggleMenuModal} 
+                        indexIntheVendorArray={0}
+                    />
+
                 </Container>
             );
         }
@@ -121,7 +154,7 @@ class JoinOrderMain extends Component {
     whenWebSocketInitConnect() {
         console.log('ws connection establish');
 
-        this.conn.send('hello ws server');
+        this.conn.send('新訂購者已來到此頁面');
     }
 
     onWebSocketMessage(e){
