@@ -13,9 +13,9 @@
 4. ```在訂單還沒成立前，可以修改自己訂過的紀錄。```
 5. ```訂單在由發起人 成立後，就無法修改自己的紀錄```
 6. ```不管是訂單成立前或成立後，都無法修改別人的紀錄```
-7. ```頁面呈現時，會帶出本次是訂購哪一家店的飲料或便當```
-8. ```如果當初在建立這家店有上傳菜單圖片的話，使用者可以按下菜單圖示，就會跳出一個視窗讓使用者可以看這些菜單圖片```
-9. ```右邊有一個real time的留言板 , 可以即時地看到其他人對於這次訂購的留言,或是誰訂購了ＸＸＸ... 之類的事```
+7. ~~頁面呈現時，會帶出本次是訂購哪一家店的飲料或便當~~
+8. ~~如果當初在建立這家店有上傳菜單圖片的話，使用者可以按下菜單圖示，就會跳出一個視窗讓使用者可以看這些菜單圖片~~
+9. ~~右邊有一個real time的留言板 , 可以即時地看到其他人對於這次訂購的留言,或是誰訂購了ＸＸＸ... 之類的事~~
 
 
 二.  新增店家頁面
@@ -31,7 +31,7 @@
 三. 發起訂購頁面
 1.~~可以從 (二.) 新增店家頁面   裡新增過的店家裡選擇店家。~~
 2.```可以設定基本限制 , 例如一人只能訂購幾個，並且在(ㄧ.)參與訂購頁面  會跟著套用這些限制```
-3.```設定好之後，在(零.)訂購列表區   就能看到這筆訂購項目```
+3.~~設定好之後，會產生一個加入訂購的URL，使用者可以傳送給別人這個URL，進入這個URL的人就能加入訂購，即為:  (ㄧ.) 參與訂購頁面：~~
      
 四. 訂購管理頁面：
 1. ```這一頁只有發起訂購的人能夠進來(通常應該會是負責打電話訂購  跟  收錢的那個人)```
@@ -58,15 +58,15 @@
 ##  目標瀏覽器 
 chrome 60(  2017/08 released )  以後
 
-## 會練習到的tech
+## 使用到/練習到 的dependencies
 
 
 - 前端 react +  redux - SPA
 - 前端tool : webpack, react-router-dom…... SASS
 
-- 後端 node.js , express(或koa) , [SOCKET.IO](https://socket.io/) or [ws](https://github.com/websockets/ws), mongoDB  
- (或JAVA式後端：JDK8, Tomcat8, JAVA webSocket,   mongoDB,
- Spring MVC  or Jersey), JSON Web Token
+- 後端 node.js , express(或koa) , ~~[SOCKET.IO](https://socket.io/) or~~ [ws](https://github.com/websockets/ws), mongoDB  
+ ~~(或JAVA式後端：JDK8, Tomcat8, JAVA webSocket,   mongoDB,
+ Spring MVC  or Jersey)~~, JSON Web Token
 
 - 重點是要練習寫rest式的後端   跟  使用noSQL式的DB
 
