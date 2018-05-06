@@ -11,13 +11,12 @@ import {
     ListGroup,
     ListGroupItem
 } from 'reactstrap';
-import Styled  from 'styled-components';
+import Styled from 'styled-components';
 
 import { getOrderInfoBy_parameterInUrl_andGetvVendorInfoTogether } from '../action';
 import { join_order_web_socket_url } from '../../static/url';
 import VendorCard from '../../_makeOrder/components/VendorCard';
 import VendorCardMealMenuModal from '../../_makeOrder/components/VendorMealMenuModal';
-
 
 const FixedHeightAndScrollableDiv = Styled.div`
 overflow-y:auto;
@@ -26,23 +25,25 @@ height:300px;
 border:1px solid black;
 `;
 
+const SelfMsgDiv = Styled.div`
+text-align:right;
+`;
+
 class JoinOrderMain extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            message:'',
-            chatRoomMessage:[],
-            isVendorDetailModalOpen:false,
+            message: '',
+            chatRoomMessage: [],   // [{senderId:String, msg:String},{},{}.....]
+            isVendorDetailModalOpen: false
         };
 
         this.conn = null;
-        this.get_orderId_from_url_params = this.get_orderId_from_url_params.bind(
-            this
-        );
-        this.whenWebSocketInitConnect = this.whenWebSocketInitConnect.bind(
-            this
-        );
+        this.wsClientId = null;
+
+        this.get_orderId_from_url_params = this.get_orderId_from_url_params.bind(this);
+        this.whenWebSocketInitConnect = this.whenWebSocketInitConnect.bind(this);
         this.onSendMessageButtonClick = this.onSendMessageButtonClick.bind(this);
 
         this.onMessageInputChange = this.onMessageInputChange.bind(this);
@@ -61,47 +62,47 @@ class JoinOrderMain extends Component {
         return orderId;
     }
 
-    onSendMessageButtonClick(){
-
+    onSendMessageButtonClick() {
         const msgObj = {
-            type:'sending-message',
-            orderId:this.props.match.params.orderId,
-            message:this.state.message
+            type: 'sending-message',
+            orderId: this.props.match.params.orderId,
+            clientId:this.wsClientId,
+            message: this.state.message
         };
         this.conn.send(JSON.stringify(msgObj));
-        this.setState({message:''});
+        this.setState({ message: '' });
     }
 
-    onMessageInputChange(e){
-        if(e.target.name === 'msgInput'){
-            this.setState({message:e.target.value});
+    onMessageInputChange(e) {
+        if (e.target.name === 'msgInput') {
+            this.setState({ message: e.target.value });
         }
-
     }
 
-    catchEnterPress(e){
-
-        const keyCode =e.key;
-        if(keyCode === 'Enter'){
-            
+    catchEnterPress(e) {
+        const keyCode = e.key;
+        if (keyCode === 'Enter') {
             this.onSendMessageButtonClick();
-
         }
     }
 
-    renderChatContentList(){
+    renderChatContentList() {
+        return this.state.chatRoomMessage.map((msgObj, i) => {
 
-        return this.state.chatRoomMessage.map((msg, i) => (
-            <ListGroupItem key={i}> {msg}</ListGroupItem> )
-        );
+            if(msgObj.senderId !== this.wsClientId){
+
+                return   (<ListGroupItem key={i}> {msgObj.msg}</ListGroupItem>);
+            }else{
+                return (<SelfMsgDiv key={i}>{msgObj.msg}</SelfMsgDiv>);
+            }
+        });
     }
 
-    toggleMenuModal(){
-
-        const reverseCondirtion = this.state.isVendorDetailModalOpen === false ? true : false;
+    toggleMenuModal() {
+        const reverseCondirtion =
+            this.state.isVendorDetailModalOpen === false ? true : false;
         this.setState({
-
-            isVendorDetailModalOpen:reverseCondirtion
+            isVendorDetailModalOpen: reverseCondirtion
         });
     }
 
@@ -119,38 +120,49 @@ class JoinOrderMain extends Component {
             Object.keys(data.joinOrderInfo).length === 0
         ) {
             return <div> 發生錯誤！！ {data.errorMsg}</div>;
-        } else { 
-
+        } else {
             return (
                 <Container>
                     <FixedHeightAndScrollableDiv>
                         <ListGroup>{this.renderChatContentList()}</ListGroup>
                     </FixedHeightAndScrollableDiv>
                     <InputGroup>
-                        <Input name="msgInput" onChange={this.onMessageInputChange} value={this.state.message} onKeyPress={this.catchEnterPress}/>
+                        <Input
+                            name="msgInput"
+                            onChange={this.onMessageInputChange}
+                            value={this.state.message}
+                            onKeyPress={this.catchEnterPress}
+                        />
                         <InputGroupAddon addonType="append">
-                            <Button onClick={this.onSendMessageButtonClick}>傳送訊息</Button>
+                            <Button onClick={this.onSendMessageButtonClick}>
+                                傳送訊息
+                            </Button>
                         </InputGroupAddon>
                     </InputGroup>
-                    <VendorCardMealMenuModal 
-                        isOpen={this.state.isVendorDetailModalOpen} 
+                    <VendorCardMealMenuModal
+                        isOpen={this.state.isVendorDetailModalOpen}
                         toggleMenu={this.toggleMenuModal}
                         mealData={data.joinOrderInfo.vendorInfo.meals}
-                        vendorImgSrcArr={data.joinOrderInfo.vendorInfo.menuImageString}
+                        vendorImgSrcArr={
+                            data.joinOrderInfo.vendorInfo.menuImageString
+                        }
                         vendorIndex={0}
                         isShowChooseThisOneButton={false}
                     />
-                    <VendorCard 
+                    <VendorCard
                         key={data.joinOrderInfo.vendorInfo._id}
                         alt="pic"
-                        imgSrcArr={data.joinOrderInfo.vendorInfo.menuImageString}
+                        imgSrcArr={
+                            data.joinOrderInfo.vendorInfo.menuImageString
+                        }
                         name={data.joinOrderInfo.vendorInfo.vendor_name}
-                        substitle={data.joinOrderInfo.vendorInfo.vendor_addreass}
+                        substitle={
+                            data.joinOrderInfo.vendorInfo.vendor_addreass
+                        }
                         text={data.joinOrderInfo.vendorInfo.vendor_tel}
-                        toggleMenu={this.toggleMenuModal} 
+                        toggleMenu={this.toggleMenuModal}
                         indexIntheVendorArray={0}
                     />
-
                 </Container>
             );
         }
@@ -160,17 +172,33 @@ class JoinOrderMain extends Component {
         console.log('ws connection establish');
 
         const orderId = this.props.match.params.orderId;
-        const message = {type:'isRoomExist',orderId:orderId};
+        const message = { type: 'isRoomExist', orderId: orderId };
 
         this.conn.send(JSON.stringify(message));
     }
 
-    onWebSocketMessage(e){
-        const newMessageArr = this.state.chatRoomMessage.slice(0,this.state.chatRoomMessage.length+1);
-        newMessageArr.push(e.data);
-        this.setState({
-            chatRoomMessage:newMessageArr
-        });
+    onWebSocketMessage(e) {
+        const data = JSON.parse(e.data);
+
+        if (data.type === 'yourWsClientId') {
+
+            this.wsClientId = data.msg;
+
+        } else if (data.type === 'braodcastMessage') {
+            const newMessageArr = this.state.chatRoomMessage.slice(
+                0,
+                this.state.chatRoomMessage.length + 1
+            );
+
+            const msgData = 
+            {senderId:data.senderId,
+                msg: data.msg};
+
+            newMessageArr.push(msgData);
+            this.setState({
+                chatRoomMessage: newMessageArr
+            });
+        }
     }
 
     componentDidMount() {
