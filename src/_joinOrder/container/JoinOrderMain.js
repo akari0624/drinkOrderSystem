@@ -63,7 +63,12 @@ class JoinOrderMain extends Component {
 
     onSendMessageButtonClick(){
 
-        this.conn.send(this.state.message);
+        const msgObj = {
+            type:'sending-message',
+            orderId:this.props.match.params.orderId,
+            message:this.state.message
+        };
+        this.conn.send(JSON.stringify(msgObj));
         this.setState({message:''});
     }
 
@@ -154,7 +159,10 @@ class JoinOrderMain extends Component {
     whenWebSocketInitConnect() {
         console.log('ws connection establish');
 
-        this.conn.send('新訂購者已來到此頁面');
+        const orderId = this.props.match.params.orderId;
+        const message = {type:'isRoomExist',orderId:orderId};
+
+        this.conn.send(JSON.stringify(message));
     }
 
     onWebSocketMessage(e){
