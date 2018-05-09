@@ -16,7 +16,7 @@ import Styled from 'styled-components';
 import { getOrderInfoBy_parameterInUrl_andGetvVendorInfoTogether } from '../action';
 import { join_order_web_socket_url } from '../../static/url';
 import VendorCard from '../../_makeOrder/components/VendorCard';
-import VendorCardMealMenuModal from '../../_makeOrder/components/VendorMealMenuModal';
+import VendorMealMenuModalClickAble from '../component/VendorMealMenuModal';
 
 const FixedHeightAndScrollableDiv = Styled.div`
 overflow-y:auto;
@@ -145,7 +145,7 @@ class JoinOrderMain extends Component {
                             </Button>
                         </InputGroupAddon>
                     </InputGroup>
-                    <VendorCardMealMenuModal
+                    <VendorMealMenuModalClickAble
                         isOpen={this.state.isVendorDetailModalOpen}
                         toggleMenu={this.toggleMenuModal}
                         mealData={data.joinOrderInfo.vendorInfo.meals}
