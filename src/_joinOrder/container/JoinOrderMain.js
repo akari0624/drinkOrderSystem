@@ -63,11 +63,17 @@ class JoinOrderMain extends Component {
     }
 
     onSendMessageButtonClick() {
+
+        const currMsg = this.state.message;
+        if(currMsg === ''){
+            return;
+        }
+
         const msgObj = {
             type: 'sending-message',
             orderId: this.props.match.params.orderId,
             clientId:this.wsClientId,
-            message: this.state.message
+            message: currMsg
         };
         this.conn.send(JSON.stringify(msgObj));
         this.setState({ message: '' });
@@ -134,7 +140,7 @@ class JoinOrderMain extends Component {
                             onKeyPress={this.catchEnterPress}
                         />
                         <InputGroupAddon addonType="append">
-                            <Button onClick={this.onSendMessageButtonClick}>
+                            <Button color="primary" onClick={this.onSendMessageButtonClick}>
                                 傳送訊息
                             </Button>
                         </InputGroupAddon>
