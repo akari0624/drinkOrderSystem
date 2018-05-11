@@ -2,7 +2,7 @@ import React from 'react';
 import { ListGroupItem, Button } from 'reactstrap';
 import PropTypes from 'prop-types';
 
-//import MealItemInEditing from './MealItemInEditing';
+import {getPartStringAndAddSuffix} from '../../util_func/util_func';
 
 const MealItem = props => {
     const {
@@ -20,9 +20,34 @@ const MealItem = props => {
         onDeleteClickCallback(itemIndex);
     };
 
+
+
+    const renderPriceArrToString = unitPriceArr => {
+        if (unitPriceArr.size === 0) {
+            throw new Error(
+                'meal unit price arr length is zero, that is not allow'
+            );
+        }
+        
+        let result;
+
+        if (unitPriceArr.length === 1 && !unitPriceArr[0].size) {
+            
+            result = unitPriceArr[0].price;
+            return result;
+        }
+        result = unitPriceArr.reduce((acc, curr) => {
+            acc += `${curr.size}:${curr.price} `;
+            return acc;
+        }, '');
+
+        return getPartStringAndAddSuffix(result,10,'...');
+
+    };
+
     return (
         <ListGroupItem className="justify-content-between">
-            {meal.mealName} {meal.unitPrice}元
+            {meal.mealName} {renderPriceArrToString(meal.unitPrice)}元
             <div className="twoButtonArea">
                 <Button
                     type="button"

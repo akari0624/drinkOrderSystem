@@ -39,9 +39,9 @@ const reorder = (list, startIndex, endIndex) => {
 class VendorAddMain extends Component {
     state = {
         addingMeals: [
-            { mealName: '綠茶', unitPrice: '25' },
-            { mealName: '烏龍茶', unitPrice: '30' },
-            { mealName: '紅茶', unitPrice: '35' }
+            { mealName: '綠茶', unitPrice:[{size:'S' ,price:'25'},{size:'M' ,price:'30'},{size:'L' ,price:'35'},{size:'XL' ,price:'40'}] },
+            { mealName: '烏龍茶', unitPrice: [{size:null ,price:'30'}] },
+            { mealName: '紅茶', unitPrice: [{size:null ,price:'35'}] }
         ],
         modal: false,
         editingMeal: {},
@@ -194,7 +194,7 @@ class VendorAddMain extends Component {
         }
     };
 
-    droppableChildrenFunction_that_GenerateDragableMealListWrapper = (currMeal) => (provided, snapshot) => (
+    droppableChildrenFunction_that_GenerateDragableMealListWrapper = (currMeals) => (provided, snapshot) => (
         <div
             ref={provided.innerRef}
             style={getListStyle(
@@ -202,7 +202,7 @@ class VendorAddMain extends Component {
             )}
         >
             <MealList
-                mealListData={currMeal}
+                mealListData={currMeals}
                 onDeleteClickCallback={
                     this.onDeleteClickCallback
                 }
