@@ -10,7 +10,7 @@ import {
     Button
 } from 'reactstrap';
 import MealAdd from '../component/MealAdd';
-import cloneDeep from 'lodash.clonedeep';
+import _cloneDeep from 'lodash.clonedeep';
 
 import { DragDropContext, Droppable} from 'react-beautiful-dnd';
 import PropTypes from 'prop-types';
@@ -44,37 +44,53 @@ class VendorAddMain extends Component {
             { mealName: '紅茶', unitPrice: [{size:null ,price:'35'}] }
         ],
         modal: false,
-        editingMeal: {},
+        editingMeal: {mealName:'',unitPrice:[]},
         editingItemIndex: null,
         fileUploadDropZoneModal: false,
         shouldAlertOpen: false
     };
 
     onEditingMealNameChange = newName => {
-        const copiedMeal = Object.assign({}, this.state.editingMeal);
+        const copiedMeal = _cloneDeep(this.state.editingMeal);
         copiedMeal.mealName = newName;
         this.setState({
             editingMeal: copiedMeal
         });
     };
 
-    onEditingMealUnitPriceChange = newPrice => {
-        const copiedMeal = Object.assign({}, this.state.editingMeal);
-        copiedMeal.unitPrice = newPrice;
+    onEditingMealUnitPriceChange_mealHasNoSizeDiff = newPrice => {
+        const copiedMeal = _cloneDeep(this.state.editingMeal);
+        copiedMeal.unitPrice[0].price = newPrice;
+        this.setState({
+            editingMeal: copiedMeal
+        });
+    };
+
+    onEditingMealUnitPriceChange_mealHasSizeDiff = (newPrice, index) => {
+        const copiedMeal = _cloneDeep(this.state.editingMeal);
+        copiedMeal.unitPrice[index].price = newPrice;
+        this.setState({
+            editingMeal: copiedMeal
+        });
+    };
+
+    onEditingMealSizeChange = (newSize, index) => {
+        const copiedMeal = _cloneDeep(this.state.editingMeal);
+        copiedMeal.unitPrice[index].size = newSize;
         this.setState({
             editingMeal: copiedMeal
         });
     };
 
     addMeals = mealObj => {
-        const copied = cloneDeep(this.state.addingMeals);
+        const copied = _cloneDeep(this.state.addingMeals);
         copied.push(mealObj);
         this.setState({ addingMeals: copied });
     };
 
     onDeleteClickCallback = index => {
         console.log('delete clicked!!');
-        const clonedMeals = cloneDeep(this.state.addingMeals);
+        const clonedMeals = _cloneDeep(this.state.addingMeals);
         clonedMeals.splice(index, 1);
         console.log(clonedMeals);
         this.setState({addingMeals:clonedMeals});
@@ -129,8 +145,8 @@ class VendorAddMain extends Component {
     };
 
     onEditingMealConfirmClick = () => {
-        const copiedMealArr = cloneDeep(this.state.addingMeals);
-        const copiedEditingMeal = cloneDeep(this.state.editingMeal);
+        const copiedMealArr = _cloneDeep(this.state.addingMeals);
+        const copiedEditingMeal = _cloneDeep(this.state.editingMeal);
         copiedMealArr[this.state.editingItemIndex] = copiedEditingMeal;
         this.setState({ addingMeals: copiedMealArr });
     };
@@ -224,7 +240,9 @@ class VendorAddMain extends Component {
                     editingMeal={this.state.editingMeal}
                     toggleMealEditingWindow={this.toggleMealEditingWindow}
                     onNameChange={this.onEditingMealNameChange}
-                    onUnitPriceChange={this.onEditingMealUnitPriceChange}
+                    onUnitPriceChange_noSizeDiff={this.onEditingMealUnitPriceChange_mealHasNoSizeDiff}
+                    onEditingMealUnitPriceChange_mealHasSizeDiff={this.onEditingMealUnitPriceChange_mealHasSizeDiff}
+                    onEditingMealSizeChange={this.onEditingMealSizeChange}
                     onEditingMealConfirmClick={this.onEditingMealConfirmClick}
                 />
 

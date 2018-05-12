@@ -6,9 +6,10 @@ import {
     InputGroup,
     ModalHeader,
     ModalBody,
-    ModalFooter
+    ModalFooter,
 } from 'reactstrap';
 import PropTypes from 'prop-types';
+import MealEditingItemInputArea from './MealEditingItemInputArea';
 
 export default class MealEditingWindow extends Component {
     toggle = () => {
@@ -22,7 +23,7 @@ export default class MealEditingWindow extends Component {
     };
 
     onUnitPriceChange = e => {
-        this.props.onUnitPriceChange(e.target.value);
+        this.props.onUnitPriceChange_noSizeDiff(e.target.value);
     };
 
     onEditConfirmClick = () => {
@@ -30,6 +31,37 @@ export default class MealEditingWindow extends Component {
 
         this.props.onEditingMealConfirmClick();
     };
+
+    renderOnePrice = unitPriceObj => (
+        <Input
+            value={unitPriceObj.price}
+            onChange={this.onUnitPriceChange}
+        />
+    );
+
+    renderMultiplePrice = unitPriceArr => (
+            
+        unitPriceArr.map( (p, i) => (
+            <MealEditingItemInputArea
+                key={i} 
+                tIndex={i}
+                size={p.size}
+                price={p.price}
+                onSizeChange={this.props.onEditingMealSizeChange}
+                onPriceChange={this.props.onEditingMealUnitPriceChange_mealHasSizeDiff}
+            />
+        ))
+        
+    );
+
+    renderOnePriceOrMultiplePrice = (unitPriceArr) => {
+
+        if(unitPriceArr.length === 1){
+            return  this.renderOnePrice(unitPriceArr[0]);
+        }
+
+        return this.renderMultiplePrice(unitPriceArr);
+    }
 
     render() {
         const { mealName, unitPrice } = this.props.editingMeal;
@@ -45,11 +77,10 @@ export default class MealEditingWindow extends Component {
                 <ModalBody>
                     <InputGroup>
                         <Input value={mealName} onChange={this.onNameChange} />
-                        <Input
-                            value={unitPrice}
-                            onChange={this.onUnitPriceChange}
-                        />
                     </InputGroup>
+                    
+                    {this.renderOnePriceOrMultiplePrice(unitPrice)}
+                   
                 </ModalBody>
                 <ModalFooter>
                     <Button color="primary" onClick={this.onEditConfirmClick}>
@@ -72,6 +103,8 @@ MealEditingWindow.propTypes = {
     editingMeal: PropTypes.object,
     toggleMealEditingWindow: PropTypes.func,
     onEditingMealConfirmClick: PropTypes.func,
-    onUnitPriceChange: PropTypes.func,
-    onNameChange: PropTypes.func
+    onUnitPriceChange_noSizeDiff: PropTypes.func,
+    onEditingMealUnitPriceChange_mealHasSizeDiff:PropTypes.func,
+    onEditingMealSizeChange:PropTypes.func,
+    onNameChange: PropTypes.func,
 };
