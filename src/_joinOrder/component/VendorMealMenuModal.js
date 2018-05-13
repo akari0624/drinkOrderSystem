@@ -6,13 +6,13 @@ import {
     ModalBody,
     ModalFooter,
     ListGroup,
-    ListGroupItem,
     Container
 } from 'reactstrap';
 import { PropTypes } from 'prop-types';
 
 import VendorImgDisplayer from '../../_makeOrder/components/VendorImgDisplayer';
 import EditingOrderWindow from '../container/EditingOrderWindow';
+import ListGroupItemWrapper from '../HOC/ListGroupItemWrapper';
 
 class VendorMealMenuModalClickAble extends Component {
     constructor(props) {
@@ -29,33 +29,40 @@ class VendorMealMenuModalClickAble extends Component {
 
 
         this.state = {
-            isEditingWindowOpen: false
+            isEditingWindowOpen: false,
+            currentEditingMealOrderData:{name:'',price:''}
         };
     }
 
-    onMealItemClick() {
+    onMealItemClick(mealData) {
         
-        this.toggleMealEditingWindow();
+        const reverseCondition = this.state.isEditingWindowOpen === true ? false : true;
+
+        this.setState({
+            isEditingWindowOpen: reverseCondition,
+            currentEditingMealOrderData:mealData
+        });
+       
     }
 
     renderMealInfo(mealData) {
         return mealData.map((m, i) => (
-            <ListGroupItem key={i} onClick={this.onMealItemClick}>
-                {m.name} {m.price}
-            </ListGroupItem>
+
+            <ListGroupItemWrapper key={i} data={m} onItemClick={this.onMealItemClick}/>
         ));
     }
 
-    closeMenu() {
+    closeMenu(){
         this.props.toggleMenu(this.props.vendorIndex);
     }
 
     toggleMealEditingWindow() {
 
         const reverseCondition = this.state.isEditingWindowOpen === true ? false : true;
+
         this.setState({
-            isEditingWindowOpen: reverseCondition
-        });
+            isEditingWindowOpen: reverseCondition});
+       
     }
 
     onVendorChoosed() {
@@ -77,7 +84,11 @@ class VendorMealMenuModalClickAble extends Component {
 
         return (
             <Container>
-                <EditingOrderWindow closeMealEditingWindow={this.toggleMealEditingWindow} isEditingWindowOpen={this.state.isEditingWindowOpen}/>
+                <EditingOrderWindow 
+                    closeMealEditingWindow={this.toggleMealEditingWindow} 
+                    isEditingWindowOpen={this.state.isEditingWindowOpen}
+                    data={this.state.currentEditingMealOrderData}
+                />
 
                 <Modal isOpen={this.props.isOpen} toggle={this.closeMenu}>
                     <ModalHeader toggle={this.closeMenu} />

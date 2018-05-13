@@ -9,7 +9,7 @@ export default (state = defaultData, action) => {
     switch (action.type) {
 
     case VENDOR_DATA_WHEN_MAKE_ORDER:{
-      //  let vendorData = cloneDeep(state);
+    //  let vendorData = cloneDeep(state);
         const vendorData = action.payload;
         return vendorData;
     }
