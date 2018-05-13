@@ -8,17 +8,34 @@ import {
     ListGroup,
     ListGroupItem
 } from 'reactstrap';
-import { PropTypes } from 'prop-types';
+import {PropTypes} from 'prop-types';
 
 import VendorImgDisplayer from './VendorImgDisplayer';
 
 const VendorMealMenuModal = props => {
-    const renderMealInfo = mealData =>
-        mealData.map((m, i) => (
-            <ListGroupItem key={i}>
-                {m.name}  {m.price}
-            </ListGroupItem>
-        ));
+
+    const renderPriceString = (arr) => {
+
+        if (arr.length > 0) {
+            if (arr.length > 1) {
+                let priceStr = arr.reduce((acc, currPriceObj) => {
+                    acc += `${currPriceObj.size}:${currPriceObj.price} `;
+                    return acc;
+                }, '');
+
+                return priceStr;
+            } else {
+                return `${arr[0].price} `;
+            }
+        }
+    };
+
+    const renderMealInfo = mealData => mealData.map((m, i) => (
+        <ListGroupItem key={i}>
+            {m.name}
+            {renderPriceString(m.unitPrice)}元
+        </ListGroupItem>
+    ));
 
     const closeMenu = () => {
         props.toggleMenu(props.vendorIndex);
@@ -32,24 +49,23 @@ const VendorMealMenuModal = props => {
 
     const isShowingChooseThisOneButton = (isShowChooseThisOneButton) => {
 
-        if(isShowChooseThisOneButton){
+        if (isShowChooseThisOneButton) {
             return (
                 <Button color="success" onClick={onVendorChoosed}>
                     選這間！
                 </Button>
             );
         }
-    }; 
+    };
 
     return (
         <Modal isOpen={props.isOpen} toggle={closeMenu}>
-            <ModalHeader toggle={closeMenu} />
+            <ModalHeader toggle={closeMenu}/>
             <ModalBody>
                 <ListGroup>{renderMealInfo(mealData)}</ListGroup>
             </ModalBody>
             <ModalFooter>
-                <VendorImgDisplayer imageSrcArr={vendorImgSrcArr} />
-                {isShowingChooseThisOneButton(props.isShowChooseThisOneButton)}
+                <VendorImgDisplayer imageSrcArr={vendorImgSrcArr}/> {isShowingChooseThisOneButton(props.isShowChooseThisOneButton)}
             </ModalFooter>
         </Modal>
     );
@@ -62,7 +78,7 @@ VendorMealMenuModal.propTypes = {
     onVendorChoosed: PropTypes.func,
     vendorIndex: PropTypes.number.isRequired,
     vendorImgSrcArr: PropTypes.array.isRequired,
-    isShowChooseThisOneButton:PropTypes.bool.isRequired
+    isShowChooseThisOneButton: PropTypes.bool.isRequired
 };
 
 export default VendorMealMenuModal;
