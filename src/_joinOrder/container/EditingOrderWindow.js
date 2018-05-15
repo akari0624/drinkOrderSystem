@@ -8,13 +8,9 @@ import {
     Form,
     FormGroup,
     Label,
-    Input,
-    UncontrolledDropdown,
-    DropdownToggle,
-    DropdownMenu,
-    DropdownItem
 } from 'reactstrap';
 import { PropTypes } from 'prop-types';
+import EditingOrderItem from './EditingOrderItem';
 
 class EditingOrderWindow extends Component {
     constructor(props) {
@@ -22,10 +18,7 @@ class EditingOrderWindow extends Component {
 
         this.onDropdownItemClick = this.onDropdownItemClick.bind(this);
         this.onThisEditingWindowClose = this.onThisEditingWindowClose.bind(this);
-        this.renderDropItemByHowManySizeThisMealHave = this.renderDropItemByHowManySizeThisMealHave.bind(this);
-        this.state = {
-            size_selected:'',
-        };
+     
     }
 
     onDropdownItemClick(e){
@@ -47,20 +40,9 @@ class EditingOrderWindow extends Component {
 
     }
 
-    handleIfMealHasNoSize_transString(unitPriceObj){
-
-        if(!unitPriceObj.size){
-            return `${unitPriceObj.price}元`;
-        }else{
-            return `${unitPriceObj.size}:${unitPriceObj.price}元`;
-        }
-    }
-
-    renderDropItemByHowManySizeThisMealHave(unitPriceArr){
-        if(unitPriceArr){
-            return    unitPriceArr.map((p, i) => <DropdownItem key={i} onClick={this.onDropdownItemClick}>{this.handleIfMealHasNoSize_transString(p)}</DropdownItem>);
-        }
-    } 
+ 
+    
+   
 
     render() {
         return (
@@ -74,12 +56,7 @@ class EditingOrderWindow extends Component {
                 <ModalBody>
                     <Form>
                         <FormGroup>
-                            <UncontrolledDropdown>
-                                <DropdownToggle caret>{this.state.size_selected === '' ? '請選擇尺寸/價格' : this.state.size_selected}</DropdownToggle>
-                                <DropdownMenu>
-                                    {this.renderDropItemByHowManySizeThisMealHave(this.props.data.unitPrice)}   
-                                </DropdownMenu>
-                            </UncontrolledDropdown>
+                            <EditingOrderItem unitPrice={this.props.data.unitPrice}/> 
                         </FormGroup>
                     </Form>
                 </ModalBody>
