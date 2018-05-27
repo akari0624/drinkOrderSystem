@@ -11,6 +11,7 @@ import {
 } from 'reactstrap';
 import { PropTypes } from 'prop-types';
 import EditingOrderItem from './EditingOrderItem';
+import MyAlert from '../../_utilComponent/genericAlert';
 
 class EditingOrderWindow extends Component {
     constructor(props) {
@@ -18,7 +19,14 @@ class EditingOrderWindow extends Component {
 
         this.onDropdownItemClick = this.onDropdownItemClick.bind(this);
         this.onThisEditingWindowClose = this.onThisEditingWindowClose.bind(this);
-     
+        this.showingAlert = this.showingAlert.bind(this);
+
+        this.state = {
+            isErrorAlertVisiable:false,
+            onEditConfirmErrorMsg:'',
+            alertColor:'danger',
+        };
+
     }
 
     onDropdownItemClick(e){
@@ -41,6 +49,22 @@ class EditingOrderWindow extends Component {
     }
 
  
+    showingAlert(message,color){
+
+        if(!color){
+            this.setState({
+                isErrorAlertVisiable:true,
+                onEditConfirmErrorMsg:message,
+            });
+        }else{
+            this.setState({
+                isErrorAlertVisiable:true,
+                onEditConfirmErrorMsg:message,
+                alertColor:color,
+            });
+
+        }
+    } 
     
    
 
@@ -50,13 +74,14 @@ class EditingOrderWindow extends Component {
                 isOpen={this.props.isEditingWindowOpen}
                 toggle={this.onThisEditingWindowClose}
             >
+                <MyAlert visiable={this.state.isErrorAlertVisiable} message={this.state.onEditConfirmErrorMsg} color={this.state.alertColor}/> 
                 <ModalHeader toggle={this.onThisEditingWindowClose}>
                     {this.props.data.name}
                 </ModalHeader>
                 <ModalBody>
                     <Form>
                         <FormGroup>
-                            <EditingOrderItem unitPrice={this.props.data.unitPrice}/> 
+                            <EditingOrderItem unitPrice={this.props.data.unitPrice} showingAlert={this.showingAlert}/> 
                         </FormGroup>
                     </Form>
                 </ModalBody>
