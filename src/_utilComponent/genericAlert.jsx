@@ -16,8 +16,11 @@ export default class GenericAlert extends Component {
 
     onDismiss() {
         this.setState({ visible: false });
-
-        this.props.closeAlertCB();
+        
+        if(this.props.closeAlertCB){
+            this.props.closeAlertCB();
+        
+        }
     }
 
     // lifeCycle
