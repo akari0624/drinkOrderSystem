@@ -69,6 +69,13 @@ class EditingOrderWindow extends Component {
    
 
     render() {
+
+        const {name:mealName, unitPrice} = this.props.data;
+        const propsForEditingOrderItem = {
+            mealName,
+            unitPrice,
+            showingAlert: this.showingAlert,
+        };
         return (
             <Modal
                 isOpen={this.props.isEditingWindowOpen}
@@ -76,12 +83,12 @@ class EditingOrderWindow extends Component {
             >
                 <MyAlert visiable={this.state.isErrorAlertVisiable} message={this.state.onEditConfirmErrorMsg} color={this.state.alertColor}/> 
                 <ModalHeader toggle={this.onThisEditingWindowClose}>
-                    {this.props.data.name}
+                    {mealName}
                 </ModalHeader>
                 <ModalBody>
                     <Form>
                         <FormGroup>
-                            <EditingOrderItem unitPrice={this.props.data.unitPrice} showingAlert={this.showingAlert}/> 
+                            <EditingOrderItem  {...propsForEditingOrderItem}/> 
                         </FormGroup>
                     </Form>
                 </ModalBody>

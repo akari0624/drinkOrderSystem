@@ -114,7 +114,7 @@ VendorMealMenuModalClickAble.propTypes = {
     onVendorChoosed: PropTypes.func,
     vendorIndex: PropTypes.number.isRequired,
     vendorImgSrcArr: PropTypes.array.isRequired,
-    isShowChooseThisOneButton: PropTypes.bool.isRequired
+    isShowChooseThisOneButton: PropTypes.bool.isRequired,
 };
 
 export default VendorMealMenuModalClickAble;

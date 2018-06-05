@@ -35,4 +35,6 @@ export const JOIN_ORDER_BASE_URL_RELATIVE = '/order/join';
 
 export const getOrderInfoWhenJoinOrder_URL = `${backEndServerBaseURL}/order/join/get_order_info`;
 
+export const addOrderMealToOrder_URL = `${backEndServerBaseURL}/order/join/add_order_meal_to_order`;
+
 export const join_order_web_socket_url = `${wsUrl}${wesocketPort}`;

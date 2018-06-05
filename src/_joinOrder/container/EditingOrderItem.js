@@ -10,7 +10,10 @@ import {
 } from 'reactstrap';
 import PropTypes from 'prop-types';
 import Styled from 'styled-components';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 
+import {makeOrder} from '../action';
 
 const MarginTopDiv = Styled.div`
    margin-top:20px;
@@ -52,7 +55,26 @@ class EditingOrderItem extends Component {
             this.props.showingAlert('杯數不填寫，或杯數為0的話，訂購無法成立','danger');
             return;
         }
+ 
+        const {mealName: ordered_mealName} = this.props;
+        const orderInfo = this.props.orderInfo;
+        const {cup_entered: quantity,  totalOfThisMealOfThisUser: subTotal} = this.state;
+        
+        const {price:order_mealUnitPrice, size:size_selected} = this.state.currSelectedSize_PriceObj;
 
+        const {_id: orderId, vendor_id: vendorId} = orderInfo;
+        
+        console.log('vendorId',vendorId);
+        const orderData = {
+            orderId,
+            ordered_mealName, 
+            vendorId,
+            order_mealUnitPrice,
+            size_selected,
+            quantity,
+            subTotal,
+        };
+        this.props.sendOrderdataToServer(orderData);
         this.props.showingAlert('訂購成功！','success');
        
     }
@@ -84,7 +106,7 @@ class EditingOrderItem extends Component {
     renderDropItemByHowManySizeThisMealHave(unitPriceArr) {
         if (unitPriceArr) {
             return unitPriceArr.map((p, i) => (
-                <DropdownItem key={i} data-index={i} onClick={this.onDropdownItemClick}>
+                <DropdownItem key={i} data-index={i}  onClick={this.onDropdownItemClick}>
                     {this.handleSeeIsMealHasSize_transString(p)}
                 </DropdownItem>
             ));
@@ -148,9 +170,31 @@ class EditingOrderItem extends Component {
 
 EditingOrderItem.propTypes = {
 
+    mealName: PropTypes.string,
     unitPrice: PropTypes.array,
     showingAlert: PropTypes.func,
+    orderInfo: PropTypes.object,
+    sendOrderdataToServer: PropTypes.func,
 
 };
 
-export default EditingOrderItem;
+
+function mapStateToProps(state){
+
+    console.log('map orderInfo',state.joinOrderData.joinOrderInfo.orderInfo);
+    return {
+        orderInfo:state.joinOrderData.joinOrderInfo.orderInfo,
+        
+    };
+}
+
+function mapDispatchToProps(dispatch){
+
+
+    return bindActionCreators(
+        {
+            sendOrderdataToServer: makeOrder,
+        },dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditingOrderItem);
