@@ -1,5 +1,9 @@
+const path = require('path');
+const HtmlWebPackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
+
 module.exports = {
-    entry: ['./src/index.js'],
+    entry: ['babel-polyfill', './src/index.js'],
     output: {
         path: __dirname,
         publicPath: '/',
@@ -19,8 +23,18 @@ module.exports = {
             }
         ]
     },
-
+    plugins: [
+        new HtmlWebPackPlugin({
+            template: path.resolve(__dirname, 'index.html'),
+            filename: './index.html'
+        }),
+        new webpack.HotModuleReplacementPlugin()
+    ],
     resolve: {
+        modules: [
+            path.resolve(__dirname, 'node_modules'),
+            'node_modules'
+        ],
         extensions: ['*', '.js', '.jsx']
     },
     devServer: {
