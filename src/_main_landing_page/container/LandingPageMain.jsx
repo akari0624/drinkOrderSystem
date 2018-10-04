@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Container, Alert } from 'reactstrap';
-
+import { Link } from 'react-router-dom';
 import {
     removeThoseFileArrAndObjectURLArr_but_also_returnObjectUrlArr_to_RevokeObjectURL,
     doRevokeObjectURL
@@ -58,6 +58,12 @@ class LandingPageMain extends Component {
             <Container>
                 {this.shouldShowGlobalAppMessage()}
                 <div>mainLanding Page</div>
+                <div>
+                    <Link to="/make_order">發起訂購</Link>
+                </div>
+                <div>
+                    <Link to="/vendor">新增店家</Link>
+                </div>
             </Container>
         );
     }
