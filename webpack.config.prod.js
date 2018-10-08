@@ -5,7 +5,7 @@ module.exports = {
     entry: ['babel-polyfill', './src/index.js'],
     output: {
         path: path.resolve(__dirname, 'dist'),
-        publicPath: '/drinkOrderSystem', // webApp name(if has) on host server
+        publicPath: '/drink', // webApp name(if has) on host server
         filename: '[name].[chunkhash].js',
         chunkFilename: '[name].[chunkhash].js'
     },
