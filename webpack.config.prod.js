@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
     entry: ['babel-polyfill', './src/index.js'],
@@ -39,7 +40,16 @@ module.exports = {
     optimization: {
         splitChunks: {
             chunks: 'all'
-        }
+        },
+        minimizer: [
+            new UglifyJSPlugin({
+                uglifyOptions: {
+                    compress: {
+                        drop_console: true,
+                    }
+                }
+            })
+        ]
     }
   
 };
