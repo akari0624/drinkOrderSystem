@@ -38,16 +38,15 @@ const reorder = (list, startIndex, endIndex) => {
 
 class VendorAddMain extends Component {
     state = {
-        addingMeals: [
-            { mealName: '綠茶', unitPrice:[{size:'S' ,price:'25'},{size:'M' ,price:'30'},{size:'L' ,price:'35'},{size:'XL' ,price:'40'}] },
-            { mealName: '烏龍茶', unitPrice: [{size:null ,price:'30'}] },
-            { mealName: '紅茶', unitPrice: [{size:null ,price:'35'}] }
-        ],
+        addingMeals: [],
         modal: false,
         editingMeal: {mealName:'',unitPrice:[]},
         editingItemIndex: null,
         fileUploadDropZoneModal: false,
-        shouldAlertOpen: false
+        shouldAlertOpen: false,
+        vendorName:'',
+        vendorAddr:'',
+        vendorTel:'',
     };
 
     onEditingMealNameChange = newName => {
@@ -159,10 +158,36 @@ class VendorAddMain extends Component {
 
     uploadDataToServer = () => {
         this.props.uploadDataToServer(
+            {
+                vendorName:this.state.vendorName,
+                vendorAddr:this.state.vendorAddr,
+                vendorTel:this.state.vendorTel,
+            },
             this.state.addingMeals,
             this.props.fileArr
         );
     };
+
+    onVendorNameChange = (e) => {
+
+        this.setState({vendorName:e.target.value});
+
+    }
+
+    onVendorAddrChange = (e) => {
+
+        this.setState({
+            vendorAddr:e.target.value
+        });
+    }
+
+    onVendorTelChange = (e) => {
+
+        this.setState({
+            vendorTel:e.terget.value
+        });
+    }
+
 
     componentWillReceiveProps(nextProps) {
         // 這邊可以做這樣的事，但是你用 connect 的話  就算 reducer裡 return default的state , 這個if每次一定都會是 true
@@ -253,13 +278,13 @@ class VendorAddMain extends Component {
 
                 <InputGroup>
                     <InputGroupAddon addonType="prepend">店名</InputGroupAddon>
-                    <Input placeholder="輸入店名" />
+                    <Input placeholder="輸入店名" onChange={this.onVendorNameChange}/>
 
                     <InputGroupAddon addonType="prepend">地址</InputGroupAddon>
-                    <Input placeholder="輸入地址" />
+                    <Input placeholder="輸入地址" onChange={this.onVendorAddrChange} />
 
                     <InputGroupAddon addonType="prepend">電話</InputGroupAddon>
-                    <Input placeholder="輸入電話" />
+                    <Input placeholder="輸入電話"  onChange={this.onVendorTelChange} />
                 </InputGroup>
 
                 <MealAdd

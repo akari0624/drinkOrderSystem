@@ -48,13 +48,14 @@ export const doRevokeObjectURL = urlArr =>{
   }
 
 
-  export const uploadDataToServer = (mealArr, img_fileArr) =>{
+  export const uploadDataToServer = (vendorDataObj, mealArr, img_fileArr) =>{
 
     console.log('ajax url',UPLOAD_SHOP_INIT_MEAL_LIST_URL);
 console.log(mealArr);
 
   const formDataObj = new FormData();
-
+  
+  formDataObj.append('vendorData', JSON.stringify(vendorDataObj));
   formDataObj.append('mealArr',JSON.stringify(mealArr));
 
   for(let i=0;i<img_fileArr.length;i+=1) {
