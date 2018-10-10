@@ -5,8 +5,13 @@ import { Container, Alert } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import {
     removeThoseFileArrAndObjectURLArr_but_also_returnObjectUrlArr_to_RevokeObjectURL,
-    doRevokeObjectURL
+    doRevokeObjectURL,
 } from '../../_vendor/action';
+
+import { 
+    removeGlobalInsertCompleteMessageOnCloseInsertResultAlert,
+    removeGlobalInsertCompleteMessageWhenUserExitMainLandingPage
+} from '../actions';
 
 class LandingPageMain extends Component {
     constructor(props) {
@@ -25,6 +30,7 @@ class LandingPageMain extends Component {
 
     closeAlertCB = () => {
         this.setState({ shouldAlertOpen: false });
+        this.props.removeGlobalInsertCompleteMessageOnCloseInsertResultAlert();
     };
 
     componentWillMount() {
@@ -82,6 +88,11 @@ class LandingPageMain extends Component {
             }
         }
     }
+
+    componentWillUnmount() {
+        this.props.removeGlobalInsertCompleteMessageWhenUserExitMainLandingPage();  
+    }
+
 }
 
 function mapStateToProps(state) {
@@ -95,7 +106,9 @@ function mapDispatchToProps(dispatch) {
     return bindActionCreators(
         {
             removeThoseFileArrAndObjectURLArr_but_also_returnObjectUrlArr_to_RevokeObjectURL,
-            doRevokeObjectURL
+            doRevokeObjectURL,
+            removeGlobalInsertCompleteMessageOnCloseInsertResultAlert,
+            removeGlobalInsertCompleteMessageWhenUserExitMainLandingPage,
         },
         dispatch
     );
