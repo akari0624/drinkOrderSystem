@@ -21,6 +21,8 @@ import GenericAlert from '../../_utilComponent/genericAlert';
 
 import { uploadDataToServer } from '../action/index';
 
+import validateDataBeforeSendToServer from './viewModal';
+
 const getListStyle = isDraggingOver => ({
     background: isDraggingOver ? 'lightblue' : 'lightgrey',
     padding: 8,
@@ -157,11 +159,34 @@ class VendorAddMain extends Component {
     };
 
     uploadDataToServer = () => {
+
+        const vendorName = this.state.vendorName;
+        const vendorAddr = this.state.vendorAddr;
+        const vendorTel = this.state.vendorTel;
+        const addingMeals = this.state.addingMeals;
+
+        const validateResultMsg = validateDataBeforeSendToServer({
+            vendorName,
+            vendorAddr,
+            vendorTel,
+            addingMeals,
+        });
+     
+        if(validateResultMsg !== ''){
+
+            this.setState({
+                shouldAlertOpen: true,
+                submitErrorMsg: validateResultMsg,
+            });
+
+            return;
+        }
+
         this.props.uploadDataToServer(
             {
-                vendorName:this.state.vendorName,
-                vendorAddr:this.state.vendorAddr,
-                vendorTel:this.state.vendorTel,
+                vendorName,
+                vendorAddr,
+                vendorTel,
             },
             this.state.addingMeals,
             this.props.fileArr
@@ -255,11 +280,27 @@ class VendorAddMain extends Component {
         </div>
     );
 
+    checkIsOKToSubmit = () => {
+
+        if(this.state.shouldAlertOpen && this.state.submitErrorMsg){
+            return (
+                <GenericAlert
+                    visible={this.state.shouldAlertOpen}
+                    color="danger"
+                    message={this.state.submitErrorMsg}
+                    closeAlertCB={this.closeAlertCB}
+                />
+            );
+
+        }
+
+    }
+
     render() {
         return (
             <Container>
                 {this.checkMealListInsertResult()}
-
+                {this.checkIsOKToSubmit()}
                 <MealEditingWindow
                     modal={this.state.modal}
                     editingMeal={this.state.editingMeal}
