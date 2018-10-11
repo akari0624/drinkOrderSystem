@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { connect }  from 'react-redux';
 import {
     Modal,
     ModalHeader,
@@ -13,6 +14,7 @@ import { PropTypes } from 'prop-types';
 import EditingOrderItem from './EditingOrderItem';
 import MyAlert from '../../_utilComponent/genericAlert';
 
+
 class EditingOrderWindow extends Component {
     constructor(props) {
         super(props);
@@ -22,7 +24,7 @@ class EditingOrderWindow extends Component {
         this.showingAlert = this.showingAlert.bind(this);
 
         this.state = {
-            isErrorAlertVisiable:false,
+            isErrorAlertVisible:false,
             onEditConfirmErrorMsg:'',
             alertColor:'danger',
         };
@@ -53,12 +55,12 @@ class EditingOrderWindow extends Component {
 
         if(!color){
             this.setState({
-                isErrorAlertVisiable:true,
+                isErrorAlertVisible:true,
                 onEditConfirmErrorMsg:message,
             });
         }else{
             this.setState({
-                isErrorAlertVisiable:true,
+                isErrorAlertVisible:true,
                 onEditConfirmErrorMsg:message,
                 alertColor:color,
             });
@@ -66,7 +68,28 @@ class EditingOrderWindow extends Component {
         }
     } 
     
-   
+    //@LifeCycle   this static method will return a new state
+    static getDerivedStateFromProps(nextProps, prevState) {
+        const errorMsgAfterAddOrder = nextProps.addOrderServerResponseInfo.errorMsg;
+        const afterAddOrderOrderInfo = nextProps.addOrderServerResponseInfo.orderInfo;
+
+        if( errorMsgAfterAddOrder !== '' && afterAddOrderOrderInfo){
+            return{
+                isErrorAlertVisible:true,
+                onEditConfirmErrorMsg: errorMsgAfterAddOrder,
+                alertColor:'danger',
+            };
+        }else if(errorMsgAfterAddOrder === '' && afterAddOrderOrderInfo){
+            return{
+                isErrorAlertVisible:true,
+                onEditConfirmErrorMsg: `新增訂購${afterAddOrderOrderInfo.ordered_mealName}-${afterAddOrderOrderInfo.quantity} 成功`,
+                alertColor:'success',
+            };
+
+        }
+
+        return null;
+    }
 
     render() {
 
@@ -76,12 +99,13 @@ class EditingOrderWindow extends Component {
             unitPrice,
             showingAlert: this.showingAlert,
         };
+
         return (
             <Modal
                 isOpen={this.props.isEditingWindowOpen}
                 toggle={this.onThisEditingWindowClose}
             >
-                <MyAlert visiable={this.state.isErrorAlertVisiable} message={this.state.onEditConfirmErrorMsg} color={this.state.alertColor}/> 
+                <MyAlert visible={this.state.isErrorAlertVisible} message={this.state.onEditConfirmErrorMsg} color={this.state.alertColor}/> 
                 <ModalHeader toggle={this.onThisEditingWindowClose}>
                     {mealName}
                 </ModalHeader>
@@ -104,4 +128,15 @@ EditingOrderWindow.propTypes = {
     closeMealEditingWindow: PropTypes.func
 };
 
-export default EditingOrderWindow;
+
+function mapStateToProps({joinOrder_orderIMake}){
+
+
+    return {
+        addOrderServerResponseInfo:joinOrder_orderIMake,
+    };
+
+}
+
+
+export default connect(mapStateToProps, null)(EditingOrderWindow);

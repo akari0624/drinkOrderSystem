@@ -17,6 +17,7 @@ import { getOrderInfoBy_parameterInUrl_andGetvVendorInfoTogether } from '../acti
 import { join_order_web_socket_url } from '../../static/url';
 import VendorCard from '../../_makeOrder/components/VendorCard';
 import VendorMealMenuModalClickAble from '../component/VendorMealMenuModal';
+import OrderIMake_ListArea from '../component/Order_I_Make_ListArea';
 
 const FixedHeightAndScrollableDiv = Styled.div`
 overflow-y:auto;
@@ -169,6 +170,8 @@ class JoinOrderMain extends Component {
                         toggleMenu={this.toggleMenuModal}
                         indexIntheVendorArray={0}
                     />
+
+                    <OrderIMake_ListArea orderIMakeObj={this.props.joinOrder_orderIMake}/>
                 </Container>
             );
         }
@@ -228,9 +231,9 @@ class JoinOrderMain extends Component {
     }
 }
 
-function mapStateToProps({ joinOrderData }) {
+function mapStateToProps({ joinOrderData, joinOrder_orderIMake }) {
     return {
-        joinOrderData
+        joinOrderData, joinOrder_orderIMake
     };
 }
 
@@ -246,7 +249,9 @@ function mapDispatchToProps(dispatch) {
 JoinOrderMain.propTypes = {
     match: PropTypes.object.isRequired,
     getOrderInitData: PropTypes.func,
-    joinOrderData: PropTypes.object
+    joinOrderData: PropTypes.object,
+    joinOrder_orderIMake: PropTypes.object,
+    
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(JoinOrderMain);

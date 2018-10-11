@@ -44,7 +44,7 @@ class EditingOrderItem extends Component {
         };
     }
 
-    handleOnThisMealOrderConfirmClick(e){
+    handleOnThisMealOrderConfirmClick(evt){
 
         if(!this.state.size_selected){
             this.props.showingAlert('請務必選取尺寸','danger');
@@ -75,8 +75,6 @@ class EditingOrderItem extends Component {
             subTotal,
         };
         this.props.sendOrderdataToServer(orderData);
-        this.props.showingAlert('訂購成功！','success');
-       
     }
 
     handleSeeIsMealHasSize_transString(unitPriceObj) {
@@ -156,7 +154,7 @@ class EditingOrderItem extends Component {
                             {this.renderDropItemByHowManySizeThisMealHave(this.props.unitPrice)}
                         </DropdownMenu>
                     </UncontrolledDropdown>
-                    < Input placeholder="杯數" onChange={this.onCupInput} value={this.state.cup_entered === 0 ? '':this.state.cup_entered}/>
+                    < Input placeholder="數量" onChange={this.onCupInput} value={this.state.cup_entered === 0 ? '':this.state.cup_entered}/>
                 </InputGroup>
                 <span>{this.state.totalOfThisMealOfThisUser}</span>
                 <MarginTopDiv>

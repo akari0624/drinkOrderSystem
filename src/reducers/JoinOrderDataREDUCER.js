@@ -1,5 +1,6 @@
 import {JOIN_ORDER_FETCH_INIT_DATA_RESULT} from '../_joinOrder/type';
 
+
 const defaultJoinOrderInfo = {
 
     orderInfo: {
@@ -26,6 +27,7 @@ export default(state = {
     switch (action.type) {
     case JOIN_ORDER_FETCH_INIT_DATA_RESULT:
         return action.payload;
+
 
     default:
         return state;
