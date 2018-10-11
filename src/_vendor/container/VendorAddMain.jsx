@@ -209,7 +209,7 @@ class VendorAddMain extends Component {
     onVendorTelChange = (e) => {
 
         this.setState({
-            vendorTel:e.terget.value
+            vendorTel:e.target.value
         });
     }
 
