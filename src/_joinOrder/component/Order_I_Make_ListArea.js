@@ -1,30 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { stringify } from 'querystring';
 
-const renderErrorMessageAlert = errorMsg => {
 
-    alert(errorMsg);
-}
 
-const renderOrderIMakeList = ({errorMsg, orderInfo}) => {
+const renderOrderIMakeList = currMyOrderArr => {
 
-    if (errorMsg) {
-        renderErrorMessageAlert(errorMsg);
-    }else{
-        return JSON.stringify(orderInfo);
-    }
+    
+        
+    return currMyOrderArr.map((o, i) => (
+        <div key={o.orderId+i}> 
+            { `${o.ordered_mealName}  數量:${o.quantity} 小計${o.subTotal}元`}
+        </div>
+    ));
+    
 
 };
 
-const Order_I_Make_ListArea = ({orderIMakeObj}) => {
+const Order_I_Make_ListArea = ({currMyOrderArr}) => {
     return (
         <div>
             <h3>
                 我的訂購
             </h3>
             <div>
-                {renderOrderIMakeList(orderIMakeObj)}
+                {renderOrderIMakeList(currMyOrderArr)}
             </div>
         </div>
 
@@ -33,7 +32,7 @@ const Order_I_Make_ListArea = ({orderIMakeObj}) => {
 
 Order_I_Make_ListArea.protoTypes = {
 
-    orderIMakeObj: PropTypes.object
+    currMyOrderArr: PropTypes.array.isRequired,
 };
 
 export default Order_I_Make_ListArea;
