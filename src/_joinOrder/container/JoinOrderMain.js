@@ -19,6 +19,7 @@ import VendorCard from '../../_makeOrder/components/VendorCard';
 import VendorMealMenuModalClickAble from '../component/VendorMealMenuModal';
 import OrderIMake_ListArea from '../component/Order_I_Make_ListArea';
 
+
 const FixedHeightAndScrollableDiv = Styled.div`
 overflow-y:auto;
 max-height:300px;
@@ -37,7 +38,7 @@ class JoinOrderMain extends Component {
         this.state = {
             message: '',
             chatRoomMessage: [],   // [{senderId:String, msg:String},{},{}.....]
-            isVendorDetailModalOpen: false
+            isVendorDetailModalOpen: false,
         };
 
         this.conn = null;
@@ -56,6 +57,8 @@ class JoinOrderMain extends Component {
         this.onWebSocketMessage = this.onWebSocketMessage.bind(this);
 
         this.toggleMenuModal = this.toggleMenuModal.bind(this);
+
+        this.brocastAddOrderSuccessMessage = this.brocastAddOrderSuccessMessage.bind(this);
     }
 
     get_orderId_from_url_params() {
@@ -112,6 +115,8 @@ class JoinOrderMain extends Component {
             isVendorDetailModalOpen: reverseCondirtion
         });
     }
+
+ 
 
     render() {
         const data = this.props.joinOrderData;
@@ -171,14 +176,47 @@ class JoinOrderMain extends Component {
                         indexIntheVendorArray={0}
                     />
 
-                    <OrderIMake_ListArea orderIMakeObj={this.props.joinOrder_orderIMake}/>
+                    <OrderIMake_ListArea currMyOrderArr={this.props.joinOrder_orderIMake.orderInfo}/>
                 </Container>
             );
         }
     }
 
+
+    brocastAddOrderSuccessMessage(lastAddedSuccessOrder){
+
+
+        const msgObj = {
+            type: 'sending-message-order-added',
+            orderId: this.props.match.params.orderId,
+            clientId:this.wsClientId,
+            message: lastAddedSuccessOrder
+        };
+        this.conn.send(JSON.stringify(msgObj));
+
+    }
+
+
+    componentDidUpdate(prevProps){
+
+
+
+        const lastAddedSuccessMeal = this.props.joinOrder_orderIMake.lastAddedOrder;
+
+        if(lastAddedSuccessMeal !== prevProps.joinOrder_orderIMake.lastAddedOrder){
+
+            if(lastAddedSuccessMeal){
+    
+                
+                this.brocastAddOrderSuccessMessage(lastAddedSuccessMeal);   
+            }
+        
+        }
+
+    }
+
     whenWebSocketInitConnect() {
-        console.log('ws connection establish');
+        console.log('ws connection established');
 
         const orderId = this.props.match.params.orderId;
         const message = { type: 'isRoomExist', orderId: orderId };
