@@ -20,14 +20,30 @@ const VendorCard = props => {
         props.toggleMenu(props.indexIntheVendorArray);
     };
 
+
+    const renderFirstVendorImg = (imgLink) => {
+
+        if(imgLink){
+            return (
+                <CardImg
+                    top={true}
+                    width="100%"
+                    alt={props.alt}
+                    src={`${vendorImagePathOnNodeServer}/${imgLink}`}
+                />
+
+            );
+        }
+
+        return(
+            <h3>暫無圖片</h3>
+        );
+
+    };
+
     return (
         <Card>
-            <CardImg
-                top={true}
-                width="100%"
-                alt={props.alt}
-                src={`${vendorImagePathOnNodeServer}/${props.imgSrcArr[0]}`}
-            />
+            {renderFirstVendorImg(props.imgSrcArr[0])}
             <CardBody>
                 <CardTitle>{props.name}</CardTitle>
                 <CardSubtitle>{props.subtitle}</CardSubtitle>
