@@ -70,8 +70,8 @@ class EditingOrderWindow extends Component {
     
     //@LifeCycle   this static method will return a new state
     static getDerivedStateFromProps(nextProps, prevState) {
-        const errorMsgAfterAddOrder = nextProps.addOrderServerResponseInfo.errorMsg;
-        const afterAddOrderOrderInfo = nextProps.addOrderServerResponseInfo.orderInfo;
+        const errorMsgAfterAddOrder = nextProps.orderAddedServerResponseErrorMsg;
+        const afterAddOrderOrderInfo = nextProps.lastAddedSuccessfulyOrder;
 
         if( errorMsgAfterAddOrder !== '' && afterAddOrderOrderInfo){
             return{
@@ -125,7 +125,9 @@ class EditingOrderWindow extends Component {
 EditingOrderWindow.propTypes = {
     data: PropTypes.object,
     isEditingWindowOpen: PropTypes.bool,
-    closeMealEditingWindow: PropTypes.func
+    closeMealEditingWindow: PropTypes.func,
+    orderAddedServerResponseErrorMsg: PropTypes.string,
+    lastAddedSuccessfulyOrder: PropTypes.object,
 };
 
 
@@ -133,7 +135,8 @@ function mapStateToProps({joinOrder_orderIMake}){
 
 
     return {
-        addOrderServerResponseInfo:joinOrder_orderIMake,
+        orderAddedServerResponseErrorMsg: joinOrder_orderIMake.errorMsg,
+        lastAddedSuccessfulyOrder:joinOrder_orderIMake.lastAddedOrder,
     };
 
 }
