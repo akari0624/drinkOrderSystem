@@ -24,10 +24,14 @@ export const makeOrder = makeOrderParamObj => {
         const promise = axios.post(`${addOrderMealToOrder_URL}`, {orderInfo: makeOrderParamObj});
 
         promise
-            .then(d => dispatch({type: JOIN_ORDER_MAKE_ORDER_RESULT, payload: {
-                errorMsg: d.data.errorMsg,
-                orderInfo:makeOrderParamObj,
-            }}))
+            .then(d => {
+                makeOrderParamObj.savedOrderMealId = d.data.savedOrderMealId;
+                dispatch({type: JOIN_ORDER_MAKE_ORDER_RESULT, payload: {
+                    errorMsg: d.data.errorMsg,
+                    orderInfo:makeOrderParamObj,
+                }});
+            }
+            )
             .catch(err => dispatch({
                 type: JOIN_ORDER_MAKE_ORDER_RESULT,
                 payload: {
