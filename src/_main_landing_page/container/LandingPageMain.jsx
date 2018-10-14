@@ -13,6 +13,9 @@ import {
     removeGlobalInsertCompleteMessageWhenUserExitMainLandingPage
 } from '../actions';
 
+import { grabFromCookie, deleteFromCookie } from '../../util_func/util_func';
+import { JWT_KeyInCookie, isLoginLocalStorageKey } from '../../conf/keys';
+
 class LandingPageMain extends Component {
     constructor(props) {
         super(props);
@@ -77,6 +80,16 @@ class LandingPageMain extends Component {
     componentDidMount() {
         console.log('componentDidMount...');
         this.props.removeThoseFileArrAndObjectURLArr_but_also_returnObjectUrlArr_to_RevokeObjectURL();
+
+        const authedJWT = grabFromCookie(JWT_KeyInCookie);
+
+        if(authedJWT){
+
+            window.localStorage.setItem(isLoginLocalStorageKey, authedJWT);
+            
+            /* 取到之後 就可以把cookie裡的刪掉了 */
+            deleteFromCookie(JWT_KeyInCookie);
+        }
     }
 
     componentWillReceiveProps(nextProps) {
