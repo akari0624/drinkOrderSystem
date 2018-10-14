@@ -11,12 +11,16 @@ import {
     ListGroupItem
 } from 'reactstrap';
 import Styled from 'styled-components';
+import _CloneDeep from 'lodash/cloneDeep';
 
 import {getOrderInfoBy_parameterInUrl_andGetvVendorInfoTogether} from '../action';
 import {join_order_web_socket_url} from '../../static/url';
 import VendorCard from '../../_makeOrder/components/VendorCard';
 import VendorMealMenuModalClickAble from '../component/VendorMealMenuModal';
 import OrderIMake_ListArea from '../component/Order_I_Make_ListArea';
+import OthersOrder_ListArea from '../component/Others_order_ListArea';
+
+import { generateCorrespondingOrderInfoChatMessage, examineIsMyOrder } from '../view_model/wsLogic';
 
 const FlexContainer = Styled.main `
   width:100vw;
@@ -73,7 +77,8 @@ class JoinOrderMain extends Component {
         this.state = {
             message: '',
             chatRoomMessage: [], // [{senderId:String, msg:String},{},{}.....]
-            isVendorDetailModalOpen: false
+            isVendorDetailModalOpen: false,
+            othersOrder:[],
         };
 
         this.conn = null;
@@ -228,6 +233,7 @@ class JoinOrderMain extends Component {
                             toggleMenu={this.toggleMenuModal}
                             indexIntheVendorArray={0}/>
 
+                        <OthersOrder_ListArea othersOrder={this.state.othersOrder}/>
                         <OrderIMake_ListArea
                             currMyOrderArr={this.props.joinOrder_orderIMake.orderInfo}/>
 
@@ -287,7 +293,7 @@ class JoinOrderMain extends Component {
 
             this.wsClientId = data.msg;
 
-        } else if (data.type === 'braodcastMessage') {
+        } else if (data.type === 'braodcastChatMessage') {
             const newMessageArr = this
                 .state
                 .chatRoomMessage
@@ -299,8 +305,37 @@ class JoinOrderMain extends Component {
             };
 
             newMessageArr.push(msgData);
+
             this.setState({chatRoomMessage: newMessageArr});
-        }
+        } else if (data.type === 'braodcastOrderInfoMessage') {
+
+
+            const orderChatMsgData = {
+                senderId: data.senderId,
+                msg: generateCorrespondingOrderInfoChatMessage(data, this.wsClientId),
+            };
+
+            if( !examineIsMyOrder(data.senderId, this.wsClientId)){
+                
+               
+
+                this.setState(prevState => {
+
+                    const othersOrderCopied = _CloneDeep(prevState.othersOrder);
+                    othersOrderCopied.push(data.msg);
+
+                    return {othersOrder: othersOrderCopied};
+                });
+            }
+
+            
+            this.setState(prevState => {
+                return {
+                    chatRoomMessage: [...prevState.chatRoomMessage, orderChatMsgData]
+                };
+            });
+
+        } 
     }
 
     componentDidMount() {
