@@ -17,6 +17,7 @@ const webAppName = '';
 
 const frontWebAppOrSubDirectoryBaseName = '';
 
+
 export const reactAppAddr = `http://localhost:9999/${frontWebAppOrSubDirectoryBaseName}`;
 
 
@@ -42,3 +43,5 @@ export const getOrderInfoWhenJoinOrder_URL = `${backEndServerBaseURL}/order/join
 export const addOrderMealToOrder_URL = `${backEndServerBaseURL}/order/join/add_order_meal_to_order`;
 
 export const join_order_web_socket_url = `${wsUrl}${wesocketPort}`;
+
+export const fbSignUpOrLogInBackendRoute = `${backEndServerBaseURL}/auth/facebook`;
