@@ -25,52 +25,31 @@ const theme = {
 
 const createStoreWithMiddleware = applyMiddleware(ActionLoggerMiddleware, reduxThunk)(createStore);
 
+let appStore;
+
 if (process.env.NODE_ENV === 'production') {
-
-    const appStore = createStoreWithMiddleware(reducers);
-
-    ReactDOM.render(
-        <Provider store={appStore}>
-            <ThemeProvider theme={theme}>
-                <BrowserRouter basename={`/${FrontWebAppOrSubDirectoryBaseName}`}>
-    
-                    <Switch>
-                        <Route path="/vendor" component={VendorMain}/>
-                        <Route path="/make_order" component={MakeOrder}/>
-                        <Route path="/make_order_confirming/:index" component={MakingOrderConfirming}/>
-                        <Route
-                            path="/making_order_result/"
-                            component={Making_Order_Result_Report_Page}/>
-                        <Route path="/order/join/:orderId" component={JoinOrderMain}/>
-                        <Route path="/" component={MainLandingPage}/>
-                    </Switch>
-    
-                </BrowserRouter>
-            </ThemeProvider>
-        </Provider>, document.querySelector('.container'));
-
+    appStore = createStoreWithMiddleware(reducers);  
 } else {
-
-    const appStore = createStoreWithMiddleware(reducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
-
-    ReactDOM.render(
-        <Provider store={appStore}>
-            <ThemeProvider theme={theme}>
-                <BrowserRouter>
-    
-                    <Switch>
-                        <Route path="/vendor" component={VendorMain}/>
-                        <Route path="/make_order" component={MakeOrder}/>
-                        <Route path="/make_order_confirming/:index" component={MakingOrderConfirming}/>
-                        <Route
-                            path="/making_order_result/"
-                            component={Making_Order_Result_Report_Page}/>
-                        <Route path="/order/join/:orderId" component={JoinOrderMain}/>
-                        <Route path="/" component={MainLandingPage}/>
-                    </Switch>
-    
-                </BrowserRouter>
-            </ThemeProvider>
-        </Provider>, document.querySelector('.container'));
-
+    appStore = createStoreWithMiddleware(reducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 }
+
+
+ReactDOM.render(
+    <Provider store={appStore}>
+        <ThemeProvider theme={theme}>
+            <BrowserRouter basename={`/${FrontWebAppOrSubDirectoryBaseName}`}>
+
+                <Switch>
+                    <Route path="/vendor" component={VendorMain}/>
+                    <Route path="/make_order" component={MakeOrder}/>
+                    <Route path="/make_order_confirming/:index" component={MakingOrderConfirming}/>
+                    <Route
+                        path="/making_order_result/"
+                        component={Making_Order_Result_Report_Page}/>
+                    <Route path="/order/join/:orderId" component={JoinOrderMain}/>
+                    <Route path="/" component={MainLandingPage}/>
+                </Switch>
+
+            </BrowserRouter>
+        </ThemeProvider>
+    </Provider>, document.querySelector('.container'));
