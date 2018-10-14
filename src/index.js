@@ -14,6 +14,9 @@ import MakeOrder from './_makeOrder/container/MakeOrderMain';
 import MakingOrderConfirming from './_makeOrder/container/MakingOrderConfirming';
 import Making_Order_Result_Report_Page from './_makeOrder/container/Making_Order_Result_Report_Page';
 import JoinOrderMain from './_joinOrder/container/JoinOrderMain';
+import FBSignUpPage from './_require_auth/fbSignUp';
+import RequireAuthHoc from './_require_auth/HOC';
+
 import {FrontWebAppOrSubDirectoryBaseName} from './static/url';
 
 const LOCAL_STORAGE_KEY = 'customerServiceList';
@@ -26,10 +29,12 @@ const theme = {
 const createStoreWithMiddleware = applyMiddleware(ActionLoggerMiddleware, reduxThunk)(createStore);
 
 let appStore;
-
+let routerBaseName ;
 if (process.env.NODE_ENV === 'production') {
+    routerBaseName = `/${FrontWebAppOrSubDirectoryBaseName}`;
     appStore = createStoreWithMiddleware(reducers);  
 } else {
+    routerBaseName = '';
     appStore = createStoreWithMiddleware(reducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 }
 
@@ -37,16 +42,17 @@ if (process.env.NODE_ENV === 'production') {
 ReactDOM.render(
     <Provider store={appStore}>
         <ThemeProvider theme={theme}>
-            <BrowserRouter basename={`/${FrontWebAppOrSubDirectoryBaseName}`}>
+            <BrowserRouter basename={routerBaseName}>
 
                 <Switch>
-                    <Route path="/vendor" component={VendorMain}/>
+                    <Route path="/vendor" component={RequireAuthHoc(VendorMain)}/>
                     <Route path="/make_order" component={MakeOrder}/>
                     <Route path="/make_order_confirming/:index" component={MakingOrderConfirming}/>
                     <Route
                         path="/making_order_result/"
                         component={Making_Order_Result_Report_Page}/>
                     <Route path="/order/join/:orderId" component={JoinOrderMain}/>
+                    <Route path="/fb_sign_up" component={FBSignUpPage} />
                     <Route path="/" component={MainLandingPage}/>
                 </Switch>
 
