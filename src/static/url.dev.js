@@ -18,7 +18,7 @@ const webAppName = '';
 const frontWebAppOrSubDirectoryBaseName = '';
 
 
-export const reactAppAddr = `http://localhost:9999/${frontWebAppOrSubDirectoryBaseName}`;
+export const reactAppAddr = `http://localhost:9999${frontWebAppOrSubDirectoryBaseName}`;
 
 
 export const backEndServerBaseURL = `${serverIp}${serverPort}${webAppName}`;
