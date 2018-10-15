@@ -73,7 +73,8 @@ class EditingOrderWindow extends Component {
         const errorMsgAfterAddOrder = nextProps.orderAddedServerResponseErrorMsg;
         const afterAddOrderOrderInfo = nextProps.lastAddedSuccessfulyOrder;
 
-        if( errorMsgAfterAddOrder !== '' && afterAddOrderOrderInfo){
+        if( errorMsgAfterAddOrder !== ''){
+
             return{
                 isErrorAlertVisible:true,
                 onEditConfirmErrorMsg: errorMsgAfterAddOrder,
