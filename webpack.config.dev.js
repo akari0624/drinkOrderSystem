@@ -3,7 +3,9 @@ const HtmlWebPackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 
 module.exports = {
-    entry: ['babel-polyfill', './src/index.js'],
+    entry: [
+        'babel-polyfill', './src/index.js'
+    ],
     output: {
         path: __dirname,
         publicPath: '/',
@@ -16,10 +18,22 @@ module.exports = {
                 use: 'babel-loader',
                 test: /\.(js|jsx)$/,
                 exclude: /node_modules/
-            },
-            {
-                use: ['style-loader', 'css-loader'],
+            }, {
+                use: [
+                    'style-loader', 'css-loader'
+                ],
                 test: /\.css$/
+            }, {
+                test: /\.(png|jpg|gif|mp4|ogg|svg|css|ttf|woff|woff2)$/,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: '[path][name].[ext]',
+                            publicPath: '/'
+                        }
+                    }
+                ]
             }
         ]
     },
