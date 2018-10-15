@@ -1,10 +1,20 @@
 import axios from 'axios';
 import {getOrderInfoWhenJoinOrder_URL, addOrderMealToOrder_URL} from '../../static/url';
 import {JOIN_ORDER_FETCH_INIT_DATA_RESULT, JOIN_ORDER_MAKE_ORDER_RESULT} from '../type';
+import Persistance from '../../util_func/persistent_util';
+import { jwtKeyInEveryRequestHeader } from '../../conf/keys';
+
+
 
 export const getOrderInfoBy_parameterInUrl_andGetvVendorInfoTogether = orderId => {
+
+    const headerContent = {};
+    headerContent[jwtKeyInEveryRequestHeader] = Persistance.loadJWTFromLocalStorage();
+    const axiosConfig = {headers:headerContent};
+
+
     return (dispatch) => {
-        const promise = axios.post(`${getOrderInfoWhenJoinOrder_URL}`, {orderId});
+        const promise = axios.post(`${getOrderInfoWhenJoinOrder_URL}`, {orderId}, axiosConfig);
 
         promise
             .then(d => dispatch({type: JOIN_ORDER_FETCH_INIT_DATA_RESULT, payload: d.data}))
@@ -20,8 +30,12 @@ export const getOrderInfoBy_parameterInUrl_andGetvVendorInfoTogether = orderId =
 
 export const makeOrder = makeOrderParamObj => {
 
+    const headerContent = {};
+    headerContent[jwtKeyInEveryRequestHeader] = Persistance.loadJWTFromLocalStorage();
+    const axiosConfig = {headers:headerContent};
+
     return (dispatch) => {
-        const promise = axios.post(`${addOrderMealToOrder_URL}`, {orderInfo: makeOrderParamObj});
+        const promise = axios.post(`${addOrderMealToOrder_URL}`, {orderInfo: makeOrderParamObj}, axiosConfig);
 
         promise
             .then(d => {

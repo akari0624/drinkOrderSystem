@@ -1,14 +1,19 @@
 import axios from 'axios';
 import {RETRIEVE_VENDOR_URL, INSERT_ORDER_URL} from '../../static/url';
 import {VENDOR_DATA_WHEN_MAKE_ORDER, WHEN_INSERT_ORDER_COMPLETE} from '../type';
-
+import Persistance from '../../util_func/persistent_util';
+import { jwtKeyInEveryRequestHeader } from '../../conf/keys';
 export const fetchVendor = param => {
 
     const all = 'all';
 
+    const headerContent = {};
+    headerContent[jwtKeyInEveryRequestHeader] = Persistance.loadJWTFromLocalStorage();
+    const axiosConfig = {headers:headerContent};
+
     return (dispatch) => {
      
-        const res = axios.post(`${RETRIEVE_VENDOR_URL}/${all}`);
+        const res = axios.post(`${RETRIEVE_VENDOR_URL}/${all}`,null, axiosConfig);
 
         res.then(
             d => dispatch({
@@ -26,10 +31,13 @@ export const fetchVendor = param => {
 
 export const insertOrder = reqParams => {
 
+    const headerContent = {};
+    headerContent[jwtKeyInEveryRequestHeader] = Persistance.loadJWTFromLocalStorage();
+    const axiosConfig = {headers:headerContent};
 
     return (dispatch) => {
      
-        const res = axios.post(INSERT_ORDER_URL, reqParams);
+        const res = axios.post(INSERT_ORDER_URL, reqParams, axiosConfig);
 
         res.then(
             d => dispatch({

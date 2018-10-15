@@ -9,6 +9,10 @@ import axios from 'axios';
 import {UPLOAD_SHOP_INIT_MEAL_LIST_URL} from '../../static/url';
 
 import FileUploadModule from '../../util_func/FileUploadModule';
+import Persistance from '../../util_func/persistent_util';
+import { jwtKeyInEveryRequestHeader } from '../../conf/keys';
+
+
 
 
 export const setImgSrcAndFile_ObjToReducer = twoTypeObj => {
@@ -65,15 +69,18 @@ console.log(mealArr);
 
   };
 
-
-    let config = {headers:{'Content-Type':'multipart/form-data'}};
-
+  
+  const headerContent = {};
+  headerContent[jwtKeyInEveryRequestHeader] = Persistance.loadJWTFromLocalStorage();
+  headerContent['Content-Type'] = 'multipart/form-data';
+  const axiosConfig = {headers:headerContent};
+    
   // const response =  axios.post(UPLOAD_SHOP_INIT_MEAL_LIST_URL,{mealArr:mealArr});
   
 
     return (dispatch) => {
 
-      const promise =  axios.post(UPLOAD_SHOP_INIT_MEAL_LIST_URL, formDataObj, config);
+      const promise =  axios.post(UPLOAD_SHOP_INIT_MEAL_LIST_URL, formDataObj, axiosConfig);
   
       promise.then(d => {
         dispatch({

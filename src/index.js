@@ -34,6 +34,7 @@ if (process.env.NODE_ENV === 'production') {
     routerBaseName = `/${FrontWebAppOrSubDirectoryBaseName}`;
     appStore = createStoreWithMiddleware(reducers);  
 } else {
+    /* in develop mode */
     routerBaseName = '';
     appStore = createStoreWithMiddleware(reducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 }
@@ -46,12 +47,12 @@ ReactDOM.render(
 
                 <Switch>
                     <Route path="/vendor" component={RequireAuthHoc(VendorMain)}/>
-                    <Route path="/make_order" component={MakeOrder}/>
+                    <Route path="/make_order" component={RequireAuthHoc(MakeOrder)}/>
                     <Route path="/make_order_confirming/:index" component={MakingOrderConfirming}/>
                     <Route
                         path="/making_order_result/"
                         component={Making_Order_Result_Report_Page}/>
-                    <Route path="/order/join/:orderId" component={JoinOrderMain}/>
+                    <Route path="/order/join/:orderId" component={RequireAuthHoc(JoinOrderMain)}/>
                     <Route path="/fb_sign_up" component={FBSignUpPage} />
                     <Route path="/" component={MainLandingPage}/>
                 </Switch>
