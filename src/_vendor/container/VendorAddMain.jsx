@@ -49,6 +49,7 @@ class VendorAddMain extends Component {
         vendorName:'',
         vendorAddr:'',
         vendorTel:'',
+        submitErrorMsg:'',
     };
 
     onEditingMealNameChange = newName => {
