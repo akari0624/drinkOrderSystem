@@ -14,15 +14,22 @@ import {
 } from '../actions';
 
 import { grabFromCookie, deleteFromCookie } from '../../util_func/util_func';
-import { JWT_KeyInCookie, isLoginLocalStorageKey } from '../../conf/keys';
+import { JWT_KeyInCookie, isLoginLocalStorageKey, currRouteBeforeSignInKey } from '../../conf/keys';
 
 class LandingPageMain extends Component {
     constructor(props) {
         super(props);
 
+
+        this.maybeYouAreRedirectByServerAfterDoingOAuth();
+
+        const isSholdRenderAlert = this.props.globalAppMessage.successMsg ? true : false;
         this.state = {
-            shouldAlertOpen: false
+            shouldAlertOpen: isSholdRenderAlert,
         };
+
+
+
 
         this.shouldShowGlobalAppMessage = this.shouldShowGlobalAppMessage.bind(
             this
@@ -36,14 +43,32 @@ class LandingPageMain extends Component {
         this.props.removeGlobalInsertCompleteMessageOnCloseInsertResultAlert();
     };
 
-    componentWillMount() {
-        const result = this.props.globalAppMessage;
-        // 在第一次 mount render前 改變 state
-        if (result.successMsg) {
-            this.setState({
-                shouldAlertOpen: true
-            });
+    // componentWillMount() {
+    //     const result = this.props.globalAppMessage;
+    //     // 在第一次 mount render前 改變 state
+    //     if (result.successMsg) {
+    //         this.setState({
+    //             shouldAlertOpen: true
+    //         });
+    //     }
+    // }
+
+
+    maybeYouAreRedirectByServerAfterDoingOAuth = () => {
+
+        const authedJWT = grabFromCookie(JWT_KeyInCookie);
+
+        if(authedJWT){
+
+            window.localStorage.setItem(isLoginLocalStorageKey, authedJWT);
+            
+            /* 取到之後 就可以把cookie裡的登入後帶回來的jwt刪掉了 */
+            deleteFromCookie(JWT_KeyInCookie);
+
+            /* 如果驗證之前網址已經是去某頁的話，就跳過去 */
+            this.resirectToOriginalPathBeforeSignIn_IfNeeded();
         }
+
     }
 
     shouldShowGlobalAppMessage() {
@@ -77,22 +102,25 @@ class LandingPageMain extends Component {
         );
     }
 
-    componentDidMount() {
-        console.log('componentDidMount...');
-        this.props.removeThoseFileArrAndObjectURLArr_but_also_returnObjectUrlArr_to_RevokeObjectURL();
 
-        const authedJWT = grabFromCookie(JWT_KeyInCookie);
+    resirectToOriginalPathBeforeSignIn_IfNeeded = () => {
 
-        if(authedJWT){
+        const pathBeforeDoOAuth = window.localStorage.getItem(currRouteBeforeSignInKey);
+        if(pathBeforeDoOAuth){
+            this
+                .props
+                .history
+                .push(pathBeforeDoOAuth);
 
-            window.localStorage.setItem(isLoginLocalStorageKey, authedJWT);
-            
-            /* 取到之後 就可以把cookie裡的刪掉了 */
-            deleteFromCookie(JWT_KeyInCookie);
         }
     }
 
-    componentWillReceiveProps(nextProps) {
+    componentDidMount() {
+        console.log('componentDidMount...onMainPage, remove cached image in browser objectURL');
+        this.props.removeThoseFileArrAndObjectURLArr_but_also_returnObjectUrlArr_to_RevokeObjectURL();
+    }
+
+    UNSAFE_componentWillReceiveProps(nextProps) {
         if (this.props !== nextProps) {
             if (nextProps.shopImg_relatedData.srcToDelete.length > 0) {
                 nextProps.doRevokeObjectURL(

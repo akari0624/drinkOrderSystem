@@ -1,18 +1,42 @@
 import React, {Component} from 'react';
 import {isLoginLocalStorageKey} from '../../conf/keys';
+import {currRouteBeforeSignInKey} from '../../conf/keys';
 
-export default function(ComposedComponent){
+export default function (ComposedComponent) {
 
     class Authencation extends Component {
 
-        componentWillMount() {
+
+        constructor(props){
+            super(props);
+
+            this.checkIsAuthed();
+
+        }
+
+        checkIsAuthed = () => {
 
             if (!localStorage.getItem(isLoginLocalStorageKey)) {
 
-                this.props.history.push('/fb_sign_up');
+                this.saveCurrentURLToLOcalStorage();
+                this
+                    .props
+                    .history
+                    .push('/fb_sign_up');
             }
 
         }
+
+        saveCurrentURLToLOcalStorage = () => {
+
+            const currURL = this.props.location.pathname;
+
+            window
+                .localStorage
+                .setItem(currRouteBeforeSignInKey, currURL);
+        };
+
+ 
 
         render() {
 
@@ -20,7 +44,6 @@ export default function(ComposedComponent){
         }
 
     }
-
 
     return Authencation;
 
