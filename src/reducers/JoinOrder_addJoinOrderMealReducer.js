@@ -22,7 +22,7 @@ export default(state = defaultJoinOrder_make_order_Info, action) => {
 
             let newState2 = _CloneDeep(state);
             newState2.errorMsg = action.payload.errorMsg;
-
+            
             return newState2;
         }
 

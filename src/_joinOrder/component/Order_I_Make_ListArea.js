@@ -8,8 +8,8 @@ const renderOrderIMakeList = currMyOrderArr => {
     
         
     return currMyOrderArr.map(o => (
-        <div key={o.savedOrderMealId}> 
-            { `${o.ordered_mealName}  數量:${o.quantity} 小計${o.subTotal}元  訂購餐點ID ${o.savedOrderMealId}`}
+        <div key={o._id}> 
+            { `${o.ordered_mealName}  數量:${o.quantity} 小計${o.subTotal}元  訂購餐點後輸入mongo的_ID ${o._id}`}
         </div>
     ));
     

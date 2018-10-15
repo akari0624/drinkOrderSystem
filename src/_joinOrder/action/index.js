@@ -39,10 +39,10 @@ export const makeOrder = makeOrderParamObj => {
 
         promise
             .then(d => {
-                makeOrderParamObj.savedOrderMealId = d.data.savedOrderMealId;
+            // makeOrderParamObj.savedOrderMealId = d.data.savedOrderMeal._id;
                 dispatch({type: JOIN_ORDER_MAKE_ORDER_RESULT, payload: {
                     errorMsg: d.data.errorMsg,
-                    orderInfo:makeOrderParamObj,
+                    orderInfo:d.data.savedOrderMeal,
                 }});
             }
             )

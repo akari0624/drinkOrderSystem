@@ -16,7 +16,8 @@ export const generateCorrespondingOrderInfoChatMessage = (wsMsgData, myWsId) => 
 
     if(!examineIsMyOrder(wsMsgData.senderId, myWsId)){
 
-        return `某人訂購了 ${someone_s_lastAddedOrder.ordered_mealName} ${someone_s_lastAddedOrder.quantity}`;
+        const orderName = someone_s_lastAddedOrder.orderer_name;
+        return `${orderName ? orderName : '某個人'} 訂購了 ${someone_s_lastAddedOrder.ordered_mealName} ${someone_s_lastAddedOrder.quantity}`;
 
     }
 
