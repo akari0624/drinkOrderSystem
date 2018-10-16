@@ -3,10 +3,11 @@
 ## 以下是期望達到的spec
 
 ### 零. 訂購列表區：
-- [ ] 可以看到 (三.)發起訂購頁面  裡送出來的訂購
+- [x] 可以看到 (三.)發起訂購頁面  裡送出來的訂購
 
 ### ㄧ. 參與訂購頁面：
-    
+
+- [x] 參與訂購前必須先做Facebook OAuth登入，以取得使用者ID與顯示名稱
 - [x] 訂購項目裡，只能選到菜單裡有的項目
 - [ ] 可以看到其他人的訂購項目，也可以自己輸入訂購項目
 - [ ] 訂購完之後，會自動帶出小計，並更新總計(項目數量與金額)
@@ -20,6 +21,7 @@
 
 ### 二.  新增店家頁面
 
+- [x] 新增店家頁面前必須先做Facebook OAuth登入，以取得使用者ID與顯示名稱
 - [x] 可以讓人上傳這家店的菜單圖檔 , ＵＩ介面上最好可以用HTML5 drag and drop的。
 - [x] 可以讓人建立這家店的產品選項    
 
@@ -29,6 +31,7 @@
 - [ ] 可以讓人update這家店的產品選項 (需再考慮權限問題)
 
 ### 三. 發起訂購頁面
+- [x] 新增店家頁面前必須先做Facebook OAuth登入，以取得使用者ID與顯示名稱
 - [x] 可以從 (二.) 新增店家頁面   裡新增過的店家裡選擇店家。
 - [ ] 可以設定基本限制 , 例如一人只能訂購幾個，並且在(ㄧ.)參與訂購頁面  會跟著套用這些限制
 - [x] 設定好之後，會產生一個加入訂購的URL，使用者可以傳送給別人這個URL，進入這個URL的人就能加入訂購，即為:  (ㄧ.) 參與訂購頁面
@@ -42,7 +45,7 @@
 - [ ] 本次訂購會有一個基本的統計dash board，上面可能有圓餅圖, 長條圖... etc
 
 ### 五.  登入頁面：
-- [ ] 如果是在自己公司內部使用，就發起訂購的人跟 訂購的人用同一組帳號即可，發起訂購的人才會用密碼登入，因為要可以用來判斷能不能進到   (四.) 訂購管理頁面
+- [x] 使用Facebook OAuth登入，以取得使用者ID與顯示名稱，然後就可以用ID來判斷能不能進到   (四.) 訂購管理頁面
 
 #### 以上所有的操作都會寫入到DB裡，之後可以再查詢出來。  (可能除了 (ㄧ. )裡的  即時留言以外)
 
@@ -59,9 +62,11 @@ chrome 60(  2017/08 released )  以後
 
 
 - 前端 react +  redux - SPA
-- 前端tool : webpack, react-router-dom…... SASS
+- 前端dependencies : webpack, react-router-dom… ...
+- CSS solution: [styled-components](https://github.com/styled-components/styled-components)
+- UI components套件: [reactstrap](https://github.com/reactstrap/reactstrap)
 
-- 後端 node.js , express(或koa) , ~~[SOCKET.IO](https://socket.io/) or~~ [ws](https://github.com/websockets/ws), mongoDB  
+- 後端 node.js , express ~~(或koa)~~ , ~~[SOCKET.IO](https://socket.io/) or~~ [ws](https://github.com/websockets/ws), mongoDB  
  ~~(或JAVA式後端：JDK8, Tomcat8, JAVA webSocket,   mongoDB,
  Spring MVC  or Jersey)~~, JSON Web Token
 
