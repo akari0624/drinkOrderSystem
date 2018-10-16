@@ -18,7 +18,7 @@ export default function (ComposedComponent) {
 
             if (!localStorage.getItem(isLoginLocalStorageKey)) {
 
-                this.saveCurrentURLToLOcalStorage();
+                this.saveCurrentURLToLocalStorage();
                 this
                     .props
                     .history
@@ -27,7 +27,7 @@ export default function (ComposedComponent) {
 
         }
 
-        saveCurrentURLToLOcalStorage = () => {
+        saveCurrentURLToLocalStorage = () => {
 
             const currURL = this.props.location.pathname;
 
