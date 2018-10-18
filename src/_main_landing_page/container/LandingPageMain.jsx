@@ -8,12 +8,16 @@ import {
     doRevokeObjectURL,
 } from '../../_vendor/action';
 
+import {
+    getUserDataFromServerByUserOAuthIDAndSaveToReducer
+} from '../actions';
+
 import { 
     removeGlobalInsertCompleteMessageOnCloseInsertResultAlert,
     removeGlobalInsertCompleteMessageWhenUserExitMainLandingPage
 } from '../actions';
 
-import { grabFromCookie, deleteFromCookie } from '../../util_func/util_func';
+import { grabFromCookie, deleteFromCookie, getSubFromJWT } from '../../util_func/util_func';
 import { JWT_KeyInCookie, isLoginLocalStorageKey, currRouteBeforeSignInKey } from '../../conf/keys';
 
 class LandingPageMain extends Component {
@@ -43,15 +47,18 @@ class LandingPageMain extends Component {
         this.props.removeGlobalInsertCompleteMessageOnCloseInsertResultAlert();
     };
 
-    // componentWillMount() {
-    //     const result = this.props.globalAppMessage;
-    //     // 在第一次 mount render前 改變 state
-    //     if (result.successMsg) {
-    //         this.setState({
-    //             shouldAlertOpen: true
-    //         });
-    //     }
-    // }
+
+
+
+    redirectCallbackOnGetUserDataSuccess = () => {
+
+        /* 取到之後 就可以把cookie裡的登入後帶回來的jwt刪掉了 */
+        deleteFromCookie(JWT_KeyInCookie);
+
+
+        /* 如果驗證之前網址已經是去某頁的話，就跳過去 */
+        this.resirectToOriginalPathBeforeSignIn_IfNeeded();
+    }
 
 
     maybeYouAreRedirectByServerAfterDoingOAuth = () => {
@@ -62,11 +69,13 @@ class LandingPageMain extends Component {
 
             window.localStorage.setItem(isLoginLocalStorageKey, authedJWT);
             
-            /* 取到之後 就可以把cookie裡的登入後帶回來的jwt刪掉了 */
-            deleteFromCookie(JWT_KeyInCookie);
 
-            /* 如果驗證之前網址已經是去某頁的話，就跳過去 */
-            this.resirectToOriginalPathBeforeSignIn_IfNeeded();
+            const subInJWT = getSubFromJWT(authedJWT); //目前就是會員Facebook在這個app上的ID
+
+            console.log('subInJWT', subInJWT);
+            this.props.getUserDataFromServerByUserOAuthIDAndSaveToReducer(subInJWT, this.redirectCallbackOnGetUserDataSuccess);
+
+        
         }
 
     }
@@ -150,6 +159,7 @@ function mapDispatchToProps(dispatch) {
             doRevokeObjectURL,
             removeGlobalInsertCompleteMessageOnCloseInsertResultAlert,
             removeGlobalInsertCompleteMessageWhenUserExitMainLandingPage,
+            getUserDataFromServerByUserOAuthIDAndSaveToReducer,
         },
         dispatch
     );
