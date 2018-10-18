@@ -50,5 +50,22 @@ const deleteFromCookie = (name, path, domain) => {
 };
 
 
+const getSubFromJWT = (jwtToken)  => {
+    
+    const firstDotIndex = jwtToken.indexOf('.');
 
-export {DATE_UTIL, getPartStringAndAddSuffix, grabFromCookie, deleteFromCookie};
+    const subIatAndKey = jwtToken.substring(firstDotIndex+1);
+
+    const secondDotIndex = subIatAndKey.indexOf('.');
+
+    const subAndIatBase64 = subIatAndKey.substring(0, secondDotIndex);
+
+    const subAndIat = atob(subAndIatBase64);
+    const subAndIatObj = JSON.parse(subAndIat);
+    
+    return subAndIatObj.sub;
+
+};
+
+
+export {DATE_UTIL, getPartStringAndAddSuffix, grabFromCookie, deleteFromCookie, getSubFromJWT};
