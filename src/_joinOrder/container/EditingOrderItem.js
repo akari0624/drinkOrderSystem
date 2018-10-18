@@ -56,7 +56,7 @@ class EditingOrderItem extends Component {
             return;
         }
  
-        const {mealName: ordered_mealName} = this.props;
+        const {mealName: ordered_mealName, mealId} = this.props;
         const orderInfo = this.props.orderInfo;
         const {cup_entered: quantity,  totalOfThisMealOfThisUser: subTotal} = this.state;
         
@@ -68,6 +68,7 @@ class EditingOrderItem extends Component {
         const orderData = {
             orderId,
             ordered_mealName, 
+            mealId,
             vendorId,
             order_mealUnitPrice,
             size_selected,
@@ -168,6 +169,7 @@ class EditingOrderItem extends Component {
 
 EditingOrderItem.propTypes = {
 
+    mealId: PropTypes.string.isRequired, //mealID in mongoDB meals subCollection
     mealName: PropTypes.string,
     unitPrice: PropTypes.array,
     showingAlert: PropTypes.func,

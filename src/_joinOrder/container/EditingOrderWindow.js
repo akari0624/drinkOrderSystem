@@ -94,10 +94,11 @@ class EditingOrderWindow extends Component {
 
     render() {
 
-        const {name:mealName, unitPrice} = this.props.data;
+        const {name:mealName, unitPrice, _id:mealId} = this.props.data;
         const propsForEditingOrderItem = {
             mealName,
             unitPrice,
+            mealId,
             showingAlert: this.showingAlert,
         };
 
