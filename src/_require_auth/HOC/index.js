@@ -1,6 +1,10 @@
 import React, {Component} from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import {isLoginLocalStorageKey} from '../../conf/keys';
 import {currRouteBeforeSignInKey} from '../../conf/keys';
+import { getUserDataFromServerByUserOAuthIDAndSaveToReducer } from '../../_main_landing_page/actions';
+import { getSubFromJWT } from '../../util_func/util_func';
 
 export default function (ComposedComponent) {
 
@@ -10,19 +14,33 @@ export default function (ComposedComponent) {
         constructor(props){
             super(props);
 
-            this.checkIsAuthed();
+            this.state = {
+                isFetchUserDataComplete:false,
+            };
+
 
         }
 
         checkIsAuthed = () => {
 
-            if (!localStorage.getItem(isLoginLocalStorageKey)) {
+            const jwtTOken = localStorage.getItem(isLoginLocalStorageKey);
+            if (!jwtTOken) {
 
                 this.saveCurrentURLToLocalStorage();
                 this
                     .props
                     .history
                     .push('/fb_sign_up');
+            }else{
+
+
+                const subInJWT = getSubFromJWT(jwtTOken); //目前就是會員Facebook在這個app上的ID
+
+                console.log('already have jwt, subInJWT', subInJWT);
+                this.props.getUserDataFromServerByUserOAuthIDAndSaveToReducer(subInJWT);
+    
+
+
             }
 
         }
@@ -40,11 +58,56 @@ export default function (ComposedComponent) {
 
         render() {
 
-            return (<ComposedComponent {...this.props}/>);
+            if(!this.state.isFetchUserDataComplete){
+
+                return(
+
+                    <h3>讀取中</h3>
+                );
+            }else{
+                return (<ComposedComponent {...this.props}/>);
+            }
+        }
+
+
+        componentDidMount(){
+
+            this.checkIsAuthed();
+        }
+
+
+        static getDerivedStateFromProps(nextProps,prevState){
+
+            if(nextProps.userData.userID !== ''){
+
+                return {
+                    isFetchUserDataComplete:true,
+                };
+            }
+
+            return null;
         }
 
     }
 
-    return Authencation;
+
+    function mapStateToProps({userData}) {
+       
+        return {userData};
+    }
+
+
+    function mapDispatchToProps(dispatch) {
+        return bindActionCreators(
+            {
+                getUserDataFromServerByUserOAuthIDAndSaveToReducer
+            },
+            dispatch
+        );
+    }
+
+
+
+    return connect(mapStateToProps, mapDispatchToProps)(Authencation);
 
 }

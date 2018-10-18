@@ -47,3 +47,6 @@ export const join_order_web_socket_url = URL_MODULE.join_order_web_socket_url;
 
 
 export const fbSignUpOrLogInBackendRoute = URL_MODULE.fbSignUpOrLogInBackendRoute;
+
+
+export const getUserInfoByOAUTH_ID_URL = `${URL_MODULE.backEndServerBaseURL}/user/getinfo_by_oauth_id`;
