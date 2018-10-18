@@ -183,6 +183,13 @@ class JoinOrderMain extends Component {
         this.setState({isVendorDetailModalOpen: reverseCondirtion});
     }
 
+
+    static getDerivedStateFromProps(nextProps, prevState){
+
+        return {othersOrder: nextProps.joinOrder_othersOrdersFormInitFetch.othersOrders};
+         
+    }
+
     render() {
         const data = this.props.joinOrderData;
 
@@ -341,7 +348,7 @@ class JoinOrderMain extends Component {
     componentDidMount() {
         this
             .props
-            .getOrderInitData(this.get_orderId_from_url_params());
+            .getOrderInitData(this.get_orderId_from_url_params(), this.props.userData.userID);
 
         this.conn = new WebSocket(join_order_web_socket_url);
 
@@ -368,8 +375,8 @@ class JoinOrderMain extends Component {
     }
 }
 
-function mapStateToProps({joinOrderData, joinOrder_orderIMake}) {
-    return {joinOrderData, joinOrder_orderIMake};
+function mapStateToProps({joinOrderData, joinOrder_orderIMake, joinOrder_othersOrdersFormInitFetch, userData}) {
+    return {joinOrderData, joinOrder_orderIMake, joinOrder_othersOrdersFormInitFetch, userData};
 }
 
 function mapDispatchToProps(dispatch) {
@@ -382,7 +389,9 @@ JoinOrderMain.propTypes = {
     match: PropTypes.object.isRequired,
     getOrderInitData: PropTypes.func,
     joinOrderData: PropTypes.object,
-    joinOrder_orderIMake: PropTypes.object
+    joinOrder_orderIMake: PropTypes.object,
+    joinOrder_othersOrdersFormInitFetch: PropTypes.object.isRequired,
+    userData: PropTypes.object.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(JoinOrderMain);

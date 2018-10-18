@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 const renderOrderIMakeList = currMyOrderArr => {
 
-    
+    console.log('myOrderInRenderList', currMyOrderArr);
         
     return currMyOrderArr.map(o => (
         <div key={o._id}> 
