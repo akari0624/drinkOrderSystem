@@ -20,7 +20,7 @@ import VendorMealMenuModalClickAble from '../component/VendorMealMenuModal';
 import OrderIMake_ListArea from '../component/Order_I_Make_ListArea';
 import OthersOrder_ListArea from '../component/Others_order_ListArea';
 
-import { generateCorrespondingOrderInfoChatMessage, examineIsMyOrder } from '../view_model/wsLogic';
+import {generateCorrespondingOrderInfoChatMessage, examineIsMyOrder} from '../view_model/wsLogic';
 
 const FlexContainer = Styled.main `
   width:100vw;
@@ -78,7 +78,7 @@ class JoinOrderMain extends Component {
             message: '',
             chatRoomMessage: [], // [{senderId:String, msg:String},{},{}.....]
             isVendorDetailModalOpen: false,
-            othersOrder:[],
+            othersOrder: []
         };
 
         this.conn = null;
@@ -124,6 +124,7 @@ class JoinOrderMain extends Component {
         return orderId;
     }
 
+    // 送出普通聊天訊息
     onSendMessageButtonClick() {
 
         const currMsg = this.state.message;
@@ -131,11 +132,17 @@ class JoinOrderMain extends Component {
             return;
         }
 
+        const nestedMessage = {
+            userName: this.props.userData.userName,
+            userPhoto: this.props.userData.photoLink,
+            msg: currMsg
+        };
+
         const msgObj = {
             type: 'sending-message',
             orderId: this.props.match.params.orderId,
             clientId: this.wsClientId,
-            message: currMsg
+            message: nestedMessage
         };
         this
             .conn
@@ -156,24 +163,26 @@ class JoinOrderMain extends Component {
         }
     }
 
+    renderMessage = (msgObj,i) => {
+        if (msgObj.senderId !== this.wsClientId) {
+            return (
+                <ListGroupItem key={i}>
+                    <img src={msgObj.userPhoto} />
+                    {`${msgObj.userName} : ${msgObj.msg}`}</ListGroupItem>
+            );
+        }
+        return (
+            <SelfMsgDiv key={i}>
+                {msgObj.msg}</SelfMsgDiv>
+        );
+
+    }
+
     renderChatContentList() {
         return this
             .state
             .chatRoomMessage
-            .map((msgObj, i) => {
-
-                if (msgObj.senderId !== this.wsClientId) {
-
-                    return (
-                        <ListGroupItem key={i}>
-                            {msgObj.msg}</ListGroupItem>
-                    );
-                } else {
-                    return (
-                        <SelfMsgDiv key={i}>{msgObj.msg}</SelfMsgDiv>
-                    );
-                }
-            });
+            .map((msgObj, i) => this.renderMessage(msgObj, i));
     }
 
     toggleMenuModal() {
@@ -183,17 +192,15 @@ class JoinOrderMain extends Component {
         this.setState({isVendorDetailModalOpen: reverseCondirtion});
     }
 
-
-    static getDerivedStateFromProps(nextProps, prevState){
+    static getDerivedStateFromProps(nextProps, prevState) {
 
         return {othersOrder: nextProps.joinOrder_othersOrdersFormInitFetch.othersOrders};
-         
+
     }
 
     render() {
         const data = this.props.joinOrderData;
 
-        console.log('in render,  data :', data);
         if (data.errorMsg === '' && Object.keys(data.joinOrderInfo).length === 0) {
             return <div>Loading....</div>;
         } else if (data.errorMsg !== '' && Object.keys(data.joinOrderInfo).length === 0) {
@@ -308,7 +315,9 @@ class JoinOrderMain extends Component {
 
             const msgData = {
                 senderId: data.senderId,
-                msg: data.msg
+                userName: data.msg.userName,
+                userPhoto: data.msg.userPhoto,
+                msg: data.msg.msg
             };
 
             newMessageArr.push(msgData);
@@ -316,15 +325,12 @@ class JoinOrderMain extends Component {
             this.setState({chatRoomMessage: newMessageArr});
         } else if (data.type === 'braodcastOrderInfoMessage') {
 
-
             const orderChatMsgData = {
                 senderId: data.senderId,
-                msg: generateCorrespondingOrderInfoChatMessage(data, this.wsClientId),
+                msg: generateCorrespondingOrderInfoChatMessage(data, this.wsClientId)
             };
 
-            if( !examineIsMyOrder(data.senderId, this.wsClientId)){
-                
-               
+            if (!examineIsMyOrder(data.senderId, this.wsClientId)) {
 
                 this.setState(prevState => {
 
@@ -335,14 +341,16 @@ class JoinOrderMain extends Component {
                 });
             }
 
-            
             this.setState(prevState => {
                 return {
-                    chatRoomMessage: [...prevState.chatRoomMessage, orderChatMsgData]
+                    chatRoomMessage: [
+                        ...prevState.chatRoomMessage,
+                        orderChatMsgData
+                    ]
                 };
             });
 
-        } 
+        }
     }
 
     componentDidMount() {
@@ -391,7 +399,7 @@ JoinOrderMain.propTypes = {
     joinOrderData: PropTypes.object,
     joinOrder_orderIMake: PropTypes.object,
     joinOrder_othersOrdersFormInitFetch: PropTypes.object.isRequired,
-    userData: PropTypes.object.isRequired,
+    userData: PropTypes.object.isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(JoinOrderMain);
