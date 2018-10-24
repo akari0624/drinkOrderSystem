@@ -163,12 +163,29 @@ class JoinOrderMain extends Component {
         }
     }
 
+
+    renderUserPhoto = (msgObj) => {
+
+        if(msgObj.userPhoto){
+            return <img src={msgObj.userPhoto} />;
+        }
+    }
+
+    renderMsg = (msgObj) => {
+        if(msgObj.userName){
+            return  `${msgObj.userName} : ${msgObj.msg}`;
+        }
+
+        return msgObj.msg;
+
+    } 
+
     renderMessage = (msgObj,i) => {
         if (msgObj.senderId !== this.wsClientId) {
             return (
                 <ListGroupItem key={i}>
-                    <img src={msgObj.userPhoto} />
-                    {`${msgObj.userName} : ${msgObj.msg}`}</ListGroupItem>
+                    {this.renderUserPhoto(msgObj)}
+                    {this.renderMsg(msgObj)}</ListGroupItem>
             );
         }
         return (
