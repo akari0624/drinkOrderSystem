@@ -9,7 +9,7 @@
 
 - [x] 參與訂購前必須先做Facebook OAuth登入，以取得使用者ID與顯示名稱
 - [x] 訂購項目裡，只能選到菜單裡有的項目
-- [ ] 可以看到其他人的訂購項目，也可以自己輸入訂購項目
+- [x] 可以看到其他人的訂購項目，也可以自己輸入訂購項目
 - [ ] 訂購完之後，會自動帶出小計，並更新總計(項目數量與金額)
 - [ ] 在訂單還沒成立前，可以修改自己訂過的紀錄。
 - [ ] 訂單在由發起人 成立後，就無法修改自己的紀錄
@@ -31,7 +31,7 @@
 - [ ] 可以讓人update這家店的產品選項 (需再考慮權限問題)
 
 ### 三. 發起訂購頁面
-- [x] 新增店家頁面前必須先做Facebook OAuth登入，以取得使用者ID與顯示名稱
+- [x] 進入這個頁面前必須先做Facebook OAuth登入，以取得使用者ID與顯示名稱
 - [x] 可以從 (二.) 新增店家頁面   裡新增過的店家裡選擇店家。
 - [ ] 可以設定基本限制 , 例如一人只能訂購幾個，並且在(ㄧ.)參與訂購頁面  會跟著套用這些限制
 - [x] 設定好之後，會產生一個加入訂購的URL，使用者可以傳送給別人這個URL，進入這個URL的人就能加入訂購，即為:  (ㄧ.) 參與訂購頁面
@@ -62,7 +62,7 @@ chrome 60(  2017/08 released )  以後
 
 
 - 前端 react +  redux - SPA
-- 前端dependencies : webpack, react-router-dom… ...
+- 前端dependencies : webpack, react-router-dom...
 - CSS solution: [styled-components](https://github.com/styled-components/styled-components)
 - UI components套件: [reactstrap](https://github.com/reactstrap/reactstrap)
 
