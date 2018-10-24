@@ -19,6 +19,8 @@ import RequireAuthHoc from './_require_auth/HOC';
 
 import {FrontWebAppOrSubDirectoryBaseName} from './static/url';
 
+import TermOfServicePage from './_law_things/terms_of_service';
+
 const LOCAL_STORAGE_KEY = 'customerServiceList';
 
 const theme = {
@@ -54,6 +56,7 @@ ReactDOM.render(
                         component={Making_Order_Result_Report_Page}/>
                     <Route path="/order/join/:orderId" component={RequireAuthHoc(JoinOrderMain)}/>
                     <Route path="/fb_sign_up" component={FBSignUpPage} />
+                    <Route path="/termofservice" component={TermOfServicePage} />
                     <Route path="/" component={MainLandingPage}/>
                 </Switch>
 
