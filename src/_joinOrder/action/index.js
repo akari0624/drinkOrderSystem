@@ -1,11 +1,20 @@
 import axios from 'axios';
-import {getOrderInfoWhenJoinOrder_URL, addOrderMealToOrder_URL} from '../../static/url';
+import {
+    getOrderInfoWhenJoinOrder_URL, 
+    addOrderMealToOrder_URL,
+    delete_ordered_meal_url,
+} from '../../static/url';
 import {
     JOIN_ORDER_FETCH_INIT_DATA_RESULT, 
     JOIN_ORDER_MAKE_ORDER_RESULT,
     JOIN_ORDER_ORDER_I_MAKE_FROM_INIT_FETCH_ORDER,
-    CHANGE_OTHERS_ORDER_FROM_INIT_FETCH
+    CHANGE_OTHERS_ORDER_FROM_INIT_FETCH,
+    AFTER_DELETE_SELF_ORDERED_MEAL_SUCCESS
 } from '../type';
+
+import {
+    ERROR_MSG
+}from '../../__site_global_thing/type';
 import HeadersProducer from '../../jwt';
 
 
@@ -80,6 +89,42 @@ export const makeOrder = makeOrderParamObj => {
                 payload: {
                     errorMsg: `發生網路錯誤，請稍候再試，錯誤訊息：${err}`,
                     orderInfo: makeOrderParamObj,
+                }
+            }));
+
+    };
+
+};
+
+
+export const deleteMyOrder = (mealID, orderID) => {
+
+
+    return (dispatch) => {
+        const promise = axios.post(`${delete_ordered_meal_url}`, {mealInOrder: {mealID, orderID}}, HeadersProducer.getHeaderAdder().addJWT_Token().getFinalHeaders());
+
+        promise
+            .then(d => {
+
+                if(d.data.errorMsg !== ''){
+                    dispatch({
+                        type: ERROR_MSG,
+                        payload: {
+                            errorMsg: `存檔至雲端時發生錯誤，錯誤訊息：${d.data.errorMsg}`,
+                        }
+                    });
+                    return;
+                }
+
+                dispatch({type: AFTER_DELETE_SELF_ORDERED_MEAL_SUCCESS, payload: {
+                    orderedMealId:mealID
+                }});
+            }
+            )
+            .catch(err => dispatch({
+                type: ERROR_MSG,
+                payload: {
+                    errorMsg: `發生網路錯誤，請稍候再試，錯誤訊息：${err}`,
                 }
             }));
 

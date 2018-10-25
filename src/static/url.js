@@ -45,6 +45,8 @@ export const addOrderMealToOrder_URL = `${URL_MODULE.backEndServerBaseURL}/order
 
 export const join_order_web_socket_url = URL_MODULE.join_order_web_socket_url;
 
+export const delete_ordered_meal_url = `${URL_MODULE.backEndServerBaseURL}/order/delete/delete_ordered_meal`;
+
 
 export const fbSignUpOrLogInBackendRoute = URL_MODULE.fbSignUpOrLogInBackendRoute;
 
