@@ -20,7 +20,7 @@ import VendorMealMenuModalClickAble from '../component/VendorMealMenuModal';
 import OrderIMake_ListArea from '../component/Order_I_Make_ListArea';
 import OthersOrder_ListArea from '../component/Others_order_ListArea';
 
-import {generateCorrespondingOrderInfoChatMessage, examineIsMyOrder} from '../view_model/wsLogic';
+import {generateCorrespondingOrderInfoChatMessage, generateCorrespondingDeleteOrderInfoChatMessage, examineIsMyOrder} from '../view_model/wsLogic';
 
 const FlexContainer = Styled.main `
   width:100vw;
@@ -67,7 +67,7 @@ const FixedHeightAndScrollableDiv = Styled.div `
 `;
 
 const SelfMsgDiv = Styled.div `
-text-align:right;
+   text-align:right;
 `;
 
 class JoinOrderMain extends Component {
@@ -117,6 +117,8 @@ class JoinOrderMain extends Component {
         this.brocastAddOrderSuccessMessage = this
             .brocastAddOrderSuccessMessage
             .bind(this);
+
+        this.brocastDeleteOrderSuccessMessage = this.brocastDeleteOrderSuccessMessage.bind(this);    
     }
 
     get_orderId_from_url_params() {
@@ -224,6 +226,8 @@ class JoinOrderMain extends Component {
             return <div>
                 發生錯誤！！ {data.errorMsg}</div>;
         } else {
+
+            console.log(`glovalErrorMsg ?${this.props.globalErrorMsg.value}`);
             return (
                 <FlexContainer>
                     <WSMsgArea>
@@ -288,9 +292,31 @@ class JoinOrderMain extends Component {
 
     }
 
+    brocastDeleteOrderSuccessMessage(lastAddedSuccessOrder) {
+
+        const msgObj = {
+            type: 'sending-message-order-deleted',
+            orderId: this.props.match.params.orderId,
+            clientId: this.wsClientId,
+            message: lastAddedSuccessOrder
+        };
+        this
+            .conn
+            .send(JSON.stringify(msgObj));
+
+    }
+
+    
+
     componentDidUpdate(prevProps) {
 
         const lastAddedSuccessMeal = this.props.joinOrder_orderIMake.lastAddedOrder;
+
+        /* 上一次props裡的lastAddedOrder有值  這一次沒值，代表剛成功做完一次刪除 */
+        if(prevProps.joinOrder_orderIMake.lastAddedOrder && !lastAddedSuccessMeal){
+            this.brocastDeleteOrderSuccessMessage(prevProps.joinOrder_orderIMake.lastAddedOrder);
+            return;
+        }
 
         if (lastAddedSuccessMeal !== prevProps.joinOrder_orderIMake.lastAddedOrder) {
 
@@ -367,6 +393,31 @@ class JoinOrderMain extends Component {
                 };
             });
 
+        }else if(data.type === 'braodcastDeleteOrderInfoMessage'){
+
+            const orderChatMsgData = {
+                senderId: data.senderId,
+                msg: generateCorrespondingDeleteOrderInfoChatMessage(data, this.wsClientId)
+            };
+
+            if (!examineIsMyOrder(data.senderId, this.wsClientId)) {
+
+                this.setState(prevState => {
+
+                    const othersOrderCopied = _CloneDeep(prevState.othersOrder);
+                    return {othersOrder: othersOrderCopied.filter(o => o._id !== data.msg._id)};
+                });
+            }
+
+            this.setState(prevState => {
+                return {
+                    chatRoomMessage: [
+                        ...prevState.chatRoomMessage,
+                        orderChatMsgData
+                    ]
+                };
+            });
+
         }
     }
 
@@ -400,8 +451,14 @@ class JoinOrderMain extends Component {
     }
 }
 
-function mapStateToProps({joinOrderData, joinOrder_orderIMake, joinOrder_othersOrdersFormInitFetch, userData}) {
-    return {joinOrderData, joinOrder_orderIMake, joinOrder_othersOrdersFormInitFetch, userData};
+function mapStateToProps({joinOrderData, joinOrder_orderIMake, joinOrder_othersOrdersFormInitFetch, userData, errorMsg}) {
+    return {
+        joinOrderData, 
+        joinOrder_orderIMake, 
+        joinOrder_othersOrdersFormInitFetch, 
+        userData, 
+        globalErrorMsg:errorMsg
+    };
 }
 
 function mapDispatchToProps(dispatch) {
@@ -416,7 +473,8 @@ JoinOrderMain.propTypes = {
     joinOrderData: PropTypes.object,
     joinOrder_orderIMake: PropTypes.object,
     joinOrder_othersOrdersFormInitFetch: PropTypes.object.isRequired,
-    userData: PropTypes.object.isRequired
+    userData: PropTypes.object.isRequired,
+    globalErrorMsg: PropTypes.object,   /* from redux store */
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(JoinOrderMain);

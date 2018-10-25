@@ -26,3 +26,22 @@ export const generateCorrespondingOrderInfoChatMessage = (wsMsgData, myWsId) => 
     
    
 };
+
+
+export const generateCorrespondingDeleteOrderInfoChatMessage = (wsMsgData, myWsId) => {
+
+
+    const someone_s_lastAddedOrder = wsMsgData.msg;
+
+    if(!examineIsMyOrder(wsMsgData.senderId, myWsId)){
+
+        const orderName = someone_s_lastAddedOrder.orderer_name;
+        return `${orderName ? orderName : '某個人'} 取消訂購了 ${someone_s_lastAddedOrder.ordered_mealName} ${someone_s_lastAddedOrder.quantity}`;
+
+    }
+
+    return `你取消訂購了 ${someone_s_lastAddedOrder.ordered_mealName} ${someone_s_lastAddedOrder.quantity}`;
+     
+    
+   
+};
