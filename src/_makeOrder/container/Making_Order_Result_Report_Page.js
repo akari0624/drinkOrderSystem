@@ -40,6 +40,7 @@ const Making_Order_Result_Report_Page = props => {
                 <DivSuccessMsg>
                     {' '}
                     登記成功！ 加入訂購的網址是：<Link to={join_order_relative_url}>{join_order_page_absolute_url}</Link>
+                    <div>將這個網址複製起來傳給要一起訂購的人即可讓他們加入訂購</div>
                 </DivSuccessMsg>
                 <Link to="make_order_confirming/0"> go back</Link>
             </Container>
