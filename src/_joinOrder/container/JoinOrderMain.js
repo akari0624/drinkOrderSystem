@@ -68,6 +68,7 @@ const FixedHeightAndScrollableDiv = Styled.div `
 
 const SelfMsgDiv = Styled.div `
    text-align:right;
+   margin-right:18px;
 `;
 
 class JoinOrderMain extends Component {

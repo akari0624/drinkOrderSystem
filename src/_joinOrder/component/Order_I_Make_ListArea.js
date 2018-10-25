@@ -1,15 +1,17 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem} from 'reactstrap';
-
+import {ButtonDropdown, DropdownToggle, DropdownMenu, ListGroup, ListGroupItem} from 'reactstrap';
+import Styled from 'styled-components';
 import DeleteOrderedMealIcon from '../container/DeleteOrderedMealIcon';
 
+const LeftMarginSpan = Styled.span `
+    margin-left:30px;
+`;
 
-class Order_I_Make_ListArea  extends Component{
+class Order_I_Make_ListArea extends Component {
 
     constructor(props) {
         super(props);
-
 
         this.state = {
             isActiveBTDropdownOpen: false
@@ -27,29 +29,29 @@ class Order_I_Make_ListArea  extends Component{
 
     }
 
- 
-
     renderOrderIMakeList = currMyOrderArr => {
 
         console.log('myOrderInRenderList', currMyOrderArr);
-    
-        return currMyOrderArr.map(o => (
-            <div key={o._id}>
-                {`${o.ordered_mealName}  數量:${o.quantity} 小計${o.subTotal}元`}
-    
-                <ButtonDropdown isOpen={this.state.isActiveBTDropdownOpen} toggle={this.toggleBTDropdown}>
-                    <DropdownToggle caret>
-                        more
-                    </DropdownToggle>
-                    <DropdownMenu>
-                        <DeleteOrderedMealIcon text="刪除" orderID={o.orderId} mealID={o._id}></DeleteOrderedMealIcon>
-                    </DropdownMenu>
-                </ButtonDropdown>
-            </div>
-        ));
-    
-    };
 
+        return currMyOrderArr.map(o => (
+            <ListGroupItem key={o._id}>
+                {`${o.ordered_mealName}  數量:${o.quantity} 小計${o.subTotal}元`}
+                <LeftMarginSpan>
+                    <ButtonDropdown
+                        isOpen={this.state.isActiveBTDropdownOpen}
+                        toggle={this.toggleBTDropdown}>
+                        <DropdownToggle caret>
+                            more
+                        </DropdownToggle>
+                        <DropdownMenu>
+                            <DeleteOrderedMealIcon text="刪除" orderID={o.orderId} mealID={o._id}></DeleteOrderedMealIcon>
+                        </DropdownMenu>
+                    </ButtonDropdown>
+                </LeftMarginSpan>
+            </ListGroupItem>
+        ));
+
+    };
 
     render() {
         const {currMyOrderArr} = this.props;
@@ -59,9 +61,9 @@ class Order_I_Make_ListArea  extends Component{
                 <h3>
                     我的訂購
                 </h3>
-                <div>
+                <ListGroup>
                     {this.renderOrderIMakeList(currMyOrderArr)}
-                </div>
+                </ListGroup>
             </div>
 
         );
