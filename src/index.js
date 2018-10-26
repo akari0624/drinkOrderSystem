@@ -21,6 +21,9 @@ import {FrontWebAppOrSubDirectoryBaseName} from './static/url';
 
 import TermOfServicePage from './_law_things/terms_of_service';
 
+/** 讓webpack打包時  會用file-loader把favicon.ico一起帶去dist資料夾  方便部署 */
+import favicon from '../favicon.ico';
+
 const LOCAL_STORAGE_KEY = 'customerServiceList';
 
 const theme = {
