@@ -28,9 +28,11 @@ const FlexContainer = Styled.main `
   display:flex;
   flex-direction:row-reverse;
   justify-content:center;
+  
 
   @media (max-width:${props => props.theme.mobileOneColumnWidth}){
-    flex-direction:column;
+    /* flex-direction:column, flex-wrap:wrap  這兩個不能同時一起用*/  
+    /* flex-direction:column; */
     flex-wrap:wrap;
   }
 `;
