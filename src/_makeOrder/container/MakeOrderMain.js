@@ -87,6 +87,13 @@ class MakeOrderMain extends Component {
                 </Container>
             );
         }
+        else if(this.props.vendorDataWhenMakeOrder.vendorData.length === 0) {
+            return (
+                <Container>
+                  <div>目前無店家資料！！</div>
+                </Container>
+            );
+        }
 
         // initial rendering occured in this place
         return (
