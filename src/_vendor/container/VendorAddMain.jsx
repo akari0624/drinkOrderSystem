@@ -215,7 +215,7 @@ class VendorAddMain extends Component {
     }
 
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         // 這邊可以做這樣的事，但是你用 connect 的話  就算 reducer裡 return default的state , 這個if每次一定都會是 true
         // 因為mapStateToProps每次都在造出一個新的物件
         if (this.props !== nextProps) {
