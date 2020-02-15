@@ -25,7 +25,7 @@ export default class GenericAlert extends Component {
 
     // lifeCycle
     // React doesn’t call componentWillReceiveProps() with initial props during mounting.
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         // nextProps 是 在這次快要做的render 的新props , this.props 在這裡是上一次render時 收到的舊props
 
         if (this.props !== nextProps) {
