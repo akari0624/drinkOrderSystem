@@ -4,7 +4,8 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 
-import {fbSignUpOrLogInBackendRoute} from '@/static/url';
+import {fbSignUpOrLogInBackendRoute, FrontWebAppOrSubDirectoryBaseName} from '@/static/url';
+import { isProduction } from '@/infra'
 
 
 const WrapperMain = Styled.main`
@@ -37,13 +38,17 @@ const ServiceTermDiv = Styled.div `
 `;
 
 
+const termOfServiceURL = isProduction() ? `/${FrontWebAppOrSubDirectoryBaseName}/termofservice` : '/termofservice';
+
+
+
 /* 這邊一定要用<a href="..."> 不能用ajax，會有CORS問題 */
 const FBSignUp = props => (
     <WrapperMain>
         <MiddleDiv>
             <FB_a_Tag href={fbSignUpOrLogInBackendRoute}>登入FB以註冊帳號或登入</FB_a_Tag>
         </MiddleDiv>
-        <ServiceTermDiv>註冊與登入之後即代表您同意本服務之<a href="/drink/termofservice">服務條款</a></ServiceTermDiv>
+        <ServiceTermDiv>註冊與登入之後即代表您同意本服務之<a href={termOfServiceURL}>服務條款</a></ServiceTermDiv>
     </WrapperMain>
 );
 

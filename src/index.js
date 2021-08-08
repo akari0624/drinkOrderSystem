@@ -14,13 +14,12 @@ import Making_Order_Result_Report_Page from '@/pages/_makeOrder/container/Making
 import MakeOrder from '@/pages/_makeOrder/container/MakeOrderMain';
 import JoinOrderMain from '@/pages/_joinOrder/container/JoinOrderMain';
 import MainLandingPage from '@/pages/_main_landing_page/container/LandingPageMain';
-
 import FBSignUpPage from '@/pages/signup/oauth/fb';
 import RequireAuthHoc from '@/hoc/requireAuth';
-
 import {FrontWebAppOrSubDirectoryBaseName} from '@/static/url';
-
 import TermOfServicePage from '@/_law_things/terms_of_service';
+import { isProduction } from '@/infra';
+
 
 /** 讓webpack打包時  會用file-loader把favicon.ico一起帶去dist資料夾  方便部署 */
 import favicon from '@assets/favicon.ico';
@@ -36,7 +35,7 @@ const createStoreWithMiddleware = applyMiddleware(ActionLoggerMiddleware, reduxT
 
 let appStore;
 let routerBaseName ;
-if (process.env.NODE_ENV === 'production') {
+if (isProduction()) {
     routerBaseName = `/${FrontWebAppOrSubDirectoryBaseName}`;
     appStore = createStoreWithMiddleware(reducers);  
 } else {
@@ -61,7 +60,7 @@ ReactDOM.render(
                     <Route path="/order/join/:orderId" component={RequireAuthHoc(JoinOrderMain)}/>
                     <Route path="/fb_sign_up" component={FBSignUpPage} />
                     <Route path="/termofservice" component={TermOfServicePage} />
-                    <Route path="/" component={MainLandingPage}/>
+                    <Route exec path="/" component={MainLandingPage}/>
                 </Switch>
 
             </BrowserRouter>

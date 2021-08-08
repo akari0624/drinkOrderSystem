@@ -1,10 +1,10 @@
 import * as PROD_URL from './url.prod';
-
+import { isProduction } from '@/infra'
 import * as DEV_URL from './url.dev';
 
 let URL_MODULE;
 
-if (process.env.NODE_ENV === 'production') {
+if (isProduction()) {
     console.log('產品模式');
     URL_MODULE = PROD_URL;
 } else {
