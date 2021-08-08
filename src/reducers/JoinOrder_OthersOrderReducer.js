@@ -1,4 +1,4 @@
-import {CHANGE_OTHERS_ORDER_FROM_INIT_FETCH} from '../_joinOrder/type';
+import {CHANGE_OTHERS_ORDER_FROM_INIT_FETCH} from '@/pages/_joinOrder/type';
 import _CloneDeep from 'lodash.clonedeep';
 
 const defaultJoinOrder_OthersOrderState = {

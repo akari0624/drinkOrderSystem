@@ -1,41 +1,29 @@
-
-
 import * as PROD_URL from './url.prod';
-
-
+import { isProduction } from '@/infra'
 import * as DEV_URL from './url.dev';
-
 
 let URL_MODULE;
 
-if(process.env.NODE_ENV === 'production'){
-
+if (isProduction()) {
     console.log('產品模式');
     URL_MODULE = PROD_URL;
-
-}else{
+} else {
     console.log('現在是在跑本地開發模式，記得mongoDB,express server要打開啊');
     URL_MODULE = DEV_URL;
 }
 
-
-
-
-export const FrontWebAppOrSubDirectoryBaseName = URL_MODULE.FrontWebAppOrSubDirectoryBaseName;
-
+export const FrontWebAppOrSubDirectoryBaseName =
+    URL_MODULE.FrontWebAppOrSubDirectoryBaseName;
 
 export const vendorImagePathOnNodeServer = `${URL_MODULE.vendorImagePathOnNodeServer}/`;
 
 export const UPLOAD_SHOP_INIT_MEAL_LIST_URL = `${URL_MODULE.backEndServerBaseURL}/vendor/meal/initlist`;
 
-
 export const RETRIEVE_VENDOR_URL = `${URL_MODULE.backEndServerBaseURL}/vendor/retrieve`;
-
 
 export const INSERT_ORDER_URL = `${URL_MODULE.backEndServerBaseURL}/order/create`;
 
 export const JOIN_ORDER_BASE_URL = `${URL_MODULE.reactAppAddr}/order/join`;
-
 
 export const JOIN_ORDER_BASE_URL_RELATIVE = '/order/join';
 
@@ -47,8 +35,7 @@ export const join_order_web_socket_url = URL_MODULE.join_order_web_socket_url;
 
 export const delete_ordered_meal_url = `${URL_MODULE.backEndServerBaseURL}/order/delete/delete_ordered_meal`;
 
-
-export const fbSignUpOrLogInBackendRoute = URL_MODULE.fbSignUpOrLogInBackendRoute;
-
+export const fbSignUpOrLogInBackendRoute =
+    URL_MODULE.fbSignUpOrLogInBackendRoute;
 
 export const getUserInfoByOAUTH_ID_URL = `${URL_MODULE.backEndServerBaseURL}/user/getinfo_by_oauth_id`;

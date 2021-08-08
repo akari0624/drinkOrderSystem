@@ -1,4 +1,4 @@
-import {JOIN_ORDER_FETCH_INIT_DATA_RESULT} from '../_joinOrder/type';
+import {JOIN_ORDER_FETCH_INIT_DATA_RESULT} from '@/pages/_joinOrder/type';
 
 
 const defaultJoinOrderInfo = {

@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const WEBPACK_Config_Base = require('./webpack.config.base');
 
 const webAppOrSubDirectoryName = 'drink';
 
@@ -44,13 +45,7 @@ module.exports = {
         template: path.resolve(__dirname, 'index.html'),
         filename: './index.html'
     })],
-    resolve: {
-        modules: [
-            path.resolve(__dirname, 'node_modules'),
-            'node_modules'
-        ],
-        extensions: ['*', '.js', '.jsx']
-    },
+    resolve: WEBPACK_Config_Base.RESOLVE,
     optimization: {
         splitChunks: {
             chunks: 'all'
