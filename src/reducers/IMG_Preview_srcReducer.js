@@ -3,9 +3,9 @@ import cloneDeep from 'lodash.clonedeep';
 import {SET_IMG_SRC_AND_FILE_OBJ_TO_REDUCER,
     DELETE_ONE_ImgSrc_AND_ONE_ImgFile,
     REMOVE_ThoseFileArrAndObjectURLArr_but_also_returnObjectUrlArr_to_RevokeObjectURL
-} from '../_vendor/action/type';
+} from '@/pages/_vendor/action/type';
 
-import {MAXUploadPicQuantityOfThisApp} from '../util_func/FileUploadModule';
+import {MAXUploadPicQuantityOfThisApp} from '@/util_func/FileUploadModule';
 
 
 const identifyPushPicInOrReplaceThem = (action, copyState) => {

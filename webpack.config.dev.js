@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
+const WEBPACK_Config_Base = require('./webpack.config.base');
 
 module.exports = {
     entry: [
@@ -44,13 +45,7 @@ module.exports = {
         }),
         new webpack.HotModuleReplacementPlugin()
     ],
-    resolve: {
-        modules: [
-            path.resolve(__dirname, 'node_modules'),
-            'node_modules'
-        ],
-        extensions: ['*', '.js', '.jsx']
-    },
+    resolve: WEBPACK_Config_Base.RESOLVE,
     devServer: {
         historyApiFallback: true,
         contentBase: './',

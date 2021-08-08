@@ -1,5 +1,5 @@
 import cloneDeep from 'lodash.clonedeep';
-import { VENDOR_DATA_WHEN_MAKE_ORDER } from '../_makeOrder/type';
+import { VENDOR_DATA_WHEN_MAKE_ORDER } from '@/pages/_makeOrder/type';
 
 const defaultData = { errorMsg: '', vendorData: [] };
 

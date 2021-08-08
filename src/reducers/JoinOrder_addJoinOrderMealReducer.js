@@ -1,4 +1,4 @@
-import {JOIN_ORDER_MAKE_ORDER_RESULT, JOIN_ORDER_ORDER_I_MAKE_FROM_INIT_FETCH_ORDER, AFTER_DELETE_SELF_ORDERED_MEAL_SUCCESS} from '../_joinOrder/type';
+import {JOIN_ORDER_MAKE_ORDER_RESULT, JOIN_ORDER_ORDER_I_MAKE_FROM_INIT_FETCH_ORDER, AFTER_DELETE_SELF_ORDERED_MEAL_SUCCESS} from '@/pages/_joinOrder/type';
 import _CloneDeep from 'lodash.clonedeep';
 
 const defaultJoinOrder_make_order_Info = {

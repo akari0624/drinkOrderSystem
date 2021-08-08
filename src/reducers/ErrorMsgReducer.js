@@ -1,4 +1,4 @@
-import {ERROR_MSG} from '../__site_global_thing/type';
+import {ERROR_MSG} from '@/__site_global_thing/type';
 
 const defaultStateOfThisReducer = {
     value: ''

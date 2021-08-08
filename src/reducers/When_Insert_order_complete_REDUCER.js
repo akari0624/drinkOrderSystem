@@ -1,4 +1,4 @@
-import { WHEN_INSERT_ORDER_COMPLETE } from '../_makeOrder/type';
+import { WHEN_INSERT_ORDER_COMPLETE } from '@/pages/_makeOrder/type';
 
 export default (state = { errorMsg: '', orderId: '' }, action) => {
     

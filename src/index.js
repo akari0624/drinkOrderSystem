@@ -7,22 +7,23 @@ import ActionLoggerMiddleware from './middleware/ActionLogger';
 import reduxThunk from 'redux-thunk';
 import {ThemeProvider} from 'styled-components';
 
-import reducers from './reducers';
-import VendorMain from './_vendor/container/VendorAddMain';
-import MainLandingPage from './_main_landing_page/container/LandingPageMain';
-import MakeOrder from './_makeOrder/container/MakeOrderMain';
-import MakingOrderConfirming from './_makeOrder/container/MakingOrderConfirming';
-import Making_Order_Result_Report_Page from './_makeOrder/container/Making_Order_Result_Report_Page';
-import JoinOrderMain from './_joinOrder/container/JoinOrderMain';
-import FBSignUpPage from './_require_auth/fbSignUp';
-import RequireAuthHoc from './_require_auth/HOC';
+import reducers from '@/reducers';
+import VendorMain from '@/pages/_vendor/container/VendorAddMain';
+import MakingOrderConfirming from '@/pages/_makeOrder/container/MakingOrderConfirming';
+import Making_Order_Result_Report_Page from '@/pages/_makeOrder/container/Making_Order_Result_Report_Page';
+import MakeOrder from '@/pages/_makeOrder/container/MakeOrderMain';
+import JoinOrderMain from '@/pages/_joinOrder/container/JoinOrderMain';
+import MainLandingPage from '@/pages/_main_landing_page/container/LandingPageMain';
 
-import {FrontWebAppOrSubDirectoryBaseName} from './static/url';
+import FBSignUpPage from '@/pages/signup/oauth/fb';
+import RequireAuthHoc from '@/hoc/requireAuth';
 
-import TermOfServicePage from './_law_things/terms_of_service';
+import {FrontWebAppOrSubDirectoryBaseName} from '@/static/url';
+
+import TermOfServicePage from '@/_law_things/terms_of_service';
 
 /** 讓webpack打包時  會用file-loader把favicon.ico一起帶去dist資料夾  方便部署 */
-import favicon from '../favicon.ico';
+import favicon from '@assets/favicon.ico';
 
 const LOCAL_STORAGE_KEY = 'customerServiceList';
 

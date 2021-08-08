@@ -1,4 +1,4 @@
-import {SET_HEADER_STATE} from '../actions/type';
+import {SET_HEADER_STATE} from '@/actions/type';
 
 
 export default function(state={},action){
